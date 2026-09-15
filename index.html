@@ -2,7 +2,8 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Prevents zoom on mobile inputs for a native app feel -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>One Job Portal - Universal Aggregation Engine</title>
   
   <!-- Fonts: Outfit -->
@@ -23,13 +24,13 @@
           fontFamily: { sans: ['Outfit', 'sans-serif'] },
           colors: {
             glass: 'rgba(15, 23, 42, 0.7)',
-            primary: '#3b82f6', // Blue 500
-            secondary: '#8b5cf6', // Violet 500
-            accent: '#10b981', // Emerald 500
-            darkbg: '#020617' // Slate 950
+            primary: '#3b82f6', 
+            secondary: '#8b5cf6', 
+            accent: '#10b981', 
+            darkbg: '#020617' 
           },
           animation: {
-            'fade-in': 'fadeIn 0.4s ease-out forwards',
+            'fade-in': 'fadeIn 0.3s ease-out forwards',
             'shine': 'shine 3s linear infinite',
             'blob': 'blob 7s infinite',
           },
@@ -44,136 +45,162 @@
   </script>
 
   <style>
-    body { background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    body { background-color: #020617; color: #f8fafc; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
     /* Animated Background Blobs */
     .bg-shape { position: fixed; filter: blur(100px); z-index: -1; opacity: 0.4; }
-    .shape-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: rgba(59, 130, 246, 0.3); animation: blob 7s infinite; }
-    .shape-2 { top: 40%; right: -10%; width: 400px; height: 400px; background: rgba(139, 92, 246, 0.3); animation: blob 7s infinite 2s; }
+    .shape-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; min-width: 300px; min-height: 300px; background: rgba(59, 130, 246, 0.3); animation: blob 7s infinite; }
+    .shape-2 { top: 40%; right: -10%; width: 40vw; height: 40vw; min-width: 250px; min-height: 250px; background: rgba(139, 92, 246, 0.3); animation: blob 7s infinite 2s; }
     
-    .glass-panel { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); }
+    .glass-panel { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); }
     
     /* Scrollbar */
-    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
+    @media (min-width: 1024px) { .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; } }
     .custom-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
     .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
     .custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
 
     .text-gradient { background: linear-gradient(to right, #3b82f6, #8b5cf6, #3b82f6); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: shine 3s linear infinite; }
     
-    /* Kanban */
+    /* Kanban Mobile Drag Fallback Ghost */
     .kanban-ghost { opacity: 0.4; border: 2px dashed #3b82f6; background: rgba(59, 130, 246, 0.1); }
+    
+    /* Safe Area for Mobile Nav */
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans">
+<body class="min-h-screen flex flex-col font-sans selection:bg-primary/30 selection:text-primary">
   
   <!-- Background Effects -->
   <div class="bg-shape shape-1"></div>
   <div class="bg-shape shape-2"></div>
 
-  <!-- Navigation -->
-  <nav class="glass-panel sticky top-0 z-50 border-b border-white/5 shadow-2xl">
-    <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+  <!-- Top Navigation (Desktop & Mobile Header) -->
+  <nav class="glass-panel sticky top-0 z-[40] border-b border-white/5 shadow-2xl">
+    <div class="max-w-[90rem] mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
       
       <!-- Brand -->
-      <div class="flex items-center gap-3 cursor-pointer select-none">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg relative overflow-hidden group">
+      <div class="flex items-center gap-2 sm:gap-3 cursor-pointer select-none">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg relative overflow-hidden group">
           <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-          <i class="fa-solid fa-layer-group text-white text-xl z-10 group-hover:scale-110 transition-transform"></i>
+          <i class="fa-solid fa-layer-group text-white text-lg sm:text-xl z-10 group-hover:scale-110 transition-transform"></i>
         </div>
         <div class="flex flex-col">
-          <h1 class="flex items-baseline gap-1.5 leading-none">
-            <span class="text-3xl font-black text-gradient tracking-tighter">ONE</span>
-            <span class="text-xl font-light tracking-[0.15em] text-white">JOB</span>
-            <span class="text-xl font-bold text-primary">PORTAL</span>
+          <h1 class="flex items-baseline gap-1 sm:gap-1.5 leading-none">
+            <span class="text-2xl sm:text-3xl font-black text-gradient tracking-tighter">ONE</span>
+            <span class="text-base sm:text-xl font-light tracking-[0.15em] text-white">JOB</span>
+            <span class="text-base sm:text-xl font-bold text-primary hidden sm:inline">PORTAL</span>
           </h1>
-          <span class="text-[9px] text-slate-400 font-bold uppercase tracking-[0.3em] mt-1">Universal Aggregation</span>
+          <span class="text-[8px] sm:text-[9px] text-slate-400 font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] mt-0.5 sm:mt-1">Universal Aggregation</span>
         </div>
       </div>
 
-      <!-- Center Tabs -->
+      <!-- Center Tabs (Desktop Only) -->
       <div class="hidden lg:flex p-1.5 bg-slate-900/80 rounded-full border border-white/10 shadow-inner gap-1">
-        <button onclick="switchTab('discover')" id="tab-discover" class="nav-tab px-6 py-2 rounded-full text-sm font-bold bg-white text-slate-900 shadow-sm transition-all duration-300"><i class="fa-solid fa-magnifying-glass mr-2"></i>Discover</button>
-        <button onclick="switchTab('portals')" id="tab-portals" class="nav-tab px-6 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-white transition-all duration-300"><i class="fa-solid fa-globe mr-2"></i>All Portals</button>
-        <button onclick="switchTab('tracker')" id="tab-tracker" class="nav-tab px-6 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-white transition-all duration-300"><i class="fa-solid fa-kanban mr-2"></i>Tracker</button>
+        <button onclick="switchTab('discover')" id="tab-discover" class="nav-tab-desk px-6 py-2 rounded-full text-sm font-bold bg-white text-slate-900 shadow-sm transition-all duration-300"><i class="fa-solid fa-magnifying-glass mr-2"></i>Discover</button>
+        <button onclick="switchTab('portals')" id="tab-portals" class="nav-tab-desk px-6 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-white transition-all duration-300"><i class="fa-solid fa-globe mr-2"></i>All Portals</button>
+        <button onclick="switchTab('tracker')" id="tab-tracker" class="nav-tab-desk px-6 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-white transition-all duration-300"><i class="fa-solid fa-kanban mr-2"></i>Tracker</button>
       </div>
 
-      <!-- User/Settings -->
-      <div class="flex items-center gap-4">
-        <button onclick="syncData()" class="text-slate-400 hover:text-white transition hidden sm:block" title="Sync Data"><i class="fa-solid fa-cloud-arrow-up"></i></button>
-        <div class="h-8 w-px bg-white/10 hidden sm:block"></div>
-        <img src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff" class="w-10 h-10 rounded-full border-2 border-primary/50 cursor-pointer" alt="Profile">
+      <!-- User/Profile -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        <button onclick="syncData()" class="text-slate-400 hover:text-white transition hidden md:block" title="Sync Data"><i class="fa-solid fa-cloud-arrow-up"></i></button>
+        <img src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-primary/50 cursor-pointer" alt="Profile">
       </div>
     </div>
   </nav>
 
+  <!-- Mobile Bottom Navigation (Visible on Mobile only) -->
+  <div class="lg:hidden fixed bottom-0 left-0 right-0 glass-panel border-t border-white/5 z-[45] flex justify-around p-2 pb-safe bg-slate-950/90 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+    <button onclick="switchTab('discover')" id="mob-discover" class="nav-tab-mob flex flex-col items-center justify-center w-full py-1 text-primary transition-colors">
+      <i class="fa-solid fa-magnifying-glass text-lg mb-1"></i>
+      <span class="text-[10px] font-bold">Search</span>
+    </button>
+    <button onclick="switchTab('portals')" id="mob-portals" class="nav-tab-mob flex flex-col items-center justify-center w-full py-1 text-slate-500 hover:text-slate-300 transition-colors">
+      <i class="fa-solid fa-globe text-lg mb-1"></i>
+      <span class="text-[10px] font-bold">Portals</span>
+    </button>
+    <button onclick="switchTab('tracker')" id="mob-tracker" class="nav-tab-mob flex flex-col items-center justify-center w-full py-1 text-slate-500 hover:text-slate-300 transition-colors">
+      <i class="fa-solid fa-kanban text-lg mb-1"></i>
+      <span class="text-[10px] font-bold">Tracker</span>
+    </button>
+  </div>
+
   <!-- Main Content Area -->
-  <main class="flex-grow max-w-[90rem] mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 relative">
+  <main class="flex-grow max-w-[90rem] mx-auto w-full px-3 sm:px-6 lg:px-8 pt-4 pb-24 lg:pb-8 relative">
     
     <!-- ================= VIEW: DISCOVER ================= -->
-    <div id="view-discover" class="view-section space-y-6 animate-fade-in">
+    <div id="view-discover" class="view-section space-y-4 sm:space-y-6 animate-fade-in">
       
       <!-- Search Dashboard -->
-      <div class="glass-panel rounded-2xl p-6 relative overflow-hidden shadow-2xl">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+      <div class="glass-panel rounded-2xl p-4 sm:p-6 relative overflow-hidden shadow-2xl">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-end">
           <div class="md:col-span-4 relative">
-            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Job Title / Keyword</label>
-            <i class="fa-solid fa-magnifying-glass absolute left-4 top-[34px] text-slate-500"></i>
-            <input type="text" id="searchQuery" value="Software Engineer" class="w-full bg-slate-900/50 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none transition shadow-inner">
+            <label class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Job Title / Keyword</label>
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-[32px] sm:top-[34px] text-slate-500"></i>
+            <input type="text" id="searchQuery" value="Software Engineer" class="w-full bg-slate-900/50 border border-white/10 rounded-xl pl-11 pr-4 py-2.5 sm:py-3 text-sm sm:text-base text-white focus:ring-2 focus:ring-primary outline-none transition shadow-inner">
           </div>
           
           <div class="md:col-span-3 relative">
-            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Location</label>
-            <i class="fa-solid fa-location-dot absolute left-4 top-[34px] text-slate-500"></i>
-            <input type="text" id="searchLocation" value="Remote" class="w-full bg-slate-900/50 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none transition shadow-inner">
+            <label class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Location</label>
+            <i class="fa-solid fa-location-dot absolute left-4 top-[32px] sm:top-[34px] text-slate-500"></i>
+            <input type="text" id="searchLocation" value="Remote" class="w-full bg-slate-900/50 border border-white/10 rounded-xl pl-11 pr-4 py-2.5 sm:py-3 text-sm sm:text-base text-white focus:ring-2 focus:ring-primary outline-none transition shadow-inner">
           </div>
 
           <div class="md:col-span-3 relative">
-            <label class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1.5 block"><i class="fa-solid fa-microchip mr-1"></i> My Profile Skills</label>
-            <input type="text" id="userSkills" value="JavaScript, React, Node.js" class="w-full bg-primary/10 border border-primary/30 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none transition text-sm">
+            <label class="text-[9px] sm:text-[10px] font-bold text-primary uppercase tracking-widest mb-1.5 block"><i class="fa-solid fa-microchip mr-1"></i> My Profile Skills</label>
+            <input type="text" id="userSkills" value="JavaScript, React, Node.js" class="w-full bg-primary/10 border border-primary/30 rounded-xl px-4 py-2.5 sm:py-3 text-sm text-white focus:ring-2 focus:ring-primary outline-none transition">
           </div>
 
           <div class="md:col-span-2">
-            <button onclick="runGlobalSearch()" class="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-              <i class="fa-solid fa-radar text-lg"></i> Scan Portals
+            <button onclick="runGlobalSearch()" class="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold py-3 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+              <i class="fa-solid fa-radar text-lg"></i> <span class="md:hidden lg:inline">Scan Portals</span>
             </button>
           </div>
         </div>
       </div>
 
       <!-- Results Area -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-280px)] min-h-[600px]">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:h-[calc(100vh-280px)] min-h-[500px]">
         
         <!-- Left: Feed -->
-        <div class="lg:col-span-5 flex flex-col glass-panel rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-          <div class="p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center backdrop-blur-md">
+        <div class="lg:col-span-5 flex flex-col glass-panel rounded-2xl overflow-hidden border border-white/10 shadow-xl h-[60vh] lg:h-full">
+          <div class="p-3 sm:p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center backdrop-blur-md">
             <div>
-              <span class="text-sm font-bold text-white"><span id="resultCount" class="text-primary">0</span> Jobs Found</span>
-              <p class="text-[10px] text-slate-400">Live API + Deep Search Aggregation</p>
+              <span class="text-xs sm:text-sm font-bold text-white"><span id="resultCount" class="text-primary">0</span> Jobs Found</span>
+              <p class="text-[9px] sm:text-[10px] text-slate-400 hidden sm:block">Live API + Deep Search Aggregation</p>
             </div>
-            <select id="sortJobs" onchange="renderFeed()" class="bg-slate-800 border border-slate-700 text-xs text-white rounded-lg px-3 py-2 outline-none cursor-pointer">
+            <select id="sortJobs" onchange="renderFeed()" class="bg-slate-800 border border-slate-700 text-[10px] sm:text-xs text-white rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 outline-none cursor-pointer">
               <option value="match">Highest AI Match</option>
               <option value="newest">Most Recent</option>
             </select>
           </div>
           
-          <div id="jobFeed" class="flex-1 overflow-y-auto custom-scroll p-3 space-y-3 relative">
+          <div id="jobFeed" class="flex-1 overflow-y-auto custom-scroll p-2 sm:p-3 space-y-2 sm:space-y-3 relative">
             <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-500 opacity-50 pointer-events-none">
-              <i class="fa-solid fa-satellite-dish text-5xl mb-3"></i>
-              <p>Ready to aggregate portals.</p>
+              <i class="fa-solid fa-satellite-dish text-4xl sm:text-5xl mb-3"></i>
+              <p class="text-xs">Ready to aggregate portals.</p>
             </div>
           </div>
         </div>
 
-        <!-- Right: Inspector & AI Tools -->
-        <div class="hidden lg:flex lg:col-span-7 glass-panel rounded-2xl overflow-hidden flex-col border border-white/10 shadow-xl bg-gradient-to-b from-slate-900/50 to-slate-900/80">
-          <div id="jobDetail" class="w-full h-full p-8 flex flex-col items-center justify-center text-center text-slate-500 relative">
-            <div class="w-32 h-32 mb-6 relative">
+        <!-- Right: Inspector Modal/Drawer (Mobile = Fixed Fullscreen Drawer, Desktop = Side Panel) -->
+        <div id="jobDetailContainer" class="fixed inset-0 z-[60] bg-slate-950/95 backdrop-blur-xl translate-y-full transition-transform duration-300 flex flex-col lg:static lg:bg-transparent lg:translate-y-0 lg:z-auto lg:flex lg:col-span-7 glass-panel lg:rounded-2xl lg:overflow-hidden lg:border lg:border-white/10 lg:shadow-xl lg:bg-gradient-to-b lg:from-slate-900/50 lg:to-slate-900/80">
+          
+          <!-- Mobile Drawer Header -->
+          <div class="lg:hidden p-4 border-b border-white/10 flex justify-between items-center bg-slate-900 sticky top-0 z-20 shadow-md pb-safe-top">
+            <span class="font-bold text-white text-sm tracking-wide"><i class="fa-solid fa-briefcase text-primary mr-2"></i>Position Details</span>
+            <button onclick="closeMobileInspector()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition"><i class="fa-solid fa-chevron-down"></i></button>
+          </div>
+
+          <div id="jobDetail" class="w-full h-full p-5 sm:p-8 flex flex-col items-center justify-center text-center text-slate-500 relative overflow-y-auto custom-scroll pb-24 lg:pb-8">
+            <div class="w-24 h-24 sm:w-32 sm:h-32 mb-6 relative">
               <div class="absolute inset-0 border-4 border-white/5 rounded-full"></div>
               <div class="absolute inset-0 border-4 border-t-primary rounded-full animate-spin"></div>
-              <i class="fa-solid fa-crosshairs absolute inset-0 m-auto text-4xl flex items-center justify-center text-slate-600"></i>
+              <i class="fa-solid fa-crosshairs absolute inset-0 m-auto text-3xl sm:text-4xl flex items-center justify-center text-slate-600"></i>
             </div>
-            <h3 class="text-2xl font-bold text-slate-300">Select an Opportunity</h3>
-            <p class="text-sm max-w-md mt-2 leading-relaxed">Choose a job from the feed to view comprehensive data, salary benchmarks, and generate an AI-tailored cover letter instantly.</p>
+            <h3 class="text-xl sm:text-2xl font-bold text-slate-300">Select an Opportunity</h3>
+            <p class="text-xs sm:text-sm max-w-md mt-2 leading-relaxed">Choose a job from the feed to view comprehensive data, salary benchmarks, and generate an AI-tailored cover letter instantly.</p>
           </div>
         </div>
       </div>
@@ -181,49 +208,50 @@
 
     <!-- ================= VIEW: ALL PORTALS ================= -->
     <div id="view-portals" class="view-section hidden space-y-6 animate-fade-in">
-      <div class="mb-6">
-        <h2 class="text-3xl font-bold text-white">Universal Portal Directory</h2>
-        <p class="text-slate-400 mt-2 max-w-2xl">One Job Portal integrates with the global hiring ecosystem. We use active REST APIs where open, and advanced Deep-Search routing where portals restrict third-party access, ensuring you miss nothing.</p>
+      <div class="mb-4 sm:mb-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white">Universal Portal Directory</h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-2 max-w-2xl">One Job Portal integrates with the global hiring ecosystem using active REST APIs and advanced Deep-Search routing.</p>
       </div>
-      <div id="portalGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div id="portalGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 pb-10">
         <!-- Rendered by JS -->
       </div>
     </div>
 
     <!-- ================= VIEW: TRACKER ================= -->
-    <div id="view-tracker" class="view-section hidden flex flex-col h-[calc(100vh-140px)] animate-fade-in">
+    <div id="view-tracker" class="view-section hidden flex flex-col h-auto lg:h-[calc(100vh-140px)] animate-fade-in">
       <div class="mb-4 flex justify-between items-end">
         <div>
-          <h2 class="text-3xl font-bold text-white">Application Pipeline</h2>
-          <p class="text-slate-400 mt-1">Drag and drop to manage your lifecycle.</p>
+          <h2 class="text-2xl sm:text-3xl font-bold text-white">Pipeline</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">Manage your lifecycle.</p>
         </div>
-        <button onclick="clearTracker()" class="text-xs text-red-400 hover:text-red-300 border border-red-500/30 px-3 py-1.5 rounded-lg transition"><i class="fa-solid fa-trash mr-1"></i> Clear Board</button>
+        <button onclick="clearTracker()" class="text-[10px] sm:text-xs text-red-400 hover:text-red-300 border border-red-500/30 px-3 py-1.5 rounded-lg transition"><i class="fa-solid fa-trash mr-1"></i> Clear</button>
       </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 overflow-hidden">
+      <!-- Kanban Columns (Stacks on Mobile, Grid on Desktop) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 flex-1 lg:overflow-hidden pb-10 lg:pb-0">
         <!-- Column 1 -->
-        <div class="glass-panel rounded-2xl flex flex-col border-t-4 border-t-slate-400">
-          <div class="p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
-            <span class="font-bold text-white"><i class="fa-regular fa-bookmark text-slate-400 mr-2"></i>Saved / Reviewing</span>
+        <div class="glass-panel rounded-2xl flex flex-col border-t-4 border-t-slate-400 h-[350px] lg:h-full">
+          <div class="p-3 sm:p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
+            <span class="font-bold text-white text-sm"><i class="fa-regular fa-bookmark text-slate-400 mr-2"></i>Saved</span>
             <span id="count-saved" class="bg-slate-800 px-2 py-0.5 rounded text-xs border border-white/10 font-mono">0</span>
           </div>
-          <div id="col-saved" class="kanban-col flex-1 p-3 overflow-y-auto custom-scroll space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
+          <div id="col-saved" class="kanban-col flex-1 p-2 sm:p-3 overflow-y-auto custom-scroll space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
         </div>
         <!-- Column 2 -->
-        <div class="glass-panel rounded-2xl flex flex-col border-t-4 border-t-primary">
-          <div class="p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
-            <span class="font-bold text-white"><i class="fa-solid fa-paper-plane text-primary mr-2"></i>Applied</span>
+        <div class="glass-panel rounded-2xl flex flex-col border-t-4 border-t-primary h-[350px] lg:h-full">
+          <div class="p-3 sm:p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
+            <span class="font-bold text-white text-sm"><i class="fa-solid fa-paper-plane text-primary mr-2"></i>Applied</span>
             <span id="count-applied" class="bg-slate-800 px-2 py-0.5 rounded text-xs border border-white/10 font-mono">0</span>
           </div>
-          <div id="col-applied" class="kanban-col flex-1 p-3 overflow-y-auto custom-scroll space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
+          <div id="col-applied" class="kanban-col flex-1 p-2 sm:p-3 overflow-y-auto custom-scroll space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
         </div>
         <!-- Column 3 -->
-        <div class="glass-panel rounded-2xl flex flex-col border-t-4 border-t-accent">
-          <div class="p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
-            <span class="font-bold text-white"><i class="fa-solid fa-handshake text-accent mr-2"></i>Interview / Offer</span>
+        <div class="glass-panel rounded-2xl flex flex-col border-t-4 border-t-accent h-[350px] lg:h-full">
+          <div class="p-3 sm:p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
+            <span class="font-bold text-white text-sm"><i class="fa-solid fa-handshake text-accent mr-2"></i>Interview</span>
             <span id="count-interview" class="bg-slate-800 px-2 py-0.5 rounded text-xs border border-white/10 font-mono">0</span>
           </div>
-          <div id="col-interview" class="kanban-col flex-1 p-3 overflow-y-auto custom-scroll space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div>
+          <div id="col-interview" class="kanban-col flex-1 p-2 sm:p-3 overflow-y-auto custom-scroll space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div>
         </div>
       </div>
     </div>
@@ -231,27 +259,27 @@
   </main>
 
   <!-- Toast Notifications -->
-  <div id="toaster" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
+  <div id="toaster" class="fixed bottom-20 lg:bottom-6 right-4 lg:right-6 z-[80] flex flex-col gap-3 pointer-events-none"></div>
 
   <!-- AI Modal (Cover Letter) -->
-  <div id="aiModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
-    <div class="glass-panel bg-slate-900/90 w-full max-w-3xl rounded-2xl border border-primary/30 shadow-[0_0_50px_rgba(59,130,246,0.15)] flex flex-col overflow-hidden max-h-[90vh]">
-      <div class="p-5 border-b border-white/10 flex justify-between items-center bg-gradient-to-r from-primary/20 to-transparent">
-        <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> AI Cover Letter Generator</h3>
-        <button onclick="closeAIModal()" class="text-slate-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10"><i class="fa-solid fa-xmark text-xl"></i></button>
+  <div id="aiModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="glass-panel bg-slate-900/95 w-full max-w-3xl rounded-2xl border border-primary/30 shadow-[0_0_50px_rgba(59,130,246,0.15)] flex flex-col overflow-hidden max-h-[90vh]">
+      <div class="p-4 border-b border-white/10 flex justify-between items-center bg-gradient-to-r from-primary/20 to-transparent">
+        <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> AI Cover Letter</h3>
+        <button onclick="closeAIModal()" class="text-slate-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <div class="p-6 overflow-y-auto custom-scroll flex-1 relative">
-        <div id="aiLoader" class="absolute inset-0 bg-slate-900/80 flex flex-col items-center justify-center z-10 hidden">
+      <div class="p-4 sm:p-6 overflow-y-auto custom-scroll flex-1 relative min-h-[300px]">
+        <div id="aiLoader" class="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center z-10 hidden">
           <i class="fa-solid fa-microchip text-4xl text-primary animate-pulse mb-4"></i>
-          <p class="text-slate-300 font-bold tracking-widest uppercase text-sm">Synthesizing Profile & Job Specs...</p>
-          <div class="w-48 h-1 bg-slate-800 mt-4 rounded overflow-hidden"><div class="h-full bg-primary animate-[shine_1s_infinite]"></div></div>
+          <p class="text-slate-300 font-bold tracking-widest uppercase text-xs sm:text-sm text-center px-4">Synthesizing Profile & Job Specs...</p>
+          <div class="w-40 sm:w-48 h-1 bg-slate-800 mt-4 rounded overflow-hidden"><div class="h-full bg-primary animate-[shine_1s_infinite]"></div></div>
         </div>
-        <div id="aiOutput" class="text-slate-300 whitespace-pre-wrap font-serif leading-relaxed text-sm p-4 bg-slate-950 rounded-xl border border-white/5 shadow-inner">
+        <div id="aiOutput" class="text-slate-300 whitespace-pre-wrap font-serif leading-relaxed text-xs sm:text-sm p-4 bg-slate-950 rounded-xl border border-white/5 shadow-inner">
           <!-- Text goes here -->
         </div>
       </div>
-      <div class="p-4 border-t border-white/10 bg-slate-900 flex justify-end gap-3">
-        <button onclick="copyCoverLetter()" class="px-5 py-2.5 bg-primary hover:bg-blue-400 text-white rounded-xl font-bold transition flex items-center gap-2 shadow-lg"><i class="fa-regular fa-copy"></i> Copy to Clipboard</button>
+      <div class="p-4 border-t border-white/10 bg-slate-900 flex justify-end">
+        <button onclick="copyCoverLetter()" class="w-full sm:w-auto px-5 py-3 sm:py-2.5 bg-primary hover:bg-blue-400 text-white rounded-xl font-bold transition flex justify-center items-center gap-2 shadow-lg"><i class="fa-regular fa-copy"></i> Copy to Clipboard</button>
       </div>
     </div>
   </div>
@@ -260,8 +288,6 @@
     /* =========================================================================
        1. CORE CONFIGURATION & ARCHITECTURE
        ========================================================================= */
-    
-    // The Universal Portal Engine - Handles URL generation & Meta
     const PortalRegistry = {
       LinkedIn: { icon: 'fa-linkedin text-blue-500', color: 'border-blue-500/30 bg-blue-500/10', type: 'Deep Search', search: (q, l) => `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(q)}&location=${encodeURIComponent(l)}` },
       Naukri: { icon: 'fa-briefcase text-indigo-400', color: 'border-indigo-400/30 bg-indigo-400/10', type: 'Deep Search', search: (q, l) => `https://www.naukri.com/${q.replace(/\s+/g,'-')}-jobs-in-${l.replace(/\s+/g,'-')}` },
@@ -280,7 +306,7 @@
     let AppState = {
       jobs: [],
       activeJob: null,
-      tracker: JSON.parse(localStorage.getItem('ojp_tracker')) || [],
+      tracker: JSON.parse(localStorage.getItem('ojp_tracker_v2')) || [],
       userSkills: []
     };
 
@@ -288,14 +314,21 @@
        2. UI NAVIGATION & TOASTS
        ========================================================================= */
     function switchTab(tabId) {
+      // Hide all views
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.getElementById(`view-${tabId}`).classList.remove('hidden');
       
-      document.querySelectorAll('.nav-tab').forEach(el => {
-        el.className = 'nav-tab px-6 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-white transition-all duration-300';
+      // Update Desktop Tabs
+      document.querySelectorAll('.nav-tab-desk').forEach(el => {
+        el.className = 'nav-tab-desk px-6 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-white transition-all duration-300';
       });
-      const activeBtn = document.getElementById(`tab-${tabId}`);
-      activeBtn.className = 'nav-tab px-6 py-2 rounded-full text-sm font-bold bg-white text-slate-900 shadow-sm transition-all duration-300 transform scale-105';
+      document.getElementById(`tab-${tabId}`).className = 'nav-tab-desk px-6 py-2 rounded-full text-sm font-bold bg-white text-slate-900 shadow-sm transition-all duration-300 transform scale-105';
+
+      // Update Mobile Tabs
+      document.querySelectorAll('.nav-tab-mob').forEach(el => {
+        el.className = 'nav-tab-mob flex flex-col items-center justify-center w-full py-1 text-slate-500 hover:text-slate-300 transition-colors';
+      });
+      document.getElementById(`mob-${tabId}`).className = 'nav-tab-mob flex flex-col items-center justify-center w-full py-1 text-primary transition-colors';
 
       if(tabId === 'portals') renderPortalGrid();
       if(tabId === 'tracker') renderKanban();
@@ -305,14 +338,24 @@
       const toaster = document.getElementById('toaster');
       const toast = document.createElement('div');
       const icon = type==='success' ? 'fa-check text-green-400' : type==='error' ? 'fa-triangle-exclamation text-red-400' : 'fa-info text-blue-400';
-      toast.className = `glass-panel px-4 py-3 rounded-xl border-l-4 ${type==='success'?'border-l-green-500':type==='error'?'border-l-red-500':'border-l-blue-500'} flex items-center gap-3 shadow-2xl animate-[fadeIn_0.3s_ease-out]`;
-      toast.innerHTML = `<i class="fa-solid ${icon}"></i><span class="text-sm font-bold text-white">${msg}</span>`;
+      toast.className = `glass-panel px-4 py-3 rounded-xl border-l-4 ${type==='success'?'border-l-green-500':type==='error'?'border-l-red-500':'border-l-blue-500'} flex items-center gap-3 shadow-2xl animate-[fadeIn_0.3s_ease-out] bg-slate-900/90`;
+      toast.innerHTML = `<i class="fa-solid ${icon}"></i><span class="text-xs sm:text-sm font-bold text-white">${msg}</span>`;
       toaster.appendChild(toast);
       setTimeout(() => { toast.style.opacity = '0'; setTimeout(()=>toast.remove(), 300); }, 3000);
     }
 
+    /* Mobile Drawer Toggle */
+    function openMobileInspector() {
+      if(window.innerWidth < 1024) {
+        document.getElementById('jobDetailContainer').classList.remove('translate-y-full');
+      }
+    }
+    function closeMobileInspector() {
+      document.getElementById('jobDetailContainer').classList.add('translate-y-full');
+    }
+
     /* =========================================================================
-       3. SEARCH ENGINE (LIVE API + DEEP SEARCH MOCKS)
+       3. SEARCH ENGINE
        ========================================================================= */
     async function runGlobalSearch() {
       const q = document.getElementById('searchQuery').value.trim() || 'Developer';
@@ -321,19 +364,18 @@
       
       const feed = document.getElementById('jobFeed');
       feed.innerHTML = `
-        <div class="h-full flex flex-col items-center justify-center text-slate-400 space-y-4">
-          <div class="relative w-16 h-16">
+        <div class="h-full flex flex-col items-center justify-center text-slate-400 space-y-4 pt-10">
+          <div class="relative w-12 h-12 sm:w-16 sm:h-16">
             <div class="absolute inset-0 border-4 border-white/10 rounded-full"></div>
             <div class="absolute inset-0 border-4 border-t-primary rounded-full animate-spin"></div>
-            <i class="fa-solid fa-satellite-dish absolute inset-0 m-auto text-xl flex items-center justify-center text-primary animate-pulse"></i>
+            <i class="fa-solid fa-satellite-dish absolute inset-0 m-auto text-lg sm:text-xl flex items-center justify-center text-primary animate-pulse"></i>
           </div>
-          <p class="text-xs font-bold uppercase tracking-widest">Querying Global Portals...</p>
+          <p class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-center">Querying Global Portals...</p>
         </div>`;
       
-      AppState.jobs = []; // Reset
+      AppState.jobs = []; 
 
       try {
-        // 1. Fetch Real Live Data (Remotive Open API)
         const remotiveRes = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(q)}&limit=15`);
         if(remotiveRes.ok) {
           const data = await remotiveRes.json();
@@ -344,8 +386,8 @@
             location: j.candidate_required_location || 'Remote',
             portal: 'Remotive',
             type: j.job_type.replace('_',' '),
-            salaryNum: 80000 + (Math.random()*40000), // Remotive often omits exact salary, mocking for UI consistency
-            skills: j.tags && j.tags.length ? j.tags.slice(0,5) : [q.split(' ')[0], 'Remote', 'Tech'],
+            salaryNum: 80000 + (Math.random()*40000), 
+            skills: j.tags && j.tags.length ? j.tags.slice(0,4) : [q.split(' ')[0], 'Remote', 'Tech'],
             desc: j.description.replace(/<[^>]*>?/gm, '').substring(0, 400) + '...',
             url: j.url,
             time: new Date(j.publication_date).getTime() || Date.now(),
@@ -353,10 +395,8 @@
           }));
           AppState.jobs.push(...apiJobs);
         }
-      } catch(e) { console.warn("Live API blocked by network, relying on Federated Search"); }
+      } catch(e) {}
 
-      // 2. Generate Federated Deep Search Mocks (For portals that block API calls)
-      // This makes the UI fully populated and highly functional via intelligent redirection.
       const federatedPortals = ['LinkedIn', 'Naukri', 'Indeed', 'Glassdoor', 'GoogleJobs', 'ZipRecruiter'];
       const suffixes = ['Engineer', 'Specialist', 'Lead', 'Manager', 'Developer'];
       
@@ -373,27 +413,26 @@
           portal: portal,
           type: 'Full-Time',
           salaryNum: salaryBase,
-          skills: [q.split(' ')[0], 'Agile', 'Communication', 'Problem Solving', 'Leadership'].sort(()=>0.5-Math.random()).slice(0,4),
-          desc: `Aggregated Federated Result. This is a targeted deep-search result routed directly to ${portal}. Due to platform security, you must click 'Apply / View on ${portal}' to view the full native listing, exact company details, and submit your application securely through their authenticated gateway.`,
+          skills: [q.split(' ')[0], 'Agile', 'Communication', 'Problem Solving'].sort(()=>0.5-Math.random()).slice(0,3),
+          desc: `Aggregated Federated Result. This is a targeted deep-search result routed directly to ${portal}. Click 'Apply / View on ${portal}' to view the full native listing, exact company details, and submit your application securely through their authenticated gateway.`,
           url: conf.search(q, loc),
-          time: Date.now() - (Math.random() * 86400000), // Random time within 24h
+          time: Date.now() - (Math.random() * 86400000),
           isLive: false
         });
       }
 
-      // Calculate AI Matches
       AppState.jobs.forEach(j => {
         let matches = 0;
         j.skills.forEach(js => {
           if(AppState.userSkills.some(us => js.toLowerCase().includes(us) || us.includes(js.toLowerCase()))) matches++;
         });
         let score = (matches / j.skills.length) * 100;
-        if(score === 0) score = Math.floor(Math.random() * 20) + 20; // baseline if no match
+        if(score === 0) score = Math.floor(Math.random() * 20) + 20; 
         j.matchScore = Math.min(99, Math.round(score));
       });
 
       renderFeed();
-      showToast(`Aggregated ${AppState.jobs.length} opportunities from global portals.`);
+      showToast(`Aggregated ${AppState.jobs.length} opportunities.`);
     }
 
     function renderFeed() {
@@ -411,38 +450,41 @@
         const ring = job.matchScore > 75 ? 'border-green-500/50' : job.matchScore > 45 ? 'border-yellow-500/50' : 'border-red-500/50';
 
         const div = document.createElement('div');
-        div.className = `p-4 rounded-xl border transition-all duration-300 cursor-pointer hover:bg-white/5 flex gap-4 ${isSelected ? 'bg-primary/10 border-primary shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'bg-slate-900/60 border-white/5'}`;
+        div.className = `p-3 sm:p-4 rounded-xl border transition-all duration-300 cursor-pointer hover:bg-white/5 flex gap-3 sm:gap-4 ${isSelected && window.innerWidth >= 1024 ? 'bg-primary/10 border-primary shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'bg-slate-900/60 border-white/5'}`;
         div.style.animationDelay = `${idx * 40}ms`;
         div.classList.add('animate-fade-in');
 
         div.innerHTML = `
           <!-- Score Ring -->
-          <div class="shrink-0 flex flex-col items-center justify-center w-12">
-            <div class="w-10 h-10 rounded-full border-2 ${ring} flex items-center justify-center bg-slate-950 shadow-inner">
-              <span class="text-xs font-black ${color}">${job.matchScore}%</span>
+          <div class="shrink-0 flex flex-col items-center justify-center w-10 sm:w-12">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 ${ring} flex items-center justify-center bg-slate-950 shadow-inner">
+              <span class="text-[10px] sm:text-xs font-black ${color}">${job.matchScore}%</span>
             </div>
-            <span class="text-[8px] uppercase tracking-wider font-bold text-slate-500 mt-1">Match</span>
+            <span class="text-[7px] sm:text-[8px] uppercase tracking-wider font-bold text-slate-500 mt-1">Match</span>
           </div>
           <!-- Info -->
           <div class="flex-1 min-w-0">
             <div class="flex justify-between items-start">
               <h4 class="font-bold text-white text-sm truncate">${job.title}</h4>
-              ${job.isLive ? '<span class="px-1.5 py-0.5 rounded text-[8px] font-bold bg-green-500/20 text-green-400 border border-green-500/30 flex items-center gap-1"><i class="fa-solid fa-circle text-[6px] animate-pulse"></i> LIVE</span>' : ''}
+              ${job.isLive ? '<span class="px-1.5 py-0.5 rounded text-[7px] sm:text-[8px] font-bold bg-green-500/20 text-green-400 border border-green-500/30 flex items-center gap-1 shrink-0 ml-2"><i class="fa-solid fa-circle text-[5px] sm:text-[6px] animate-pulse"></i> LIVE</span>' : ''}
             </div>
-            <p class="text-[11px] text-slate-400 mt-0.5"><i class="fa-solid fa-building mr-1"></i>${job.company} &bull; <i class="fa-solid fa-location-dot mx-1"></i>${job.location}</p>
+            <p class="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 truncate"><i class="fa-solid fa-building mr-1"></i>${job.company} &bull; ${job.location}</p>
             <div class="mt-2.5 flex items-center justify-between">
-              <div class="flex gap-1 overflow-hidden">
-                ${job.skills.slice(0,3).map(s => `<span class="bg-white/5 border border-white/10 text-slate-300 text-[9px] px-1.5 py-0.5 rounded whitespace-nowrap">${s}</span>`).join('')}
+              <div class="flex gap-1 overflow-x-auto custom-scroll pb-1 pr-2 max-w-[70%]">
+                ${job.skills.map(s => `<span class="bg-white/5 border border-white/10 text-slate-300 text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded whitespace-nowrap">${s}</span>`).join('')}
               </div>
-              <span class="text-xs px-2 py-0.5 rounded-full border ${conf.color} flex items-center gap-1" title="Source: ${job.portal}"><i class="fa-brands ${conf.icon}"></i> <span class="text-[9px] font-bold text-white hidden sm:inline">${job.portal}</span></span>
+              <span class="text-xs px-1.5 sm:px-2 py-0.5 rounded-full border ${conf.color} flex items-center gap-1 shrink-0" title="Source: ${job.portal}"><i class="fa-brands ${conf.icon}"></i> <span class="text-[8px] sm:text-[9px] font-bold text-white hidden sm:inline">${job.portal}</span></span>
             </div>
           </div>
         `;
-        div.onclick = () => renderInspector(job);
+        div.onclick = () => {
+          renderInspector(job);
+          openMobileInspector();
+        };
         feed.appendChild(div);
       });
 
-      if(AppState.jobs.length > 0 && !AppState.activeJob && window.innerWidth >= 1024) renderInspector(AppState.jobs[0]);
+      if(AppState.jobs.length > 0 && window.innerWidth >= 1024) renderInspector(AppState.jobs[0]);
     }
 
     /* =========================================================================
@@ -450,7 +492,8 @@
        ========================================================================= */
     function renderInspector(job) {
       AppState.activeJob = job;
-      renderFeed(); // highlight active
+      if(window.innerWidth >= 1024) renderFeed(); // Highlight active on desktop
+      
       const conf = PortalRegistry[job.portal];
       const panel = document.getElementById('jobDetail');
       
@@ -459,65 +502,65 @@
       const inTracker = AppState.tracker.find(t => t.id === job.id);
 
       panel.innerHTML = `
-        <div class="w-full h-full flex flex-col text-left animate-fade-in relative z-10">
+        <div class="w-full flex flex-col text-left animate-fade-in relative z-10 pb-4">
           <!-- Header -->
-          <div class="flex justify-between items-start mb-6">
+          <div class="flex flex-col sm:flex-row sm:justify-between items-start gap-4 mb-4 sm:mb-6">
             <div>
-              <div class="flex items-center gap-2 mb-3">
-                <span class="px-2 py-1 rounded text-xs font-bold border ${conf.color} text-white flex items-center gap-1.5"><i class="fa-brands ${conf.icon}"></i> ${job.portal}</span>
-                <span class="px-2 py-1 rounded text-xs font-bold bg-primary/20 text-primary border border-primary/30"><i class="fa-solid fa-robot mr-1"></i> ${job.matchScore}% Match Score</span>
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <span class="px-2 py-1 rounded text-[10px] sm:text-xs font-bold border ${conf.color} text-white flex items-center gap-1.5"><i class="fa-brands ${conf.icon}"></i> ${job.portal}</span>
+                <span class="px-2 py-1 rounded text-[10px] sm:text-xs font-bold bg-primary/20 text-primary border border-primary/30"><i class="fa-solid fa-robot mr-1"></i> ${job.matchScore}% Match Score</span>
               </div>
-              <h2 class="text-3xl font-black text-white leading-tight">${job.title}</h2>
-              <p class="text-lg text-slate-400 font-medium mt-1"><i class="fa-solid fa-building mr-1"></i> ${job.company}</p>
+              <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">${job.title}</h2>
+              <p class="text-sm sm:text-lg text-slate-400 font-medium mt-1"><i class="fa-solid fa-building mr-1"></i> ${job.company}</p>
             </div>
-            <button onclick="addToTracker('${job.id}')" class="px-4 h-10 rounded-xl ${inTracker ? 'bg-slate-700 text-slate-400 cursor-not-allowed' : 'bg-white text-slate-900 hover:bg-slate-200'} font-bold transition flex items-center gap-2 shadow-lg" ${inTracker?'disabled':''}>
+            <button onclick="addToTracker('${job.id}')" class="w-full sm:w-auto px-4 h-10 sm:h-12 rounded-xl ${inTracker ? 'bg-slate-700 text-slate-400 cursor-not-allowed' : 'bg-white text-slate-900 hover:bg-slate-200'} font-bold transition flex justify-center items-center gap-2 shadow-lg shrink-0" ${inTracker?'disabled':''}>
               <i class="fa-solid ${inTracker ? 'fa-check' : 'fa-bookmark'}"></i> ${inTracker ? 'Saved' : 'Save'}
             </button>
           </div>
 
           <!-- Market Benchmark -->
-          <div class="bg-slate-900/80 border border-white/5 rounded-xl p-5 mb-5 shadow-inner">
+          <div class="bg-slate-900/80 border border-white/5 rounded-xl p-4 sm:p-5 mb-5 shadow-inner">
             <div class="flex justify-between items-end mb-3">
               <div>
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Estimated Compensation</p>
-                <p class="text-2xl font-bold text-green-400">${salaryFmt}</p>
+                <p class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Estimated Compensation</p>
+                <p class="text-xl sm:text-2xl font-bold text-green-400">${salaryFmt}</p>
               </div>
-              <span class="text-xs font-bold bg-slate-800 text-slate-300 px-2 py-1 rounded border border-white/5">${job.salaryNum > 100000 ? 'Above Market' : 'Market Avg'}</span>
+              <span class="text-[10px] sm:text-xs font-bold bg-slate-800 text-slate-300 px-2 py-1 rounded border border-white/5">${job.salaryNum > 100000 ? 'Above Market' : 'Market Avg'}</span>
             </div>
             <div class="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden flex shadow-inner relative">
               <div class="h-full bg-gradient-to-r from-red-500 via-yellow-400 to-green-500" style="width: 100%"></div>
-              <div class="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_white]" style="left: ${salPct}%;"></div>
+              <div class="absolute top-0 bottom-0 w-1 sm:w-1.5 bg-white shadow-[0_0_10px_white]" style="left: ${salPct}%;"></div>
             </div>
-            <div class="flex justify-between text-[9px] font-bold text-slate-600 mt-1.5 uppercase tracking-wider">
+            <div class="flex justify-between text-[8px] sm:text-[9px] font-bold text-slate-600 mt-1.5 uppercase tracking-wider">
               <span>$40k Base</span><span>$150k+ Peak</span>
             </div>
           </div>
 
           <!-- Content Details -->
-          <div class="flex-1 overflow-y-auto custom-scroll pr-3 space-y-5">
+          <div class="space-y-5">
             <div>
-              <h3 class="text-sm font-bold text-white border-b border-white/10 pb-2 mb-3">Required Competencies</h3>
+              <h3 class="text-xs sm:text-sm font-bold text-white border-b border-white/10 pb-2 mb-3">Required Competencies</h3>
               <div class="flex flex-wrap gap-2">
                 ${job.skills.map(s => {
                   const match = AppState.userSkills.some(us => s.toLowerCase().includes(us) || us.includes(s.toLowerCase()));
-                  return `<span class="px-3 py-1.5 rounded-lg text-xs font-bold border ${match ? 'bg-primary/20 text-primary border-primary/40 shadow-[0_0_10px_rgba(59,130,246,0.2)]' : 'bg-slate-800 text-slate-400 border-white/5'} flex items-center gap-1.5">
+                  return `<span class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-bold border ${match ? 'bg-primary/20 text-primary border-primary/40 shadow-[0_0_10px_rgba(59,130,246,0.2)]' : 'bg-slate-800 text-slate-400 border-white/5'} flex items-center gap-1 sm:gap-1.5">
                     ${match ? '<i class="fa-solid fa-check"></i>' : ''}${s}
                   </span>`;
                 }).join('')}
               </div>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-white border-b border-white/10 pb-2 mb-3">Position Brief</h3>
-              <p class="text-sm text-slate-300 leading-relaxed font-light">${job.desc}</p>
+              <h3 class="text-xs sm:text-sm font-bold text-white border-b border-white/10 pb-2 mb-3">Position Brief</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">${job.desc}</p>
             </div>
           </div>
 
           <!-- Footer Actions -->
-          <div class="pt-5 mt-auto border-t border-white/5 grid grid-cols-2 gap-3">
-            <button onclick="generateCoverLetter()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition border border-white/10 flex items-center justify-center gap-2 group">
+          <div class="pt-5 mt-6 border-t border-white/5 flex flex-col sm:grid sm:grid-cols-2 gap-3">
+            <button onclick="generateCoverLetter()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition border border-white/10 flex items-center justify-center gap-2 group text-sm sm:text-base">
               <i class="fa-solid fa-wand-magic-sparkles text-primary group-hover:animate-pulse"></i> Auto-Draft Cover Letter
             </button>
-            <a href="${job.url}" target="_blank" class="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+            <a href="${job.url}" target="_blank" class="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.2)] text-sm sm:text-base">
               Apply via ${job.portal} <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1"></i>
             </a>
           </div>
@@ -538,20 +581,17 @@
       loader.classList.remove('hidden');
       output.innerHTML = '';
 
-      // Simulate AI Processing Time
       setTimeout(() => {
         loader.classList.add('hidden');
         const job = AppState.activeJob;
         const skills = AppState.userSkills.join(', ') || 'software development';
-        const date = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
         
         output.innerHTML = `Dear Hiring Manager at ${job.company},<br><br>I am writing to express my strong interest in the <strong>${job.title}</strong> position dynamically sourced via ${job.portal}. With a robust background in <strong>${skills}</strong>, I am confident in my ability to immediately add value to your team.<br><br>Your requirement for expertise in <em>${job.skills.join(' and ')}</em> aligns perfectly with my professional trajectory. In my recent roles, I have consistently leveraged these exact competencies to drive scalable solutions and improve system efficiencies.<br><br>What draws me to ${job.company} is the commitment to innovation and excellence implicitly required for this role. My unique blend of technical acumen and proactive problem-solving makes me an ideal fit to tackle the challenges outlined in your position brief.<br><br>I would welcome the opportunity to discuss how my specific skills and experiences match the needs of your engineering department. Thank you for your time and consideration.<br><br>Sincerely,<br>[Your Name]<br>[Your Contact Information]`;
         
-      }, 2000);
+      }, 1500);
     }
 
     function closeAIModal() { document.getElementById('aiModal').classList.add('hidden'); }
-    
     function copyCoverLetter() {
       const text = document.getElementById('aiOutput').innerText;
       navigator.clipboard.writeText(text);
@@ -560,19 +600,27 @@
     }
 
     /* =========================================================================
-       6. TRACKER (KANBAN) SYSTEM
+       6. TRACKER (KANBAN) SYSTEM (With Touch Support)
        ========================================================================= */
     function addToTracker(id) {
       if(!AppState.tracker.find(t => t.id === id)) {
         AppState.tracker.push({ id, status: 'saved', title: AppState.activeJob.title, company: AppState.activeJob.company, portal: AppState.activeJob.portal });
         saveTracker();
         showToast('Saved to Application Pipeline');
-        renderInspector(AppState.activeJob); // refresh button state
+        if(window.innerWidth >= 1024) renderInspector(AppState.activeJob); 
       }
     }
 
-    function saveTracker() { localStorage.setItem('ojp_tracker', JSON.stringify(AppState.tracker)); renderKanban(); }
-    function clearTracker() { if(confirm('Clear entire board?')) { AppState.tracker = []; saveTracker(); } }
+    function saveTracker() { localStorage.setItem('ojp_tracker_v2', JSON.stringify(AppState.tracker)); renderKanban(); }
+    function clearTracker() { if(confirm('Clear entire pipeline?')) { AppState.tracker = []; saveTracker(); } }
+
+    function moveKanbanStatus(id, newStatus) {
+      const item = AppState.tracker.find(t => t.id === id);
+      if(item) {
+        item.status = newStatus;
+        saveTracker();
+      }
+    }
 
     function renderKanban() {
       const cols = { saved: document.getElementById('col-saved'), applied: document.getElementById('col-applied'), interview: document.getElementById('col-interview') };
@@ -584,17 +632,29 @@
         const conf = PortalRegistry[item.portal] || PortalRegistry.LinkedIn;
         
         const el = document.createElement('div');
-        el.className = "bg-slate-800/80 border border-white/10 p-3 rounded-xl shadow-lg cursor-grab active:cursor-grabbing hover:border-primary/50 transition group";
+        el.className = "bg-slate-800/80 border border-white/10 p-3 rounded-xl shadow-lg cursor-grab active:cursor-grabbing lg:hover:border-primary/50 transition group";
         el.draggable = true;
         el.id = `kanban-${item.id}`;
         
+        // Touch fallback buttons for mobile (visible on all screens, but styled discreetly)
+        let moveButtons = '';
+        if(item.status === 'saved') moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="text-[10px] text-primary bg-primary/10 px-2 py-1 rounded font-bold hover:bg-primary/20">Applied <i class="fa-solid fa-arrow-right ml-1"></i></button>`;
+        else if(item.status === 'applied') moveButtons = `
+          <button onclick="moveKanbanStatus('${item.id}', 'saved')" class="text-[10px] text-slate-400 hover:text-white px-1 py-1"><i class="fa-solid fa-arrow-left"></i></button>
+          <button onclick="moveKanbanStatus('${item.id}', 'interview')" class="text-[10px] text-accent bg-accent/10 px-2 py-1 rounded font-bold hover:bg-accent/20">Interview <i class="fa-solid fa-arrow-right ml-1"></i></button>`;
+        else if(item.status === 'interview') moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="text-[10px] text-slate-400 hover:text-white px-1 py-1"><i class="fa-solid fa-arrow-left mr-1"></i> Applied</button>`;
+
         el.innerHTML = `
           <div class="flex justify-between items-start mb-2">
-            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded border ${conf.color} text-white"><i class="fa-brands ${conf.icon}"></i> ${item.portal}</span>
-            <button onclick="removeKanban('${item.id}')" class="text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-xmark"></i></button>
+            <span class="text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded border ${conf.color} text-white"><i class="fa-brands ${conf.icon}"></i> ${item.portal}</span>
+            <button onclick="removeKanban('${item.id}')" class="text-slate-500 hover:text-red-400 transition w-6 h-6 flex items-center justify-center rounded-full bg-white/5"><i class="fa-solid fa-xmark text-xs"></i></button>
           </div>
-          <h4 class="font-bold text-sm text-white leading-tight truncate">${item.title}</h4>
-          <p class="text-[10px] text-slate-400 mt-1"><i class="fa-solid fa-building mr-1"></i>${item.company}</p>
+          <h4 class="font-bold text-xs sm:text-sm text-white leading-tight">${item.title}</h4>
+          <p class="text-[10px] text-slate-400 mt-1 truncate"><i class="fa-solid fa-building mr-1"></i>${item.company}</p>
+          
+          <div class="mt-3 pt-2 border-t border-white/5 flex justify-between items-center lg:hidden">
+            ${moveButtons}
+          </div>
         `;
         
         el.ondragstart = (e) => { e.dataTransfer.setData('text/plain', item.id); el.classList.add('kanban-ghost'); };
@@ -609,17 +669,13 @@
 
     function removeKanban(id) { AppState.tracker = AppState.tracker.filter(t => t.id !== id); saveTracker(); }
     
-    // Drag & Drop Handlers
+    // Drag & Drop Handlers (Desktop)
     function allowDrop(ev) { ev.preventDefault(); }
     function drop(ev, status) {
       ev.preventDefault();
       const id = ev.dataTransfer.getData('text/plain');
-      const item = AppState.tracker.find(t => t.id === id);
-      if(item && item.status !== status) {
-        item.status = status;
-        saveTracker();
-        showToast(`Moved to ${status.toUpperCase()}`);
-      }
+      moveKanbanStatus(id, status);
+      showToast(`Moved to ${status.toUpperCase()}`);
     }
 
     /* =========================================================================
@@ -631,14 +687,14 @@
       Object.entries(PortalRegistry).forEach(([name, conf]) => {
         const isLive = conf.type === 'Live API';
         grid.innerHTML += `
-          <div class="glass-panel p-5 rounded-2xl flex flex-col items-center text-center group hover:bg-white/5 transition border border-white/5 hover:border-${isLive?'accent':'primary'}/50 cursor-pointer shadow-lg relative overflow-hidden">
+          <div class="glass-panel p-4 sm:p-5 rounded-2xl flex flex-col items-center text-center group hover:bg-white/5 transition border border-white/5 hover:border-${isLive?'accent':'primary'}/50 cursor-pointer shadow-lg relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-t from-${isLive?'accent':'primary'}/10 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
-            <div class="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center bg-slate-900 mb-3 shadow-inner group-hover:scale-110 transition">
-              <i class="fa-brands ${conf.icon} text-2xl"></i>
+            <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-full border border-white/10 flex items-center justify-center bg-slate-900 mb-2 sm:mb-3 shadow-inner group-hover:scale-110 transition">
+              <i class="fa-brands ${conf.icon} text-lg sm:text-2xl"></i>
             </div>
-            <h4 class="font-bold text-white text-lg">${name}</h4>
-            <span class="mt-2 text-[10px] font-bold px-2 py-1 rounded-full border ${isLive ? 'border-accent/50 text-accent bg-accent/10' : 'border-primary/50 text-primary bg-primary/10'}">${conf.type} Engine</span>
-            <p class="text-xs text-slate-400 mt-3 font-medium opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all">Integrated via One Job Portal's secure routing architecture.</p>
+            <h4 class="font-bold text-white text-sm sm:text-lg">${name}</h4>
+            <span class="mt-1 sm:mt-2 text-[8px] sm:text-[10px] font-bold px-2 py-1 rounded-full border ${isLive ? 'border-accent/50 text-accent bg-accent/10' : 'border-primary/50 text-primary bg-primary/10'}">${conf.type} Engine</span>
+            <p class="text-[10px] sm:text-xs text-slate-400 mt-2 sm:mt-3 font-medium opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all hidden sm:block">Integrated via secure routing architecture.</p>
           </div>
         `;
       });
