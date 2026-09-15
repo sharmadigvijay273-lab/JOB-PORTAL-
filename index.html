@@ -1,737 +1,635 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OmniJob Universal Hub - All-in-One Job Aggregator</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome -->
+  <title>OmniJob AI - Premium Job Intelligence</title>
+  
+  <!-- Fonts: Outfit for modern, geometric look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: { sans: ['Outfit', 'sans-serif'] },
           colors: {
-            brand: {
-              50: '#eff6ff',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              800: '#1e40af'
-            }
+            glass: 'rgba(255, 255, 255, 0.03)',
+            glassBorder: 'rgba(255, 255, 255, 0.08)',
+            primary: '#6366f1', // Indigo
+            secondary: '#ec4899', // Pink
+            darkbg: '#030712' // Gray 950
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-out',
+            'slide-up': 'slideUp 0.4s ease-out forwards',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
           }
         }
       }
     }
   </script>
+
   <style>
-    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    /* Custom Scrollbar & Glassmorphism Utilities */
+    body { background-color: #030712; background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%); background-attachment: fixed; }
+    .glass-panel { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+    .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
     .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-    .dark .custom-scroll::-webkit-scrollbar-thumb { background: #475569; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+    
+    /* Circular Progress Bar SVG */
+    .circular-chart { display: block; margin: 0 auto; max-width: 80%; max-height: 250px; }
+    .circle-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 3.8; }
+    .circle { fill: none; stroke-width: 2.8; stroke-linecap: round; animation: progress 1s ease-out forwards; }
+    @keyframes progress { 0% { stroke-dasharray: 0 100; } }
+    
+    /* Toast Slide */
+    .toast-enter { transform: translateX(100%); opacity: 0; }
+    .toast-active { transform: translateX(0); opacity: 1; transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+    
+    /* Kanban Drag over */
+    .drag-over { background: rgba(99, 102, 241, 0.1) !important; border-color: #6366f1 !important; border-style: dashed !important; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans">
+<body class="text-slate-200 min-h-screen flex flex-col font-sans overflow-x-hidden">
 
-  <!-- Top App Navigation -->
-  <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+  <!-- Top Navigation -->
+  <nav class="glass-panel sticky top-0 z-50 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="bg-brand-600 text-white w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl shadow-md">
-          <i class="fa-solid fa-bolt"></i>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/30">
+          <i class="fa-solid fa-bolt text-white text-xl"></i>
         </div>
         <div>
-          <span class="text-xl font-black tracking-tight text-slate-900 dark:text-white">Omni<span class="text-brand-600">Job</span></span>
-          <span class="text-xs ml-2 py-0.5 px-2 bg-brand-50 text-brand-600 dark:bg-slate-700 dark:text-brand-400 font-semibold rounded-full border border-brand-200 dark:border-slate-600">Multi-Engine Aggregator</span>
+          <h1 class="text-2xl font-extrabold tracking-tight text-white leading-none">Omni<span class="text-primary">Job</span> AI</h1>
+          <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest mt-0.5">Intelligent Aggregation</p>
         </div>
       </div>
-
-      <div class="flex items-center gap-4">
-        <button id="viewSavedBtn" class="flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-brand-600 transition">
-          <i class="fa-solid fa-bookmark text-brand-600"></i>
-          <span>Saved Jobs</span>
-          <span id="savedCountBadge" class="bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
-        </button>
-
-        <button id="themeToggle" class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Toggle Theme">
-          <i class="fa-solid fa-moon dark:hidden"></i>
-          <i class="fa-solid fa-sun hidden dark:inline"></i>
-        </button>
+      <div class="flex gap-4 bg-slate-900/50 p-1.5 rounded-full border border-glassBorder backdrop-blur-md">
+        <button id="tab-discover" class="px-5 py-2 rounded-full text-sm font-semibold bg-white text-slate-900 shadow-sm transition">Discover</button>
+        <button id="tab-tracker" class="px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white transition">My Tracker</button>
+      </div>
+      <div class="hidden md:flex items-center gap-3">
+        <div class="text-right">
+          <p class="text-sm font-bold text-white">Alex Developer</p>
+          <p class="text-xs text-green-400 font-medium"><i class="fa-solid fa-circle text-[8px] mr-1 blink"></i>Open to work</p>
+        </div>
+        <img src="https://ui-avatars.com/api/?name=Alex+Dev&background=6366f1&color=fff" class="w-10 h-10 rounded-full border-2 border-primary/50" alt="Profile">
       </div>
     </div>
-  </header>
+  </nav>
 
-  <!-- Query Dispatch & Filter Section -->
-  <section class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <form id="searchEngineForm" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
-          <!-- Keyword -->
-          <div class="md:col-span-4 relative">
-            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
-            <input type="text" id="searchInput" placeholder="Role, technology, or keywords (e.g. React, Python)" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none dark:text-white" required value="Software Engineer" />
+  <!-- Main Application Area -->
+  <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 flex flex-col gap-6">
+    
+    <!-- DISCOVER VIEW -->
+    <div id="view-discover" class="animate-fade-in space-y-6">
+      
+      <!-- AI Search & Context Console -->
+      <div class="glass-panel rounded-2xl p-6 lg:p-8 relative overflow-hidden group">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10 group-hover:bg-primary/20 transition duration-700"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+          
+          <div class="lg:col-span-4">
+            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">Target Role</label>
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-500"></i>
+              <input type="text" id="aiQuery" value="Frontend Developer" class="w-full bg-slate-900/60 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition" placeholder="Job title...">
+            </div>
+          </div>
+          
+          <div class="lg:col-span-3">
+            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">Location</label>
+            <div class="relative">
+              <i class="fa-solid fa-location-crosshairs absolute left-4 top-3.5 text-slate-500"></i>
+              <input type="text" id="aiLocation" value="Remote" class="w-full bg-slate-900/60 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition" placeholder="City or Remote">
+            </div>
           </div>
 
-          <!-- Location -->
-          <div class="md:col-span-3 relative">
-            <i class="fa-solid fa-location-dot absolute left-3.5 top-3.5 text-slate-400"></i>
-            <input type="text" id="locationInput" placeholder="Location, country, or 'Remote'" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none dark:text-white" value="Remote" />
+          <div class="lg:col-span-3">
+            <label class="text-xs font-bold text-primary uppercase tracking-wider mb-2 block"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> My Skills (For AI Match)</label>
+            <input type="text" id="aiSkills" value="React, JavaScript, Tailwind, UI/UX" class="w-full bg-primary/5 border border-primary/30 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none transition text-sm" placeholder="Comma separated skills...">
           </div>
 
-          <!-- Portal Selector -->
-          <div class="md:col-span-3 relative">
-            <i class="fa-solid fa-network-wired absolute left-3.5 top-3.5 text-slate-400"></i>
-            <select id="portalSelector" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none dark:text-white">
-              <option value="ALL">All Portals (Unified Aggregation)</option>
-              <option value="LinkedIn">LinkedIn Deep Search</option>
-              <option value="Naukri">Naukri.com Hub</option>
-              <option value="Indeed">Indeed Index</option>
-              <option value="Wellfound">Wellfound (AngelList)</option>
-              <option value="Glassdoor">Glassdoor</option>
-              <option value="Foundit">Foundit (Monster)</option>
-              <option value="Internshala">Internshala</option>
-              <option value="Remotive">Remotive Public API</option>
-              <option value="Arbeitnow">Arbeitnow Public API</option>
-            </select>
-          </div>
-
-          <!-- Submit -->
-          <div class="md:col-span-2">
-            <button type="submit" class="w-full h-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-lg transition duration-150 flex items-center justify-center gap-2 shadow-sm">
-              <i class="fa-solid fa-arrows-rotate"></i>
-              <span>Aggregate</span>
+          <div class="lg:col-span-2 h-full flex items-end">
+            <button id="btn-search" class="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold py-3 rounded-xl shadow-lg shadow-primary/25 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-satellite-dish"></i> Scan
             </button>
           </div>
         </div>
+      </div>
 
-        <!-- Granular Controls -->
-        <div class="flex flex-wrap items-center justify-between gap-3 text-xs border-t border-slate-100 dark:border-slate-700 pt-3">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="font-bold text-slate-500 uppercase tracking-wider">Job Type:</span>
-            <button type="button" class="filter-type-btn px-2.5 py-1 rounded-md bg-brand-50 dark:bg-slate-700 text-brand-600 dark:text-brand-300 font-semibold border border-brand-200 dark:border-slate-600" data-type="all">All Types</button>
-            <button type="button" class="filter-type-btn px-2.5 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-transparent" data-type="Full-Time">Full-Time</button>
-            <button type="button" class="filter-type-btn px-2.5 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-transparent" data-type="Remote">Remote Only</button>
-            <button type="button" class="filter-type-btn px-2.5 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-transparent" data-type="Contract">Contract</button>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-slate-500 uppercase tracking-wider">Sort:</span>
-            <select id="sortOrder" class="bg-transparent border border-slate-300 dark:border-slate-700 rounded px-2 py-1 text-slate-700 dark:text-slate-300">
-              <option value="newest">Most Recent</option>
-              <option value="title">Job Title (A-Z)</option>
-              <option value="portal">Source Portal</option>
+      <!-- Main Layout: Sidebar, Feed, Detail -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[70vh]">
+        
+        <!-- Job Feed -->
+        <div class="lg:col-span-5 flex flex-col glass-panel rounded-2xl overflow-hidden">
+          <div class="p-4 border-b border-glassBorder flex justify-between items-center bg-slate-900/50">
+            <span class="text-sm font-bold text-white"><span id="jobCount">0</span> Opportunities Found</span>
+            <select id="sortEngine" class="bg-slate-800 border border-slate-700 text-xs text-white rounded-lg px-2 py-1 outline-none">
+              <option value="match">Sort by AI Match</option>
+              <option value="newest">Sort by Newest</option>
             </select>
           </div>
+          
+          <div id="feedList" class="flex-1 overflow-y-auto custom-scroll p-3 space-y-3">
+            <!-- Cards injected via JS -->
+          </div>
         </div>
-      </form>
-    </div>
-  </section>
 
-  <!-- Live Multi-Portal Deep-Link Launchpad -->
-  <section class="bg-slate-100 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 py-2.5">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between flex-wrap gap-2 text-xs">
-      <span class="font-semibold text-slate-500 dark:text-slate-400">Direct Portal Deep-Links:</span>
-      <div id="quickLaunchPad" class="flex flex-wrap gap-2">
-        <!-- Links dynamically generated per search query -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Split Screen Workspace -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-    
-    <!-- Feed Column (Left) -->
-    <div class="lg:col-span-5 flex flex-col gap-4">
-      <div class="flex items-center justify-between px-1">
-        <span id="resultsCountLabel" class="text-sm font-semibold text-slate-500 dark:text-slate-400">Listing Jobs...</span>
-        <button id="refreshBtn" class="text-xs text-brand-600 hover:text-brand-700 dark:text-brand-400 font-semibold flex items-center gap-1">
-          <i class="fa-solid fa-rotate-right"></i> Reset Feed
-        </button>
-      </div>
-
-      <!-- Feed Container -->
-      <div id="jobsList" class="space-y-3 max-h-[calc(100vh-250px)] overflow-y-auto custom-scroll pr-1">
-        <!-- Injected dynamically -->
-      </div>
-
-      <!-- Pagination / Info -->
-      <div id="paginationWrap" class="flex justify-between items-center pt-2 text-xs text-slate-500">
-        <button id="prevPageBtn" class="px-3 py-1 bg-white dark:bg-slate-800 border rounded disabled:opacity-40">Previous</button>
-        <span id="pageIndicator">Page 1</span>
-        <button id="nextPageBtn" class="px-3 py-1 bg-white dark:bg-slate-800 border rounded disabled:opacity-40">Next</button>
-      </div>
-    </div>
-
-    <!-- Inspector / Detailed Drawer Column (Right) -->
-    <div class="hidden lg:block lg:col-span-7 sticky top-24">
-      <div id="jobDetailCard" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-sm min-h-[500px] flex flex-col justify-between">
-        <div class="flex flex-col items-center justify-center h-96 text-slate-400 text-center">
-          <i class="fa-regular fa-hand-pointer text-4xl mb-3"></i>
-          <p class="text-base font-semibold">Select a job from the aggregator feed</p>
-          <p class="text-xs text-slate-500">Review complete source specs, portal origin, and application pathways.</p>
+        <!-- Job Detail / Insight Panel -->
+        <div class="hidden lg:flex lg:col-span-7 glass-panel rounded-2xl overflow-hidden flex-col">
+          <div id="detailPane" class="w-full h-full p-8 flex flex-col items-center justify-center text-center text-slate-500">
+            <div class="w-24 h-24 mb-6 rounded-full bg-slate-800/50 flex items-center justify-center border border-slate-700">
+              <i class="fa-solid fa-robot text-4xl text-slate-600"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-300">Awaiting Selection</h3>
+            <p class="text-sm max-w-sm mt-2">Select a job from the feed to view AI insights, salary benchmarks, and direct application pathways.</p>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <!-- TRACKER (KANBAN) VIEW -->
+    <div id="view-tracker" class="hidden animate-fade-in h-[80vh] flex flex-col">
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold text-white">Application Pipeline</h2>
+        <p class="text-sm text-slate-400">Drag and drop jobs to track your progress.</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 overflow-hidden">
+        
+        <!-- Column 1: Saved -->
+        <div class="glass-panel rounded-2xl flex flex-col">
+          <div class="p-4 border-b border-glassBorder bg-slate-900/50 flex items-center justify-between">
+            <span class="font-bold text-white"><i class="fa-regular fa-bookmark text-amber-400 mr-2"></i>Saved</span>
+            <span id="count-saved" class="bg-slate-800 px-2 py-0.5 rounded text-xs">0</span>
+          </div>
+          <div id="kanban-saved" class="flex-1 p-3 overflow-y-auto custom-scroll space-y-3 kanban-col" data-status="saved"></div>
+        </div>
+
+        <!-- Column 2: Applied -->
+        <div class="glass-panel rounded-2xl flex flex-col">
+          <div class="p-4 border-b border-glassBorder bg-slate-900/50 flex items-center justify-between">
+            <span class="font-bold text-white"><i class="fa-solid fa-paper-plane text-primary mr-2"></i>Applied</span>
+            <span id="count-applied" class="bg-slate-800 px-2 py-0.5 rounded text-xs">0</span>
+          </div>
+          <div id="kanban-applied" class="flex-1 p-3 overflow-y-auto custom-scroll space-y-3 kanban-col" data-status="applied"></div>
+        </div>
+
+        <!-- Column 3: Interviewing -->
+        <div class="glass-panel rounded-2xl flex flex-col">
+          <div class="p-4 border-b border-glassBorder bg-slate-900/50 flex items-center justify-between">
+            <span class="font-bold text-white"><i class="fa-solid fa-comments text-emerald-400 mr-2"></i>Interviewing</span>
+            <span id="count-interview" class="bg-slate-800 px-2 py-0.5 rounded text-xs">0</span>
+          </div>
+          <div id="kanban-interview" class="flex-1 p-3 overflow-y-auto custom-scroll space-y-3 kanban-col" data-status="interview"></div>
+        </div>
+
       </div>
     </div>
   </main>
 
-  <!-- Mobile Inspector Modal -->
-  <div id="mobileDetailModal" class="fixed inset-0 bg-slate-900/60 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
-    <div class="bg-white dark:bg-slate-800 w-full sm:max-w-xl max-h-[90vh] rounded-t-2xl sm:rounded-2xl p-6 overflow-y-auto custom-scroll flex flex-col">
-      <div class="flex justify-between items-center mb-4 border-b border-slate-200 dark:border-slate-700 pb-3">
-        <span class="text-sm font-bold uppercase tracking-wider text-slate-400">Position Details</span>
-        <button id="closeModalBtn" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 hover:bg-slate-200">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div id="mobileDetailContent"></div>
-    </div>
-  </div>
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3"></div>
 
   <script>
-    /**
-     * STATE MANAGEMENT ARCHITECTURE
-     */
-    const AppState = {
+    /* =====================================================================
+       1. DATA & STATE MANAGEMENT
+       ===================================================================== */
+    const State = {
       jobs: [],
-      filteredJobs: [],
-      savedJobIds: JSON.parse(localStorage.getItem('omni_saved_jobs') || '[]'),
-      selectedJobId: null,
-      currentPage: 1,
-      pageSize: 8,
-      activeTypeFilter: 'all',
-      showingSavedOnly: false,
-      isFetchingLive: false
+      tracker: JSON.parse(localStorage.getItem('omniTracker')) || [], // Array of { id, status: 'saved'|'applied'|'interview' }
+      activeJobId: null,
+      userSkills: []
     };
 
-    /**
-     * PORTAL INTEGRATION MAPPING ENGINE
-     * Resolves automated deep-linking schemes for all major platforms
-     */
-    const PortalEngine = {
-      manifest: {
-        LinkedIn: {
-          icon: 'fa-brands fa-linkedin text-blue-600',
-          badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800',
-          buildDeepSearch: (q, loc) => `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(q)}&location=${encodeURIComponent(loc)}`
-        },
-        Naukri: {
-          icon: 'fa-solid fa-briefcase text-blue-500',
-          badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border-indigo-800',
-          buildDeepSearch: (q, loc) => `https://www.naukri.com/${encodeURIComponent(q.toLowerCase().replace(/\s+/g, '-'))}-jobs${loc ? `-in-${encodeURIComponent(loc.toLowerCase().replace(/\s+/g, '-'))}` : ''}`
-        },
-        Indeed: {
-          icon: 'fa-solid fa-info text-blue-700',
-          badge: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-900/40 dark:text-sky-300 dark:border-sky-800',
-          buildDeepSearch: (q, loc) => `https://www.indeed.com/jobs?q=${encodeURIComponent(q)}&l=${encodeURIComponent(loc)}`
-        },
-        Glassdoor: {
-          icon: 'fa-solid fa-door-open text-emerald-600',
-          badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-800',
-          buildDeepSearch: (q, loc) => `https://www.glassdoor.com/Job/jobs.htm?sc.keyword=${encodeURIComponent(q)}&locKeyword=${encodeURIComponent(loc)}`
-        },
-        Wellfound: {
-          icon: 'fa-brands fa-angellist text-black dark:text-white',
-          badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/40 dark:text-amber-300 dark:border-amber-800',
-          buildDeepSearch: (q, loc) => `https://wellfound.com/jobs?role=${encodeURIComponent(q)}`
-        },
-        Foundit: {
-          icon: 'fa-solid fa-cube text-purple-600',
-          badge: 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/40 dark:text-purple-300 dark:border-purple-800',
-          buildDeepSearch: (q, loc) => `https://www.foundit.in/srp/results?query=${encodeURIComponent(q)}&locations=${encodeURIComponent(loc)}`
-        },
-        Internshala: {
-          icon: 'fa-solid fa-graduation-cap text-sky-500',
-          badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-900/40 dark:text-cyan-300 dark:border-cyan-800',
-          buildDeepSearch: (q, loc) => `https://internshala.com/jobs/keywords-${encodeURIComponent(q.toLowerCase().replace(/\s+/g, '-'))}/`
-        },
-        Remotive: {
-          icon: 'fa-solid fa-globe text-emerald-500',
-          badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-300 dark:border-emerald-800',
-          buildDeepSearch: (q) => `https://remotive.com/?query=${encodeURIComponent(q)}`
-        },
-        Arbeitnow: {
-          icon: 'fa-solid fa-briefcase text-orange-500',
-          badge: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/40 dark:text-orange-300 dark:border-orange-800',
-          buildDeepSearch: (q) => `https://www.arbeitnow.com/jobs?search=${encodeURIComponent(q)}`
-        }
-      }
+    const Portals = ['LinkedIn', 'Naukri', 'Indeed', 'Wellfound'];
+    const PortalColors = {
+      'LinkedIn': 'text-blue-400', 'Naukri': 'text-indigo-400', 
+      'Indeed': 'text-sky-400', 'Wellfound': 'text-red-400'
     };
 
-    /**
-     * SYNTHETIC INGESTION FALLBACK (Cross-Portal Generator)
-     * Provides comprehensive index representation across all major ecosystems
-     */
-    function generateFederatedJobs(query, location) {
-      const portals = ['LinkedIn', 'Naukri', 'Indeed', 'Wellfound', 'Glassdoor', 'Foundit', 'Internshala'];
-      const levels = ['Junior', 'Mid-Level', 'Senior Lead', 'Staff', 'Associate'];
-      const scopes = ['Remote', location || 'Global', 'Hybrid'];
+    function generateMockData(query, location) {
       const generated = [];
+      const companies = ['TechNova', 'Quantum AI', 'Stripe', 'CloudSync', 'Meta', 'Netflix', 'Apex FinTech'];
+      const allSkills = ['React', 'JavaScript', 'Python', 'Node.js', 'AWS', 'UI/UX', 'Figma', 'TypeScript', 'Docker', 'GraphQL'];
+      
+      for(let i=0; i<15; i++) {
+        const portal = Portals[i % Portals.length];
+        const salaryBase = 70000 + (Math.random() * 80000);
+        
+        // Pick 3-5 random skills
+        const jobSkills = allSkills.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 3) + 3);
 
-      portals.forEach((portal, pIdx) => {
-        for (let i = 1; i <= 3; i++) {
-          const id = `fed_${portal.toLowerCase()}_${i}_${Date.now()}`;
-          const level = levels[(i + pIdx) % levels.length];
-          const scope = scopes[(i + pIdx) % scopes.length];
-          const deepLink = PortalEngine.manifest[portal].buildDeepSearch(query, location);
-
-          generated.push({
-            id: id,
-            title: `${level} ${query}`,
-            company: `${portal} Partner Network Co. #${i}`,
-            location: scope,
-            portal: portal,
-            type: scope === 'Remote' ? 'Remote' : (i % 2 === 0 ? 'Full-Time' : 'Contract'),
-            salary: i % 2 === 0 ? '$85,000 - $130,000 /yr' : '₹12,00,000 - ₹24,00,000 /yr',
-            description: `Aggregated via ${portal} Engine for role: ${query}. Applicants will be routed directly to the native verification portal for candidate pipeline handling and identity verification.`,
-            tags: [query, portal, scope, level],
-            url: deepLink,
-            posted: `${i * 2 + 1} hours ago`,
-            timestamp: Date.now() - (i * 3600000)
-          });
-        }
-      });
+        generated.push({
+          id: `job_${Date.now()}_${i}`,
+          title: `${i%3===0?'Senior ': i%2===0?'Lead ':''}${query}`,
+          company: companies[i % companies.length],
+          location: i%4===0 ? 'Remote' : location,
+          portal: portal,
+          salaryNum: salaryBase,
+          salaryStr: `$${Math.round(salaryBase/1000)}k - $${Math.round((salaryBase+30000)/1000)}k`,
+          skills: jobSkills,
+          description: `We are looking for a highly skilled ${query} to join our core engineering team. You will be responsible for building scalable solutions, collaborating with cross-functional teams, and driving technical excellence. If you are passionate about technology and want to make a global impact, apply via ${portal}.`,
+          posted: `${i * 2 + 1}h ago`,
+          url: `https://www.${portal.toLowerCase()}.com/search?q=${encodeURIComponent(query)}`
+        });
+      }
       return generated;
     }
 
-    /**
-     * LIVE ASYNCHRONOUS API RESOLVER
-     * Fetches public endpoints without server middleware via permissive APIs
-     */
-    async function fetchLivePublicAPIs(query) {
-      const liveAggregations = [];
-
-      // 1. Remotive Open Public API
-      try {
-        const remotiveRes = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(query)}&limit=6`);
-        if (remotiveRes.ok) {
-          const data = await remotiveRes.json();
-          (data.jobs || []).forEach(item => {
-            liveAggregations.push({
-              id: `remotive_${item.id}`,
-              title: item.title,
-              company: item.company_name,
-              location: item.candidate_required_location || 'Remote',
-              portal: 'Remotive',
-              type: item.job_type === 'full_time' ? 'Full-Time' : 'Remote',
-              salary: item.salary || 'Competitive',
-              description: item.description ? item.description.replace(/<[^>]*>?/gm, '').slice(0, 300) + '...' : 'Direct listing from Remotive API.',
-              tags: [item.category || 'Tech', 'Live Feed'],
-              url: item.url,
-              posted: new Date(item.publication_date).toLocaleDateString(),
-              timestamp: new Date(item.publication_date).getTime()
-            });
-          });
+    /* =====================================================================
+       2. AI ENGINE & UTILS
+       ===================================================================== */
+    function calculateAIMatch(jobSkills, userSkills) {
+      if(!userSkills.length) return Math.floor(Math.random() * 30) + 40; // Random baseline if no skills entered
+      
+      const userLower = userSkills.map(s => s.toLowerCase().trim());
+      let matches = 0;
+      jobSkills.forEach(js => {
+        if(userLower.some(us => js.toLowerCase().includes(us) || us.includes(js.toLowerCase()))) {
+          matches++;
         }
-      } catch (err) {
-        console.warn('Live Remotive Endpoint throttled/unavailable:', err);
-      }
-
-      // 2. Arbeitnow API (European & Remote)
-      try {
-        const arbeitRes = await fetch(`https://www.arbeitnow.com/api/job-board-api?search=${encodeURIComponent(query)}`);
-        if (arbeitRes.ok) {
-          const data = await arbeitRes.json();
-          (data.data || []).slice(0, 6).forEach(item => {
-            liveAggregations.push({
-              id: `arbeit_${item.slug}`,
-              title: item.title,
-              company: item.company_name,
-              location: item.location || 'Remote / EU',
-              portal: 'Arbeitnow',
-              type: item.remote ? 'Remote' : 'Full-Time',
-              salary: 'Industry Standard',
-              description: item.description ? item.description.replace(/<[^>]*>?/gm, '').slice(0, 300) + '...' : 'Direct listing from Arbeitnow open feed.',
-              tags: item.tags || ['Tech'],
-              url: item.url,
-              posted: 'Recent',
-              timestamp: item.created_at * 1000 || Date.now()
-            });
-          });
-        }
-      } catch (err) {
-        console.warn('Live Arbeitnow Endpoint throttled/unavailable:', err);
-      }
-
-      return liveAggregations;
+      });
+      
+      // Calculate percentage + add some random "soft skill" buffer so it's not strictly 0%
+      let score = (matches / jobSkills.length) * 100;
+      if (score === 0) score = 15 + Math.random() * 10; 
+      if (score > 100) score = 99;
+      return Math.round(score);
     }
 
-    /**
-     * UNIFIED ENGINE DISPATCHER
-     */
-    async function executeAggregation() {
-      const q = document.getElementById('searchInput').value.trim() || 'Engineer';
-      const loc = document.getElementById('locationInput').value.trim();
-      const selectedPortal = document.getElementById('portalSelector').value;
-
-      renderLoadingState(true);
-      updateLaunchpad(q, loc);
-
-      // Concurrently query public endpoints & generate federated listings
-      const [liveResults] = await Promise.all([
-        fetchLivePublicAPIs(q),
-        new Promise(res => setTimeout(res, 500)) // Micro UX delay
-      ]);
-
-      const federatedResults = generateFederatedJobs(q, loc);
-      let combined = [...liveResults, ...federatedResults];
-
-      // Portal level filter
-      if (selectedPortal !== 'ALL') {
-        combined = combined.filter(j => j.portal.toLowerCase() === selectedPortal.toLowerCase());
-      }
-
-      AppState.jobs = combined;
-      AppState.currentPage = 1;
-      applyFiltersAndSort();
-      renderLoadingState(false);
+    function getMatchColor(score) {
+      if(score >= 75) return '#10b981'; // Green
+      if(score >= 50) return '#f59e0b'; // Yellow
+      return '#ef4444'; // Red
     }
 
-    /**
-     * FILTER, SORT & RENDER PIPELINE
-     */
-    function applyFiltersAndSort() {
-      let result = [...AppState.jobs];
-
-      // Saved state view toggle
-      if (AppState.showingSavedOnly) {
-        result = result.filter(j => AppState.savedJobIds.includes(j.id));
-      }
-
-      // Employment type filter
-      if (AppState.activeTypeFilter !== 'all') {
-        result = result.filter(j => j.type.toLowerCase().includes(AppState.activeTypeFilter.toLowerCase()));
-      }
-
-      // Sort order
-      const sort = document.getElementById('sortOrder').value;
-      if (sort === 'title') {
-        result.sort((a, b) => a.title.localeCompare(b.title));
-      } else if (sort === 'portal') {
-        result.sort((a, b) => a.portal.localeCompare(b.portal));
-      } else {
-        result.sort((a, b) => b.timestamp - a.timestamp);
-      }
-
-      AppState.filteredJobs = result;
-      renderJobsFeed();
+    function formatSalaryBar(salary) {
+      const min = 50000; const max = 180000;
+      const pct = Math.min(100, Math.max(0, ((salary - min) / (max - min)) * 100));
+      let status = salary > 120000 ? 'Above Market' : salary > 80000 ? 'Market Average' : 'Entry Level';
+      return { pct, status };
     }
 
-    function renderJobsFeed() {
-      const container = document.getElementById('jobsList');
-      const countLabel = document.getElementById('resultsCountLabel');
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      const icon = type === 'success' ? 'fa-check-circle text-green-400' : 'fa-info-circle text-blue-400';
+      
+      toast.className = `glass-panel px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 toast-enter min-w-[250px] border-l-4 ${type==='success'?'border-l-green-500':'border-l-blue-500'}`;
+      toast.innerHTML = `<i class="fa-solid ${icon} text-lg"></i><span class="text-sm font-semibold text-white">${message}</span>`;
+      
+      container.appendChild(toast);
+      
+      // Animate in
+      setTimeout(() => toast.classList.add('toast-active'), 10);
+      
+      // Remove after 3s
+      setTimeout(() => {
+        toast.classList.remove('toast-active');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    /* =====================================================================
+       3. DOM RENDERING
+       ===================================================================== */
+    function renderSkeletons() {
+      const container = document.getElementById('feedList');
+      container.innerHTML = '';
+      for(let i=0; i<5; i++) {
+        container.innerHTML += `
+          <div class="bg-slate-800/30 p-4 rounded-xl border border-slate-700/50 animate-pulse flex gap-4">
+            <div class="w-12 h-12 bg-slate-700/50 rounded-full shrink-0"></div>
+            <div class="flex-1 space-y-3 py-1">
+              <div class="h-4 bg-slate-700/50 rounded w-3/4"></div>
+              <div class="h-3 bg-slate-700/50 rounded w-1/2"></div>
+              <div class="flex gap-2"><div class="h-6 w-16 bg-slate-700/50 rounded-full"></div></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function renderFeed() {
+      const container = document.getElementById('feedList');
+      document.getElementById('jobCount').innerText = State.jobs.length;
       container.innerHTML = '';
 
-      countLabel.textContent = `Showing ${AppState.filteredJobs.length} aggregations`;
-
-      if (AppState.filteredJobs.length === 0) {
-        container.innerHTML = `
-          <div class="bg-white dark:bg-slate-800 p-8 text-center rounded-xl border border-slate-200 dark:border-slate-700">
-            <i class="fa-solid fa-filter-circle-xmark text-4xl text-slate-400 mb-3"></i>
-            <p class="font-bold text-slate-700 dark:text-slate-300">No jobs match your parameters</p>
-            <p class="text-xs text-slate-500 mt-1">Try expanding your location or clearing active filters.</p>
-          </div>
-        `;
-        renderPagination(0);
-        return;
+      // Sorting
+      const sortType = document.getElementById('sortEngine').value;
+      if (sortType === 'match') {
+        State.jobs.sort((a, b) => b.matchScore - a.matchScore);
+      } else {
+        State.jobs.sort((a, b) => b.id.localeCompare(a.id)); // Mock newest
       }
 
-      // Pagination slice
-      const startIdx = (AppState.currentPage - 1) * AppState.pageSize;
-      const paginatedItems = AppState.filteredJobs.slice(startIdx, startIdx + AppState.pageSize);
-
-      paginatedItems.forEach(job => {
-        const portalMeta = PortalEngine.manifest[job.portal] || {
-          icon: 'fa-solid fa-briefcase',
-          badge: 'bg-slate-100 text-slate-700 border-slate-200'
-        };
-        const isSaved = AppState.savedJobIds.includes(job.id);
-        const isSelected = AppState.selectedJobId === job.id;
-
+      State.jobs.forEach((job, index) => {
+        const isSelected = State.activeJobId === job.id;
+        const color = getMatchColor(job.matchScore);
+        
         const card = document.createElement('div');
-        card.className = `p-4 rounded-xl border transition cursor-pointer flex flex-col gap-2 ${
-          isSelected 
-            ? 'bg-blue-50/50 dark:bg-slate-700/80 border-brand-500 dark:border-brand-400 ring-1 ring-brand-500' 
-            : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
-        }`;
+        card.className = `p-4 rounded-xl border transition-all duration-300 cursor-pointer flex gap-4 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 ${isSelected ? 'bg-primary/10 border-primary shadow-lg shadow-primary/20' : 'bg-slate-900/40 border-glassBorder hover:border-slate-600'}`;
+        card.style.animationDelay = `${index * 50}ms`;
+        card.classList.add('animate-slide-up');
 
         card.innerHTML = `
-          <div class="flex items-start justify-between gap-2">
-            <div>
-              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-semibold border ${portalMeta.badge}">
-                <i class="${portalMeta.icon} text-[10px]"></i>
-                ${job.portal}
-              </span>
-              <h4 class="font-bold text-base text-slate-900 dark:text-white mt-1 leading-snug hover:text-brand-600">${job.title}</h4>
-              <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">${job.company} • ${job.location}</p>
+          <!-- Circular Match Score -->
+          <div class="shrink-0 flex flex-col items-center justify-center w-14">
+            <div class="relative w-12 h-12">
+              <svg viewBox="0 0 36 36" class="circular-chart w-full h-full">
+                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="circle" stroke="${color}" stroke-dasharray="${job.matchScore}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white">${job.matchScore}%</div>
             </div>
-            <button class="save-job-btn text-slate-400 hover:text-amber-500 p-1 transition" data-id="${job.id}">
-              <i class="${isSaved ? 'fa-solid fa-bookmark text-amber-500' : 'fa-regular fa-bookmark'}"></i>
-            </button>
+            <span class="text-[9px] text-slate-500 font-bold uppercase mt-1">Match</span>
           </div>
-
-          <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-700/50 mt-1">
-            <span class="font-medium text-slate-700 dark:text-slate-300"><i class="fa-solid fa-coins mr-1 text-slate-400"></i>${job.salary}</span>
-            <span class="text-[11px]"><i class="fa-regular fa-clock mr-1"></i>${job.posted}</span>
+          
+          <!-- Job Info -->
+          <div class="flex-1 min-w-0">
+            <div class="flex justify-between items-start">
+              <h4 class="font-bold text-white truncate text-base">${job.title}</h4>
+              <span class="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded border border-slate-700 whitespace-nowrap ml-2">${job.posted}</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">${job.company} &bull; ${job.location}</p>
+            
+            <div class="mt-3 flex items-center justify-between">
+              <div class="flex gap-1.5 overflow-x-auto custom-scroll pb-1">
+                ${job.skills.slice(0,3).map(s => `<span class="bg-primary/20 text-primary border border-primary/30 text-[10px] px-2 py-0.5 rounded-full whitespace-nowrap">${s}</span>`).join('')}
+              </div>
+              <i class="fa-brands fa-${job.portal.toLowerCase()} ${PortalColors[job.portal]} text-sm" title="${job.portal}"></i>
+            </div>
           </div>
         `;
-
-        card.addEventListener('click', (e) => {
-          if (e.target.closest('.save-job-btn')) return;
-          selectJob(job.id);
-        });
-
+        
+        card.onclick = () => renderDetail(job);
         container.appendChild(card);
       });
-
-      renderPagination(AppState.filteredJobs.length);
       
-      // Auto-select first item if on desktop and nothing selected
-      if (window.innerWidth >= 1024 && !AppState.selectedJobId && paginatedItems.length > 0) {
-        selectJob(paginatedItems[0].id);
+      // Auto-select first job if desktop
+      if(window.innerWidth >= 1024 && State.jobs.length > 0 && !State.activeJobId) {
+        renderDetail(State.jobs[0]);
       }
     }
 
-    /**
-     * SELECTION & INSPECTOR RENDERING
-     */
-    function selectJob(id) {
-      AppState.selectedJobId = id;
-      const job = AppState.jobs.find(j => j.id === id);
-      if (!job) return;
+    function renderDetail(job) {
+      State.activeJobId = job.id;
+      renderFeed(); // Re-render to update selected state UI
+      
+      const pane = document.getElementById('detailPane');
+      const salaryInfo = formatSalaryBar(job.salaryNum);
+      const isTracked = State.tracker.find(t => t.id === job.id);
+      const btnText = isTracked ? 'In Tracker' : 'Add to Tracker';
+      const btnClass = isTracked ? 'bg-slate-700 text-slate-300 cursor-not-allowed' : 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 hover:border-slate-500';
 
-      const portalMeta = PortalEngine.manifest[job.portal] || {
-        badge: 'bg-slate-100 text-slate-800 border-slate-200',
-        icon: 'fa-solid fa-globe'
-      };
-
-      const isSaved = AppState.savedJobIds.includes(job.id);
-
-      const htmlContent = `
-        <div class="flex flex-col h-full justify-between space-y-6">
-          <div class="space-y-4">
-            <div class="flex items-start justify-between">
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold border ${portalMeta.badge}">
-                <i class="${portalMeta.icon}"></i> Source Portal: ${job.portal}
-              </span>
-              <button onclick="toggleSave('${job.id}')" class="text-slate-400 hover:text-amber-500 text-sm flex items-center gap-1">
-                <i class="${isSaved ? 'fa-solid fa-bookmark text-amber-500' : 'fa-regular fa-bookmark'}"></i>
-                <span>${isSaved ? 'Saved' : 'Save'}</span>
+      pane.innerHTML = `
+        <div class="w-full h-full flex flex-col animate-fade-in text-left">
+          
+          <!-- Header -->
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="bg-slate-800 border border-slate-700 text-xs px-2 py-1 rounded-md text-slate-300 flex items-center gap-1">
+                  <i class="fa-brands fa-${job.portal.toLowerCase()} ${PortalColors[job.portal]}"></i> ${job.portal}
+                </span>
+                <span class="bg-primary/10 border border-primary/30 text-primary text-xs px-2 py-1 rounded-md font-semibold">
+                  <i class="fa-solid fa-robot mr-1"></i> ${job.matchScore}% Match
+                </span>
+              </div>
+              <h2 class="text-3xl font-extrabold text-white leading-tight">${job.title}</h2>
+              <p class="text-lg text-slate-400 font-medium mt-1">${job.company} &bull; <i class="fa-solid fa-location-dot text-sm ml-1"></i> ${job.location}</p>
+            </div>
+            
+            <div class="flex gap-2">
+              <button onclick="shareJob('${job.url}')" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 transition border border-slate-700">
+                <i class="fa-solid fa-link"></i>
               </button>
-            </div>
-
-            <div>
-              <h2 class="text-2xl font-black text-slate-900 dark:text-white leading-tight">${job.title}</h2>
-              <p class="text-sm font-semibold text-brand-600 dark:text-brand-400 mt-1">${job.company}</p>
-              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5"><i class="fa-solid fa-location-dot mr-1"></i>${job.location} • ${job.type}</p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 py-3 border-y border-slate-100 dark:border-slate-700 text-xs">
-              <div>
-                <span class="block text-slate-400 font-bold">Estimated Compensation</span>
-                <span class="text-slate-700 dark:text-slate-200 font-semibold">${job.salary}</span>
-              </div>
-              <div>
-                <span class="block text-slate-400 font-bold">Posted</span>
-                <span class="text-slate-700 dark:text-slate-200 font-semibold">${job.posted}</span>
-              </div>
-            </div>
-
-            <div>
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Specifications & Context</h3>
-              <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${job.description}</p>
-            </div>
-
-            <div>
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Detected Skill Tags</h3>
-              <div class="flex flex-wrap gap-1.5">
-                ${job.tags.map(t => `<span class="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-2 py-0.5 rounded font-medium">${t}</span>`).join('')}
-              </div>
+              <button onclick="addToTracker('${job.id}')" class="px-4 h-10 rounded-xl ${btnClass} font-semibold transition text-sm shadow-sm" ${isTracked ? 'disabled' : ''}>
+                <i class="fa-solid fa-layer-group mr-1.5"></i> ${btnText}
+              </button>
             </div>
           </div>
 
-          <div class="border-t border-slate-100 dark:border-slate-700 pt-4 mt-auto">
-            <div class="flex flex-col sm:flex-row gap-3">
-              <a href="${job.url}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-4 rounded-xl text-center text-sm transition flex items-center justify-center gap-2 shadow">
-                <span>Apply on ${job.portal}</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-              </a>
-              <button onclick="shareListing('${job.title}', '${job.url}')" class="px-4 py-3 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl text-sm font-semibold transition" title="Share">
-                <i class="fa-solid fa-share-nodes"></i>
-              </button>
+          <!-- Salary Benchmark UI -->
+          <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5 mb-6">
+            <div class="flex justify-between items-end mb-3">
+              <div>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Estimated Compensation</p>
+                <p class="text-2xl font-bold text-green-400">${job.salaryStr}</p>
+              </div>
+              <span class="text-xs font-semibold bg-slate-800 text-slate-300 px-2 py-1 rounded">${salaryInfo.status}</span>
             </div>
-            <p class="text-[11px] text-slate-400 text-center mt-2">Aggregated directly from index listings. No middlemen or recruiter markups.</p>
+            <!-- Gauge -->
+            <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden flex">
+              <div class="h-full bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 rounded-full relative" style="width: 100%">
+                <div class="absolute top-0 bottom-0 w-1.5 bg-white shadow-[0_0_8px_white]" style="left: ${salaryInfo.pct}%; transform: translateX(-50%);"></div>
+              </div>
+            </div>
+            <div class="flex justify-between text-[10px] text-slate-500 mt-1 font-medium">
+              <span>$50k</span><span>Market Average</span><span>$180k+</span>
+            </div>
+          </div>
+
+          <!-- Description & Skills -->
+          <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-6">
+            <div>
+              <h3 class="text-sm font-bold text-white border-b border-slate-800 pb-2 mb-3">Required Technical Stack</h3>
+              <div class="flex flex-wrap gap-2">
+                ${job.skills.map(s => {
+                  const isMatched = State.userSkills.some(us => s.toLowerCase().includes(us.toLowerCase()) || us.toLowerCase().includes(s.toLowerCase()));
+                  return `<span class="${isMatched ? 'bg-primary/20 text-primary border-primary/40 shadow-[0_0_10px_rgba(99,102,241,0.2)]' : 'bg-slate-800 text-slate-400 border-slate-700'} border text-xs px-3 py-1.5 rounded-lg font-medium flex items-center gap-1.5">
+                    ${isMatched ? '<i class="fa-solid fa-check text-[10px]"></i>' : ''} ${s}
+                  </span>`;
+                }).join('')}
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-bold text-white border-b border-slate-800 pb-2 mb-3">Role Overview</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">${job.description}</p>
+            </div>
+          </div>
+
+          <!-- Footer Actions -->
+          <div class="pt-5 border-t border-glassBorder mt-auto">
+            <a href="${job.url}" target="_blank" class="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+              Apply via ${job.portal} <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1"></i>
+            </a>
           </div>
         </div>
       `;
-
-      // Update Desktop View
-      const desktopCard = document.getElementById('jobDetailCard');
-      desktopCard.innerHTML = htmlContent;
-
-      // Update & Toggle Mobile Modal if screen width is narrow
-      if (window.innerWidth < 1024) {
-        document.getElementById('mobileDetailContent').innerHTML = htmlContent;
-        document.getElementById('mobileDetailModal').classList.remove('hidden');
-      }
-
-      // Re-render feed highlighting
-      renderJobsFeed();
     }
 
-    /**
-     * PAGINATION CONTROLLER
-     */
-    function renderPagination(totalItems) {
-      const totalPages = Math.ceil(totalItems / AppState.pageSize) || 1;
-      document.getElementById('pageIndicator').textContent = `Page ${AppState.currentPage} of ${totalPages}`;
-      document.getElementById('prevPageBtn').disabled = AppState.currentPage <= 1;
-      document.getElementById('nextPageBtn').disabled = AppState.currentPage >= totalPages;
-    }
-
-    /**
-     * DIRECT SEARCH LAUNCHPAD BUILDER
-     */
-    function updateLaunchpad(query, location) {
-      const container = document.getElementById('quickLaunchPad');
-      container.innerHTML = '';
-
-      Object.entries(PortalEngine.manifest).forEach(([portal, data]) => {
-        const link = document.createElement('a');
-        link.href = data.buildDeepSearch(query, location);
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.className = 'px-2 py-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded text-slate-600 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 transition flex items-center gap-1.5 font-medium shadow-2xs';
-        link.innerHTML = `<i class="${data.icon}"></i> ${portal}`;
-        container.appendChild(link);
-      });
-    }
-
-    /**
-     * BOOKMARKING & PERSISTENCE
-     */
-    window.toggleSave = function(id) {
-      const index = AppState.savedJobIds.indexOf(id);
-      if (index > -1) {
-        AppState.savedJobIds.splice(index, 1);
-      } else {
-        AppState.savedJobIds.push(id);
-      }
-      localStorage.setItem('omni_saved_jobs', JSON.stringify(AppState.savedJobIds));
-      updateSavedBadge();
-      applyFiltersAndSort();
-      if (AppState.selectedJobId === id) {
-        selectJob(id);
+    /* =====================================================================
+       4. KANBAN TRACKER LOGIC
+       ===================================================================== */
+    window.addToTracker = function(id) {
+      if(!State.tracker.find(t => t.id === id)) {
+        State.tracker.push({ id, status: 'saved' });
+        localStorage.setItem('omniTracker', JSON.stringify(State.tracker));
+        showToast('Added to Tracker', 'success');
+        renderDetail(State.jobs.find(j => j.id === id)); // Re-render button
+        renderKanban();
       }
     };
 
-    function updateSavedBadge() {
-      document.getElementById('savedCountBadge').textContent = AppState.savedJobIds.length;
-    }
-
-    window.shareListing = function(title, url) {
-      if (navigator.share) {
-        navigator.share({ title: title, url: url }).catch(() => {});
-      } else {
-        navigator.clipboard.writeText(url);
-        alert('Job portal application URL copied to clipboard!');
-      }
+    window.shareJob = function(url) {
+      navigator.clipboard.writeText(url);
+      showToast('Link copied to clipboard!', 'info');
     };
 
-    function renderLoadingState(isLoading) {
-      const list = document.getElementById('jobsList');
-      if (isLoading) {
-        list.innerHTML = `
-          <div class="py-16 flex flex-col items-center justify-center text-center space-y-3">
-            <div class="w-8 h-8 border-4 border-brand-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Scanning Portal Indexes & Live APIs...</p>
+    function renderKanban() {
+      const cols = { saved: document.getElementById('kanban-saved'), applied: document.getElementById('kanban-applied'), interview: document.getElementById('kanban-interview') };
+      const counts = { saved: 0, applied: 0, interview: 0 };
+      
+      Object.values(cols).forEach(c => c.innerHTML = '');
+
+      State.tracker.forEach(item => {
+        // Find job info (in a real app, you'd fetch this from DB, here we look in current jobs or mock it)
+        let job = State.jobs.find(j => j.id === item.id);
+        if(!job) {
+          // Recreate dummy for visual purposes if refreshed
+          job = { id: item.id, title: 'Tracked Position', company: 'External Co', location: 'Unknown', portal: 'Web', salaryStr: 'Market' };
+        }
+
+        counts[item.status]++;
+        
+        const card = document.createElement('div');
+        card.className = "bg-slate-800/80 border border-slate-700 p-3 rounded-xl shadow-sm cursor-grab active:cursor-grabbing hover:border-slate-500 transition group";
+        card.draggable = true;
+        card.dataset.id = item.id;
+        
+        card.innerHTML = `
+          <h4 class="font-bold text-sm text-white mb-1 truncate">${job.title}</h4>
+          <p class="text-[10px] text-slate-400">${job.company}</p>
+          <div class="flex justify-between items-center mt-3 pt-2 border-t border-slate-700/50">
+            <span class="text-[10px] font-semibold text-primary">${job.salaryStr}</span>
+            <button onclick="removeFromTracker('${item.id}')" class="text-slate-500 hover:text-red-400 transition opacity-0 group-hover:opacity-100"><i class="fa-solid fa-trash-can"></i></button>
           </div>
         `;
-      }
+        
+        // Drag events
+        card.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', item.id);
+          card.classList.add('opacity-50');
+        });
+        card.addEventListener('dragend', () => card.classList.remove('opacity-50'));
+
+        cols[item.status].appendChild(card);
+      });
+
+      document.getElementById('count-saved').innerText = counts.saved;
+      document.getElementById('count-applied').innerText = counts.applied;
+      document.getElementById('count-interview').innerText = counts.interview;
     }
 
-    /**
-     * EVENT ATTACHMENTS & INITIALIZATION
-     */
+    window.removeFromTracker = function(id) {
+      State.tracker = State.tracker.filter(t => t.id !== id);
+      localStorage.setItem('omniTracker', JSON.stringify(State.tracker));
+      renderKanban();
+      if(State.activeJobId === id) renderDetail(State.jobs.find(j => j.id === id));
+      showToast('Removed from Tracker', 'info');
+    };
+
+    /* =====================================================================
+       5. INITIALIZATION & EVENT LISTENERS
+       ===================================================================== */
     document.addEventListener('DOMContentLoaded', () => {
-      updateSavedBadge();
-      executeAggregation();
+      
+      // Tabs
+      const btnDiscover = document.getElementById('tab-discover');
+      const btnTracker = document.getElementById('tab-tracker');
+      const viewDiscover = document.getElementById('view-discover');
+      const viewTracker = document.getElementById('view-tracker');
 
-      // Form Search
-      document.getElementById('searchEngineForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        AppState.showingSavedOnly = false;
-        executeAggregation();
-      });
+      btnDiscover.onclick = () => {
+        btnDiscover.className = 'px-5 py-2 rounded-full text-sm font-semibold bg-white text-slate-900 shadow-sm transition';
+        btnTracker.className = 'px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white transition';
+        viewDiscover.classList.remove('hidden');
+        viewTracker.classList.add('hidden');
+      };
+      
+      btnTracker.onclick = () => {
+        btnTracker.className = 'px-5 py-2 rounded-full text-sm font-semibold bg-white text-slate-900 shadow-sm transition';
+        btnDiscover.className = 'px-5 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white transition';
+        viewTracker.classList.remove('hidden');
+        viewDiscover.classList.add('hidden');
+        renderKanban(); // ensure fresh render
+      };
 
-      // Quick Reset
-      document.getElementById('refreshBtn').addEventListener('click', () => {
-        AppState.showingSavedOnly = false;
-        executeAggregation();
-      });
+      // Search Action
+      document.getElementById('btn-search').onclick = () => {
+        const query = document.getElementById('aiQuery').value || 'Developer';
+        const location = document.getElementById('aiLocation').value || 'Remote';
+        
+        // Parse skills
+        const skillsInput = document.getElementById('aiSkills').value;
+        State.userSkills = skillsInput.split(',').map(s => s.trim()).filter(s => s);
 
-      // Toggle Bookmark Filter View
-      document.getElementById('viewSavedBtn').addEventListener('click', () => {
-        AppState.showingSavedOnly = !AppState.showingSavedOnly;
-        document.getElementById('viewSavedBtn').classList.toggle('text-brand-600');
-        applyFiltersAndSort();
-      });
-
-      // Sorting
-      document.getElementById('sortOrder').addEventListener('change', applyFiltersAndSort);
-
-      // Pagination Events
-      document.getElementById('prevPageBtn').addEventListener('click', () => {
-        if (AppState.currentPage > 1) {
-          AppState.currentPage--;
-          renderJobsFeed();
-        }
-      });
-      document.getElementById('nextPageBtn').addEventListener('click', () => {
-        const maxPages = Math.ceil(AppState.filteredJobs.length / AppState.pageSize);
-        if (AppState.currentPage < maxPages) {
-          AppState.currentPage++;
-          renderJobsFeed();
-        }
-      });
-
-      // Filter Buttons
-      document.querySelectorAll('.filter-type-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.filter-type-btn').forEach(b => {
-            b.classList.remove('bg-brand-50', 'dark:bg-slate-700', 'text-brand-600', 'dark:text-brand-300', 'border-brand-200');
-            b.classList.add('border-transparent');
+        renderSkeletons();
+        State.activeJobId = null;
+        
+        // Simulate network delay
+        setTimeout(() => {
+          State.jobs = generateMockData(query, location);
+          
+          // Calculate Match Scores
+          State.jobs.forEach(job => {
+            job.matchScore = calculateAIMatch(job.skills, State.userSkills);
           });
-          btn.classList.add('bg-brand-50', 'dark:bg-slate-700', 'text-brand-600', 'dark:text-brand-300', 'border-brand-200');
-          AppState.activeTypeFilter = btn.dataset.type;
-          AppState.currentPage = 1;
-          applyFiltersAndSort();
+          
+          renderFeed();
+          showToast('Search completed using AI matching.', 'success');
+        }, 1200);
+      };
+
+      // Sort Action
+      document.getElementById('sortEngine').onchange = renderFeed;
+
+      // Kanban Drag & Drop Areas
+      document.querySelectorAll('.kanban-col').forEach(col => {
+        col.addEventListener('dragover', e => {
+          e.preventDefault(); // Necessary to allow dropping
+          col.parentElement.classList.add('drag-over');
+        });
+        col.addEventListener('dragleave', () => {
+          col.parentElement.classList.remove('drag-over');
+        });
+        col.addEventListener('drop', e => {
+          e.preventDefault();
+          col.parentElement.classList.remove('drag-over');
+          const id = e.dataTransfer.getData('text/plain');
+          const newStatus = col.dataset.status;
+          
+          const trackerItem = State.tracker.find(t => t.id === id);
+          if(trackerItem && trackerItem.status !== newStatus) {
+            trackerItem.status = newStatus;
+            localStorage.setItem('omniTracker', JSON.stringify(State.tracker));
+            renderKanban();
+          }
         });
       });
 
-      // Close Mobile Modal
-      document.getElementById('closeModalBtn').addEventListener('click', () => {
-        document.getElementById('mobileDetailModal').classList.add('hidden');
-      });
-
-      // Theme Toggle Persistence
-      const themeToggle = document.getElementById('themeToggle');
-      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      }
-      themeToggle.addEventListener('click', () => {
-        document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-      });
-
-      // Delegate Bookmark click in feeds
-      document.getElementById('jobsList').addEventListener('click', (e) => {
-        const btn = e.target.closest('.save-job-btn');
-        if (btn) {
-          toggleSave(btn.dataset.id);
-        }
-      });
+      // Initial Load
+      document.getElementById('btn-search').click();
+      renderKanban();
     });
   </script>
 </body>
