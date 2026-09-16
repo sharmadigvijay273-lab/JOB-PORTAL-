@@ -2,16 +2,22 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>OneJob.IND | Automated Deployment Terminal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>OneJob | Native App Experience</title>
   
-  <!-- Fonts: Inter for UI, JetBrains Mono for Terminal Data -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -19,18 +25,15 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
           colors: {
-            appBg: '#050505', panelBg: '#0f0f11', panelHover: '#18181b', border: '#27272a',
-            primary: '#0ea5e9', primaryDark: '#0284c7', textMain: '#f4f4f5', textMuted: '#a1a1aa',
-            success: '#10b981', warning: '#f59e0b'
-          },
-          animation: {
-            'blink': 'blink 1s step-end infinite',
-            'scan': 'scan 2.5s linear infinite',
-            'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-          },
-          keyframes: {
-            blink: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0' } },
-            scan: { '0%': { transform: 'translateY(-100%)' }, '100%': { transform: 'translateY(100%)' } }
+            appBg: '#000000',      /* True OLED Black */
+            surface: '#1C1C1E',    /* iOS Dark Mode Gray */
+            surfaceHover: '#2C2C2E',
+            border: '#38383A',     /* Subtle divider */
+            primary: '#0A84FF',    /* iOS System Blue */
+            textMain: '#FFFFFF',
+            textMuted: '#EBEBF5',  /* iOS Secondary Label */
+            textSubtle: '#8E8E93',
+            success: '#30D158'
           }
         }
       }
@@ -38,285 +41,271 @@
   </script>
 
   <style>
-    body { background-color: #050505; color: #f4f4f5; overflow: hidden; }
+    body { background-color: #000000; color: #FFFFFF; overflow: hidden; -webkit-tap-highlight-color: transparent; }
     
-    body::before {
-      content: ""; position: absolute; inset: 0; z-index: -1;
-      background-size: 30px 30px;
-      background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
-    }
+    /* Native App Scrollbars (Hidden on mobile, subtle on desktop) */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #38383A; border-radius: 10px; }
+    @media (max-width: 1024px) { ::-webkit-scrollbar { display: none; } }
 
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: #050505; }
-    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 0; }
-    ::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
-
-    .tech-input { background: #050505; border: 1px solid #27272a; color: #f4f4f5; transition: all 0.2s; }
-    .tech-input:focus { border-color: #0ea5e9; box-shadow: 0 0 10px rgba(14, 165, 233, 0.15); outline: none; }
-    .tech-panel { background: #0f0f11; border: 1px solid #27272a; }
+    /* Native App Inputs */
+    .app-input { background: #1C1C1E; color: #FFFFFF; transition: background 0.2s; }
+    .app-input:focus { background: #2C2C2E; outline: none; }
     
-    .data-row { border-bottom: 1px solid #27272a; transition: background 0.15s; cursor: pointer; }
-    .data-row:hover { background: #18181b; }
-    .data-row.active { background: rgba(14, 165, 233, 0.05); border-left: 2px solid #0ea5e9; }
+    /* Frosted Glass Navbars */
+    .glass-nav { background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    
+    /* iOS Bottom Sheet Animation */
+    .bottom-sheet { transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+    .bottom-sheet.open { transform: translateY(0); }
 
-    .job-desc-html { font-size: 0.85rem; line-height: 1.6; color: #d4d4d8; font-weight: 300; }
-    .job-desc-html h1, .job-desc-html h2, .job-desc-html h3 { font-size: 1rem; font-weight: 600; color: #fff; margin: 1.2rem 0 0.5rem 0; }
-    .job-desc-html ul { list-style: none; padding-left: 0; margin-bottom: 1rem; }
-    .job-desc-html li { position: relative; padding-left: 1rem; margin-bottom: 0.4rem; }
-    .job-desc-html li::before { content: "›"; position: absolute; left: 0; color: #0ea5e9; font-weight: bold; }
+    /* Touch Feedback */
+    .active-scale:active { transform: scale(0.97); transition: transform 0.1s; }
 
-    .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    /* Safe Area Insets for Modern Phones (Notches/Home Bars) */
+    .pt-safe { padding-top: env(safe-area-inset-top); }
+    .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 60px); } 
+    .pb-nav-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+    /* HTML Formatting for Jobs */
+    .job-desc-html { font-size: 0.95rem; line-height: 1.5; color: #EBEBF5; }
+    .job-desc-html h1, .job-desc-html h2, .job-desc-html h3 { font-size: 1.1rem; font-weight: 600; color: #FFF; margin: 1.2rem 0 0.5rem 0; }
+    .job-desc-html ul { padding-left: 1rem; margin-bottom: 1rem; list-style-type: disc; }
+    .job-desc-html li { margin-bottom: 0.5rem; }
   </style>
 </head>
-<body class="flex h-screen w-screen">
+<body class="flex flex-col h-[100dvh] w-screen antialiased">
 
-  <!-- ================= SIDEBAR ================= -->
-  <aside class="hidden lg:flex flex-col w-64 tech-panel h-full border-r border-border relative z-20">
-    <div class="h-16 flex items-center px-6 border-b border-border">
-      <div class="flex items-center gap-3">
-        <i class="fa-solid fa-server text-primary"></i>
-        <div>
-          <h1 class="text-sm font-bold tracking-widest uppercase">OneJob<span class="text-primary">.IND</span></h1>
-          <p class="text-[9px] font-mono text-textMuted uppercase tracking-widest">Auto-Deploy Node</p>
-        </div>
-      </div>
-    </div>
-
-    <nav class="flex-1 overflow-y-auto custom-scroll py-4 px-3 space-y-1">
-      <p class="px-3 text-[10px] font-mono text-textMuted uppercase tracking-widest mb-2">Modules</p>
-      <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded text-sm font-medium text-textMuted hover:text-textMain hover:bg-panelHover border border-transparent transition-all">
-        <i class="fa-solid fa-id-card w-4"></i> Profile Matrix
-      </button>
-      <button onclick="switchTab('discover')" id="nav-discover" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded text-sm font-medium bg-primary/10 text-primary border border-primary/20 transition-all">
-        <i class="fa-solid fa-radar w-4"></i> Data Pipeline
-      </button>
-      <button onclick="switchTab('tracker')" id="nav-tracker" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded text-sm font-medium text-textMuted hover:text-textMain hover:bg-panelHover border border-transparent transition-all">
-        <i class="fa-solid fa-bars-progress w-4"></i> Lifecycle Tracker
-      </button>
-    </nav>
-
-    <!-- Dynamic User Status -->
-    <div class="p-4 border-t border-border bg-appBg cursor-pointer hover:bg-panelHover transition" onclick="switchTab('profile')">
-      <div class="flex items-center gap-3">
-        <img id="sidebarAvatar" src="" class="w-9 h-9 rounded border border-border">
-        <div class="flex-1 min-w-0">
-          <p id="sidebarName" class="text-xs font-semibold text-textMain truncate">Loading...</p>
-          <div class="flex items-center gap-1.5 mt-0.5">
-            <div class="w-1.5 h-1.5 rounded-full bg-success shadow-[0_0_5px_#10b981]"></div>
-            <p class="text-[9px] font-mono text-success uppercase">Auth Valid</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ================= MOBILE HEADER & NAV ================= -->
-  <div class="lg:hidden fixed top-0 left-0 right-0 h-14 tech-panel border-b border-border z-40 flex items-center justify-between px-4">
-    <div class="flex items-center gap-2"><i class="fa-solid fa-server text-primary"></i><h1 class="text-sm font-bold uppercase">OneJob<span class="text-primary">.IND</span></h1></div>
-    <img id="mobileAvatar" src="" class="w-7 h-7 rounded border border-border" onclick="switchTab('profile')">
-  </div>
-
-  <div class="lg:hidden fixed bottom-0 left-0 right-0 tech-panel border-t border-border z-40 flex justify-around p-1 pb-safe shadow-2xl bg-panelBg">
-    <button onclick="switchTab('profile')" id="mob-profile" class="mob-nav-btn w-full py-2 flex flex-col items-center gap-1 text-textMuted hover:text-textMain"><i class="fa-solid fa-id-card"></i><span class="text-[9px] font-mono uppercase">Profile</span></button>
-    <button onclick="switchTab('discover')" id="mob-discover" class="mob-nav-btn w-full py-2 flex flex-col items-center gap-1 text-primary"><i class="fa-solid fa-radar"></i><span class="text-[9px] font-mono uppercase">Pipeline</span></button>
-    <button onclick="switchTab('tracker')" id="mob-tracker" class="mob-nav-btn w-full py-2 flex flex-col items-center gap-1 text-textMuted hover:text-textMain"><i class="fa-solid fa-bars-progress"></i><span class="text-[9px] font-mono uppercase">Tracker</span></button>
-  </div>
-
-  <main class="flex-1 flex flex-col h-screen overflow-hidden pt-14 lg:pt-0 relative z-10">
-    
-    <!-- === VIEW: DYNAMIC PROFILE MATRIX (USER FORM) === -->
-    <div id="view-profile" class="view-section hidden flex-1 flex-col overflow-y-auto custom-scroll animate-fade-in p-6 lg:p-10">
-      <div class="max-w-3xl mx-auto w-full">
-        <h2 class="text-xl font-mono uppercase tracking-widest text-textMain mb-2">User Profile Matrix</h2>
-        <p class="text-xs text-textMuted mb-8">Configure your details below. This dynamic matrix powers the AI Auto-Suggest matching engine and populates the Auto-Deploy Bot variables.</p>
-        
-        <div class="tech-panel rounded p-6 space-y-5">
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label class="text-[10px] font-mono uppercase text-textMuted mb-1.5 block">Full Name</label>
-              <input type="text" id="profileName" class="tech-input w-full rounded px-4 py-2.5 text-sm" placeholder="e.g. John Doe">
-            </div>
-            <div>
-              <label class="text-[10px] font-mono uppercase text-textMuted mb-1.5 block">Target/Current Role</label>
-              <input type="text" id="profileRole" class="tech-input w-full rounded px-4 py-2.5 text-sm" placeholder="e.g. Software Engineer">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label class="text-[10px] font-mono uppercase text-textMuted mb-1.5 block">Current Company (Optional)</label>
-              <input type="text" id="profileCompany" class="tech-input w-full rounded px-4 py-2.5 text-sm" placeholder="e.g. Tech Corp">
-            </div>
-            <div>
-              <label class="text-[10px] font-mono uppercase text-textMuted mb-1.5 block">Highest Education</label>
-              <input type="text" id="profileEdu" class="tech-input w-full rounded px-4 py-2.5 text-sm" placeholder="e.g. B.Tech Computer Science">
-            </div>
-          </div>
-
-          <div>
-            <label class="text-[10px] font-mono uppercase text-primary mb-1.5 block">Core Skills (Comma Separated)</label>
-            <input type="text" id="profileSkills" class="tech-input w-full rounded px-4 py-2.5 text-sm border-primary/30 bg-primary/5" placeholder="e.g. JavaScript, React, Node.js, Agile">
-            <p class="text-[9px] text-textMuted mt-1.5">Crucial for AI match scoring against live job descriptions.</p>
-          </div>
-
-          <div class="pt-4 border-t border-border flex justify-end">
-            <button onclick="saveProfile()" class="bg-primary hover:bg-primaryDark text-white font-mono text-xs font-bold uppercase px-6 py-3 rounded shadow-[0_0_15px_rgba(14,165,233,0.3)] transition-all">
-              Save & Update Node
-            </button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- === VIEW: DISCOVER === -->
-    <div id="view-discover" class="view-section flex-1 flex flex-col overflow-hidden animate-fade-in">
+  <!-- ================= TOP HEADER (MOBILE & DESKTOP) ================= -->
+  <header class="glass-nav fixed top-0 w-full z-40 border-b border-border pt-safe">
+    <div class="max-w-[90rem] mx-auto px-4 h-14 flex items-center justify-between">
       
-      <!-- Command Dashboard -->
-      <div class="tech-panel border-b border-border p-4 lg:p-5 shrink-0 relative overflow-hidden">
-        <div class="absolute left-0 right-0 h-px bg-primary/20 animate-scan pointer-events-none opacity-50"></div>
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 relative z-10">
-          
-          <div class="md:col-span-3">
-            <label class="text-[9px] font-mono text-textMuted uppercase mb-1 block">Target Role</label>
-            <input type="text" id="searchQuery" class="tech-input w-full rounded px-3 py-2 text-sm" placeholder="Keyword...">
-          </div>
-          
-          <div class="md:col-span-3">
-            <label class="text-[9px] font-mono text-textMuted uppercase mb-1 block">Company / Sector</label>
-            <input type="text" id="searchCompany" placeholder="e.g. Banking, Tech..." class="tech-input w-full rounded px-3 py-2 text-sm">
-          </div>
+      <!-- Brand -->
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+          <i class="fa-solid fa-layer-group text-white text-sm"></i>
+        </div>
+        <h1 class="text-xl font-bold tracking-tight">OneJob</h1>
+      </div>
 
-          <div class="md:col-span-2">
-            <label class="text-[9px] font-mono text-textMuted uppercase mb-1 block">Region</label>
-            <select id="searchLocation" class="tech-input w-full rounded px-3 py-2 text-sm">
+      <!-- Desktop Tabs -->
+      <div class="hidden lg:flex items-center gap-2 bg-surface p-1 rounded-lg">
+        <button onclick="switchTab('discover')" id="desk-discover" class="desk-tab px-6 py-1.5 rounded-md text-sm font-semibold bg-[#38383A] text-white transition-all">Search</button>
+        <button onclick="switchTab('tracker')" id="desk-tracker" class="desk-tab px-6 py-1.5 rounded-md text-sm font-medium text-textSubtle hover:text-white transition-all">Tracker</button>
+        <button onclick="switchTab('profile')" id="desk-profile" class="desk-tab px-6 py-1.5 rounded-md text-sm font-medium text-textSubtle hover:text-white transition-all">Profile</button>
+      </div>
+
+      <!-- Avatar -->
+      <img id="headerAvatar" src="" class="w-9 h-9 rounded-full border border-border cursor-pointer active-scale" onclick="switchTab('profile')" alt="Profile">
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT CONTAINER ================= -->
+  <main class="flex-1 w-full max-w-[90rem] mx-auto overflow-hidden relative pt-[calc(56px+env(safe-area-inset-top))] flex flex-col">
+    
+    <!-- === VIEW: 1. DISCOVER (SEARCH & FEED) === -->
+    <div id="view-discover" class="view-section flex-1 flex flex-col lg:flex-row overflow-hidden w-full">
+      
+      <!-- Left List Area (Search + Feed) -->
+      <div class="w-full lg:w-[40%] flex flex-col h-full border-r border-border bg-appBg">
+        
+        <!-- Native Search Bar -->
+        <div class="p-4 shrink-0 bg-appBg z-10 border-b border-border">
+          <div class="relative w-full">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-textSubtle"></i>
+            <input type="text" id="searchQuery" class="app-input w-full rounded-xl pl-10 pr-4 py-3 text-base" placeholder="Job Title, Keyword, or Company">
+          </div>
+          
+          <!-- Filter Chips -->
+          <div class="flex gap-2 mt-3 overflow-x-auto custom-scroll pb-1">
+            <select id="searchLocation" class="shrink-0 bg-surface text-textMain text-sm px-4 py-2 rounded-full border border-border outline-none appearance-none cursor-pointer">
               <option value="Delhi NCR">Delhi NCR</option>
               <option value="Bangalore" selected>Bangalore, KA</option>
               <option value="Mumbai">Mumbai, MH</option>
-              <option value="Pune">Pune, MH</option>
-              <option value="Hyderabad">Hyderabad, TS</option>
+              <option value="Remote">Remote</option>
             </select>
+            <button onclick="runGlobalSearch()" class="shrink-0 bg-primary text-white text-sm font-semibold px-5 py-2 rounded-full active-scale flex items-center gap-2">
+              <i class="fa-solid fa-arrow-rotate-right text-xs"></i> Sync
+            </button>
           </div>
-          
-          <div class="md:col-span-3">
-            <label class="text-[9px] font-mono text-primary uppercase mb-1 block"><i class="fa-solid fa-bolt text-primary mr-1"></i> Auto-Suggest Sync</label>
-            <div class="tech-input w-full rounded px-3 py-2 text-sm border-primary/30 text-primary bg-primary/5 flex items-center justify-between cursor-pointer" onclick="switchTab('profile')">
-              <span class="truncate">Linked to Profile Matrix</span>
-              <i class="fa-solid fa-link text-xs"></i>
-            </div>
-          </div>
-
-          <div class="md:col-span-1 flex items-end">
-            <button onclick="runGlobalSearch()" class="w-full h-[38px] bg-primary hover:bg-primaryDark text-white font-mono text-xs font-bold uppercase rounded shadow-[0_0_15px_rgba(14,165,233,0.3)]">SYNC</button>
-          </div>
+        </div>
+        
+        <!-- Job Feed List -->
+        <div id="jobFeed" class="flex-1 overflow-y-auto pb-safe">
+           <!-- Populated by JS -->
+           <div class="flex flex-col items-center justify-center h-full text-textSubtle">
+             <i class="fa-solid fa-circle-notch animate-spin text-2xl mb-2"></i>
+             <p class="text-sm">Fetching tailored opportunities...</p>
+           </div>
         </div>
       </div>
 
-      <!-- Split View -->
-      <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+      <!-- Right Detail Area (Desktop) & Bottom Sheet (Mobile) -->
+      <div id="jobDetailContainer" class="fixed inset-x-0 bottom-0 z-50 h-[90dvh] bg-surface rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.5)] bottom-sheet flex flex-col lg:static lg:h-full lg:w-[60%] lg:bg-appBg lg:rounded-none lg:shadow-none lg:transform-none lg:transition-none">
         
-        <!-- Left: Data Grid -->
-        <div class="w-full lg:w-[45%] flex flex-col border-r border-border bg-appBg">
-          <div class="h-10 border-b border-border bg-panelBg flex items-center px-4 justify-between shrink-0">
-            <div class="flex items-center gap-2 text-[10px] font-mono text-textMuted"><span id="terminalStatus">> IDLE.</span><span class="w-1.5 h-3 bg-primary animate-blink"></span></div>
-            <span class="text-[10px] font-mono text-primary"><span id="resultCount">0</span> NODES</span>
-          </div>
-          <div class="flex items-center px-4 py-2 border-b border-border bg-panelBg text-[9px] font-mono text-textMuted uppercase shrink-0">
-            <div class="flex-1">Role / Firm</div><div class="w-24 text-center">Source</div><div class="w-16 text-right">AI Score</div>
-          </div>
-          <div id="jobFeed" class="flex-1 overflow-y-auto custom-scroll pb-24 lg:pb-0"></div>
+        <!-- Mobile Drag Handle -->
+        <div class="lg:hidden w-full flex justify-center pt-3 pb-2 shrink-0 cursor-pointer" onclick="closeMobileInspector()">
+          <div class="w-12 h-1.5 bg-[#48484A] rounded-full"></div>
         </div>
 
-        <!-- Right: Inspector -->
-        <div id="jobDetailContainer" class="w-full lg:w-[55%] flex flex-col bg-panelBg fixed inset-0 lg:static z-50 translate-y-full lg:translate-y-0 transition-transform duration-300">
-          <div class="lg:hidden h-14 border-b border-border bg-panelBg flex items-center justify-between px-4 shrink-0 pb-safe-top">
-            <span class="text-xs font-mono uppercase text-primary">Inspector</span>
-            <button onclick="closeMobileInspector()" class="w-8 h-8 flex justify-center items-center text-textMuted border border-border rounded"><i class="fa-solid fa-chevron-down"></i></button>
-          </div>
-
-          <div id="jobDetail" class="flex-1 flex flex-col items-center justify-center text-textMuted p-6 text-center">
-            <i class="fa-solid fa-microchip text-4xl mb-4 opacity-30"></i>
-            <h3 class="text-sm font-mono uppercase text-textMain">No Node Selected</h3>
-            <p class="text-xs mt-2 max-w-sm">Select a job to view specifications and trigger the Auto-Deploy Bot.</p>
+        <!-- Detail Content -->
+        <div id="jobDetail" class="flex-1 overflow-y-auto pb-safe px-4 lg:px-8 pt-2 lg:pt-8 flex flex-col">
+          <div class="flex flex-col items-center justify-center h-full text-textSubtle">
+            <i class="fa-solid fa-briefcase text-4xl mb-4 opacity-50"></i>
+            <h3 class="text-lg font-semibold text-textMain">No Opportunity Selected</h3>
+            <p class="text-sm mt-1">Tap a job from the feed to view details.</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- === VIEW: TRACKER === -->
-    <div id="view-tracker" class="view-section hidden flex-1 flex flex-col overflow-hidden animate-fade-in p-4 lg:p-6 bg-appBg">
-      <div class="mb-4 flex justify-between items-end shrink-0">
-        <div><h2 class="text-lg font-mono uppercase text-textMain">Lifecycle Tracker</h2></div>
-        <button onclick="clearTracker()" class="text-[10px] font-mono uppercase text-red-400 bg-red-400/10 px-3 py-1.5 rounded border border-red-400/20">Purge Data</button>
+    <!-- === VIEW: 2. TRACKER === -->
+    <div id="view-tracker" class="view-section hidden flex-1 flex flex-col h-full bg-appBg w-full">
+      <div class="p-4 shrink-0 flex justify-between items-center border-b border-border">
+        <h2 class="text-2xl font-bold">Tracker</h2>
+        <button onclick="clearTracker()" class="text-primary text-sm font-semibold active-scale">Clear All</button>
       </div>
-      <div class="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 overflow-y-auto pb-20 lg:pb-0">
-        <div class="tech-panel flex flex-col rounded border-t-2 border-zinc-500"><div class="p-3 border-b border-border bg-appBg flex justify-between"><span class="font-mono text-[10px] uppercase text-textMain">Saved Queue</span><span id="count-saved" class="text-[10px] font-mono text-zinc-400">0</span></div><div id="col-saved" class="kanban-col flex-1 p-2 overflow-y-auto bg-appBg/50 space-y-2" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div></div>
-        <div class="tech-panel flex flex-col rounded border-t-2 border-primary"><div class="p-3 border-b border-border bg-appBg flex justify-between"><span class="font-mono text-[10px] uppercase text-textMain">Deployed (Applied)</span><span id="count-applied" class="text-[10px] font-mono text-primary">0</span></div><div id="col-applied" class="kanban-col flex-1 p-2 overflow-y-auto bg-appBg/50 space-y-2" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div></div>
-        <div class="tech-panel flex flex-col rounded border-t-2 border-success"><div class="p-3 border-b border-border bg-appBg flex justify-between"><span class="font-mono text-[10px] uppercase text-textMain">Interview</span><span id="count-interview" class="text-[10px] font-mono text-success">0</span></div><div id="col-interview" class="kanban-col flex-1 p-2 overflow-y-auto bg-appBg/50 space-y-2" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div></div>
+      
+      <!-- Native Mobile Segmented Control -->
+      <div class="p-4 lg:hidden shrink-0">
+        <div class="flex bg-surface rounded-lg p-1">
+          <button onclick="switchMobileTrackerTab('saved')" id="seg-saved" class="flex-1 py-1.5 rounded-md text-sm font-semibold bg-[#38383A] text-white shadow transition-all">Saved</button>
+          <button onclick="switchMobileTrackerTab('applied')" id="seg-applied" class="flex-1 py-1.5 rounded-md text-sm font-semibold text-textMuted transition-all">Applied</button>
+          <button onclick="switchMobileTrackerTab('interview')" id="seg-interview" class="flex-1 py-1.5 rounded-md text-sm font-semibold text-textMuted transition-all">Interview</button>
+        </div>
+      </div>
+
+      <!-- Kanban Columns (Stacks as Tabs on Mobile, Grid on Desktop) -->
+      <div class="flex-1 overflow-hidden relative">
+        <div class="absolute inset-0 grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-6 lg:p-6 overflow-hidden">
+          
+          <div id="col-wrapper-saved" class="flex flex-col h-full lg:bg-surface lg:rounded-2xl lg:border lg:border-border">
+            <div class="hidden lg:flex p-4 border-b border-border items-center justify-between shrink-0"><span class="font-semibold">Saved Queue</span><span id="desk-count-saved" class="text-xs bg-appBg px-2 py-1 rounded-full text-textSubtle">0</span></div>
+            <div id="col-saved" class="flex-1 overflow-y-auto pb-safe p-4 space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
+          </div>
+
+          <div id="col-wrapper-applied" class="hidden lg:flex flex-col h-full lg:bg-surface lg:rounded-2xl lg:border lg:border-border">
+            <div class="hidden lg:flex p-4 border-b border-border items-center justify-between shrink-0"><span class="font-semibold text-primary">Applied</span><span id="desk-count-applied" class="text-xs bg-appBg px-2 py-1 rounded-full text-textSubtle">0</span></div>
+            <div id="col-applied" class="flex-1 overflow-y-auto pb-safe p-4 space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
+          </div>
+
+          <div id="col-wrapper-interview" class="hidden lg:flex flex-col h-full lg:bg-surface lg:rounded-2xl lg:border lg:border-border">
+            <div class="hidden lg:flex p-4 border-b border-border items-center justify-between shrink-0"><span class="font-semibold text-success">Interview</span><span id="desk-count-interview" class="text-xs bg-appBg px-2 py-1 rounded-full text-textSubtle">0</span></div>
+            <div id="col-interview" class="flex-1 overflow-y-auto pb-safe p-4 space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- === VIEW: 3. PROFILE (iOS Settings Style) === -->
+    <div id="view-profile" class="view-section hidden flex-1 overflow-y-auto pb-safe bg-appBg w-full">
+      <div class="max-w-2xl mx-auto w-full p-4 lg:p-8">
+        <h2 class="text-2xl font-bold mb-6">Profile Settings</h2>
+        
+        <div class="bg-surface rounded-2xl overflow-hidden mb-6">
+          <div class="flex items-center justify-between p-4 border-b border-border">
+            <span class="text-base text-textMain">Full Name</span>
+            <input type="text" id="profileName" class="bg-transparent text-right text-primary text-base outline-none w-[60%]" placeholder="Name">
+          </div>
+          <div class="flex items-center justify-between p-4 border-b border-border">
+            <span class="text-base text-textMain">Role</span>
+            <input type="text" id="profileRole" class="bg-transparent text-right text-primary text-base outline-none w-[60%]" placeholder="Target Role">
+          </div>
+          <div class="flex items-center justify-between p-4 border-b border-border">
+            <span class="text-base text-textMain">Company</span>
+            <input type="text" id="profileCompany" class="bg-transparent text-right text-primary text-base outline-none w-[60%]" placeholder="Current Company">
+          </div>
+          <div class="flex items-center justify-between p-4">
+            <span class="text-base text-textMain">Education</span>
+            <input type="text" id="profileEdu" class="bg-transparent text-right text-primary text-base outline-none w-[60%]" placeholder="Degree">
+          </div>
+        </div>
+
+        <h3 class="text-sm font-semibold text-textSubtle uppercase ml-4 mb-2">AI Match Skills</h3>
+        <div class="bg-surface rounded-2xl overflow-hidden mb-6 p-4">
+          <textarea id="profileSkills" rows="3" class="w-full bg-transparent text-textMain text-base outline-none resize-none" placeholder="Comma separated skills (e.g. JavaScript, Python, Management)"></textarea>
+        </div>
+
+        <button onclick="saveProfile()" class="w-full bg-primary text-white font-semibold text-lg py-3.5 rounded-xl active-scale">
+          Save Profile
+        </button>
       </div>
     </div>
   </main>
 
-  <div id="toaster" class="fixed bottom-20 lg:bottom-6 right-4 z-[80] flex flex-col gap-2 pointer-events-none"></div>
+  <!-- ================= MOBILE BOTTOM NAV ================= -->
+  <nav class="lg:hidden fixed bottom-0 w-full glass-nav border-t border-border z-40 pb-nav-safe">
+    <div class="flex justify-around items-center h-[60px]">
+      <button onclick="switchTab('discover')" id="mob-discover" class="mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-primary">
+        <i class="fa-solid fa-magnifying-glass text-xl"></i>
+        <span class="text-[10px] font-medium">Search</span>
+      </button>
+      <button onclick="switchTab('tracker')" id="mob-tracker" class="mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-textSubtle hover:text-white transition">
+        <i class="fa-solid fa-bookmark text-xl"></i>
+        <span class="text-[10px] font-medium">Tracker</span>
+      </button>
+      <button onclick="switchTab('profile')" id="mob-profile" class="mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-textSubtle hover:text-white transition">
+        <i class="fa-solid fa-user text-xl"></i>
+        <span class="text-[10px] font-medium">Profile</span>
+      </button>
+    </div>
+  </nav>
 
-  <!-- ================= AUTO-DEPLOY BOT SIMULATOR ================= -->
-  <div id="botModal" class="fixed inset-0 bg-appBg/95 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
-    <div class="tech-panel w-full max-w-2xl border border-primary/50 shadow-[0_0_40px_rgba(14,165,233,0.2)] flex flex-col overflow-hidden">
-      <div class="p-3 border-b border-border bg-black flex justify-between items-center">
-        <h3 class="text-[10px] font-mono text-primary uppercase flex items-center gap-2"><i class="fa-solid fa-robot animate-pulse-fast"></i> Auto-Deploy Bot Engine</h3>
-        <button id="closeBotBtn" class="text-textMuted hidden hover:text-white" onclick="closeBotModal()"><i class="fa-solid fa-xmark"></i></button>
+  <!-- Clean Notification Toaster -->
+  <div id="toaster" class="fixed top-[70px] left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none w-[90%] max-w-sm"></div>
+
+  <!-- ================= AUTO-APPLY BOT MODAL (NATIVE ALERT STYLE) ================= -->
+  <div id="botModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+    <div class="bg-[#1C1C1E] w-full max-w-md rounded-[24px] overflow-hidden shadow-2xl border border-border">
+      <div class="p-6 text-center">
+        <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fa-solid fa-robot text-primary text-3xl animate-bounce"></i>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2">Auto-Apply Engine</h3>
+        <p class="text-sm text-textSubtle mb-4">Simulating backend Playwright browser deployment.</p>
+        
+        <div class="bg-black rounded-xl p-4 text-left h-40 overflow-y-auto text-xs font-mono text-[#30D158] leading-relaxed" id="botTerminal"></div>
       </div>
-      <div class="p-6 h-[400px] bg-black text-sm font-mono leading-relaxed overflow-y-auto" id="botTerminal"></div>
+      
+      <button id="closeBotBtn" class="w-full py-4 border-t border-border text-primary font-semibold text-lg bg-[#2C2C2E] hover:bg-[#38383A] hidden" onclick="closeBotModal()">Done</button>
     </div>
   </div>
 
   <script>
     /* =========================================================================
-       1. DYNAMIC USER PROFILE & STATE
+       1. CORE CONFIGURATION & STATE
        ========================================================================= */
     const GEMINI_API_KEY = 'YOUR_API_KEY_HERE'; 
 
-    // Initialize from LocalStorage or provide generic defaults
-    let UserProfile = JSON.parse(localStorage.getItem('ojp_user_profile')) || {
-      name: "Guest User",
-      role: "Software Developer",
-      company: "",
-      education: "Bachelors Degree",
+    let UserProfile = JSON.parse(localStorage.getItem('ojp_app_profile')) || {
+      name: "Guest User", role: "Software Developer", company: "", education: "Bachelors Degree",
       skills: ["JavaScript", "Python", "Problem Solving", "Agile"]
     };
 
     let AppState = {
       jobs: [], activeJob: null,
-      tracker: JSON.parse(localStorage.getItem('ojp_ind_tracker')) || []
+      tracker: JSON.parse(localStorage.getItem('ojp_app_tracker')) || []
     };
 
     const INDIAN_PORTALS = {
-      Naukri: { icon: 'fa-briefcase', color: 'text-indigo-400', url: (q, l) => `https://www.naukri.com/${q.replace(/\s+/g,'-')}-jobs-in-${l.replace(/\s+/g,'-')}` },
-      Indeed: { icon: 'fa-info', color: 'text-blue-500', url: (q, l) => `https://in.indeed.com/jobs?q=${encodeURIComponent(q)}&l=${encodeURIComponent(l)}` },
-      LinkedIn: { icon: 'fa-linkedin', color: 'text-blue-600', url: (q, l) => `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(q)}&location=${encodeURIComponent(l)}` }
+      Naukri: { icon: 'fa-briefcase', url: (q, l) => `https://www.naukri.com/${q.replace(/\s+/g,'-')}-jobs-in-${l.replace(/\s+/g,'-')}` },
+      Indeed: { icon: 'fa-info', url: (q, l) => `https://in.indeed.com/jobs?q=${encodeURIComponent(q)}&l=${encodeURIComponent(l)}` },
+      LinkedIn: { icon: 'fa-linkedin', url: (q, l) => `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(q)}&location=${encodeURIComponent(l)}` }
     };
 
     /* =========================================================================
-       2. PROFILE MANAGEMENT & UI UPDATES
+       2. UI UPDATES & NAVIGATION
        ========================================================================= */
     function renderProfileToUI() {
-      // Update Sidebar & Header
-      document.getElementById('sidebarName').innerText = UserProfile.name;
-      
-      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(UserProfile.name)}&background=0ea5e9&color=fff&bold=true`;
-      document.getElementById('sidebarAvatar').src = avatarUrl;
-      document.getElementById('mobileAvatar').src = avatarUrl;
-
-      // Populate Form
+      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(UserProfile.name)}&background=0A84FF&color=fff`;
+      document.getElementById('headerAvatar').src = avatarUrl;
       document.getElementById('profileName').value = UserProfile.name;
       document.getElementById('profileRole').value = UserProfile.role;
       document.getElementById('profileCompany').value = UserProfile.company;
       document.getElementById('profileEdu').value = UserProfile.education;
       document.getElementById('profileSkills').value = UserProfile.skills.join(', ');
-
-      // Populate Default Search
       document.getElementById('searchQuery').value = UserProfile.role;
     }
 
@@ -328,62 +317,83 @@
         education: document.getElementById('profileEdu').value.trim(),
         skills: document.getElementById('profileSkills').value.split(',').map(s=>s.trim()).filter(s=>s)
       };
-
-      localStorage.setItem('ojp_user_profile', JSON.stringify(UserProfile));
+      localStorage.setItem('ojp_app_profile', JSON.stringify(UserProfile));
       renderProfileToUI();
-      showToast('Profile Matrix Synced Successfully.');
-      
-      // Auto-switch back to Discover to use new params
-      switchTab('discover');
+      showToast('Profile Saved');
+      setTimeout(() => switchTab('discover'), 300);
     }
 
-    /* =========================================================================
-       3. NAVIGATION & UI UTILS
-       ========================================================================= */
     function switchTab(tabId) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.getElementById(`view-${tabId}`).classList.remove('hidden');
       
-      document.querySelectorAll('.nav-btn').forEach(el => el.className = 'nav-btn w-full flex items-center gap-3 px-3 py-2 rounded text-sm font-medium text-textMuted hover:text-textMain hover:bg-panelHover border border-transparent transition-all');
-      const activeDesk = document.getElementById(`nav-${tabId}`);
-      if(activeDesk) activeDesk.className = 'nav-btn w-full flex items-center gap-3 px-3 py-2 rounded text-sm font-medium bg-primary/10 text-primary border border-primary/20 transition-all';
+      // Desktop Nav
+      document.querySelectorAll('.desk-tab').forEach(el => el.className = 'desk-tab px-6 py-1.5 rounded-md text-sm font-medium text-textSubtle hover:text-white transition-all');
+      const activeDesk = document.getElementById(`desk-${tabId}`);
+      if(activeDesk) activeDesk.className = 'desk-tab px-6 py-1.5 rounded-md text-sm font-semibold bg-[#38383A] text-white transition-all';
 
-      document.querySelectorAll('.mob-nav-btn').forEach(el => el.className = 'mob-nav-btn w-full py-2 flex flex-col items-center gap-1 text-textMuted hover:text-textMain');
+      // Mobile Nav
+      document.querySelectorAll('.mob-nav').forEach(el => el.className = 'mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-textSubtle hover:text-white transition');
       const activeMob = document.getElementById(`mob-${tabId}`);
-      if(activeMob) activeMob.className = 'mob-nav-btn w-full py-2 flex flex-col items-center gap-1 text-primary';
+      if(activeMob) activeMob.className = 'mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-primary';
 
       if(tabId === 'tracker') renderKanban();
     }
 
-    function updateTerminal(msg) { document.getElementById('terminalStatus').innerText = `> ${msg}`; }
-    function showToast(msg, type='success') {
+    function showToast(msg) {
       const toaster = document.getElementById('toaster');
       const toast = document.createElement('div');
-      const icon = type==='success' ? 'fa-check text-success' : 'fa-triangle-exclamation text-red-500';
-      toast.className = `tech-panel px-4 py-3 flex items-center gap-3 shadow-lg animate-fade-in border-l-2 ${type==='success'?'border-l-success':'border-l-red-500'}`;
-      toast.innerHTML = `<i class="fa-solid ${icon} text-sm"></i><span class="text-[10px] font-mono uppercase tracking-widest text-white">${msg}</span>`;
+      toast.className = `bg-[#2C2C2E]/90 backdrop-blur-md px-4 py-3 rounded-full flex justify-center items-center gap-2 shadow-lg animate-fade-in`;
+      toast.innerHTML = `<span class="text-sm font-medium text-white">${msg}</span>`;
       toaster.appendChild(toast);
-      setTimeout(() => { toast.style.opacity = '0'; setTimeout(()=>toast.remove(), 300); }, 3000);
+      setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(()=>toast.remove(), 300); }, 2000);
     }
-    function openMobileInspector() { if(window.innerWidth < 1024) document.getElementById('jobDetailContainer').classList.remove('translate-y-full'); }
-    function closeMobileInspector() { document.getElementById('jobDetailContainer').classList.add('translate-y-full'); }
+
+    // Bottom Sheet Logic for Mobile
+    function openMobileInspector() {
+      if(window.innerWidth < 1024) {
+        document.getElementById('jobDetailContainer').classList.add('open');
+      }
+    }
+    function closeMobileInspector() {
+      document.getElementById('jobDetailContainer').classList.remove('open');
+    }
+
+    // Segmented Control Logic for Mobile Tracker
+    function switchMobileTrackerTab(status) {
+      if(window.innerWidth >= 1024) return; // Only applies to mobile
+      
+      // Update Segments UI
+      ['saved', 'applied', 'interview'].forEach(id => {
+        const btn = document.getElementById(`seg-${id}`);
+        const col = document.getElementById(`col-wrapper-${id}`);
+        btn.className = 'flex-1 py-1.5 rounded-md text-sm font-semibold text-textSubtle transition-all';
+        col.classList.add('hidden');
+      });
+      
+      document.getElementById(`seg-${status}`).className = 'flex-1 py-1.5 rounded-md text-sm font-semibold bg-[#38383A] text-white shadow transition-all';
+      document.getElementById(`col-wrapper-${status}`).classList.remove('hidden');
+      document.getElementById(`col-wrapper-${status}`).classList.add('flex');
+    }
 
     /* =========================================================================
-       4. SEARCH ENGINE 
+       3. SEARCH ENGINE (Natively rendered Lists)
        ========================================================================= */
     async function runGlobalSearch() {
-      const q = document.getElementById('searchQuery').value.trim() || UserProfile.role;
-      const companyQ = document.getElementById('searchCompany').value.trim().toLowerCase();
+      const rawQ = document.getElementById('searchQuery').value.trim() || UserProfile.role;
+      // Extract Company if user types "Role at Company"
+      const parts = rawQ.toLowerCase().split(' at ');
+      const q = parts[0];
+      const companyQ = parts.length > 1 ? parts[1] : '';
       const loc = document.getElementById('searchLocation').value; 
       
       const feed = document.getElementById('jobFeed');
-      feed.innerHTML = '';
-      updateTerminal(`ALGORITHMIC SEARCH [${loc.toUpperCase()}]...`);
+      feed.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-textSubtle"><i class="fa-solid fa-circle-notch animate-spin text-2xl mb-2"></i><p class="text-sm">Fetching tailored opportunities...</p></div>`;
+      
       AppState.jobs = []; 
 
-      // 1. Live Remote Data
       try {
-        const remotiveRes = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(q)}&limit=50`);
+        const remotiveRes = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(q)}&limit=30`);
         if(remotiveRes.ok) {
           const data = await remotiveRes.json();
           const indiaJobs = data.jobs.filter(j => {
@@ -392,69 +402,70 @@
           });
           const apiJobs = indiaJobs.map(j => ({
             id: `api_${j.id}`, title: j.title, company: j.company_name, location: j.candidate_required_location,
-            portal: 'Remotive Live', icon: 'fa-wifi', color: 'text-primary',
-            desc: j.description, url: j.url, time: new Date(j.publication_date).getTime(), isLive: true
+            portal: 'Remotive', icon: 'fa-wifi', desc: j.description, url: j.url, time: new Date(j.publication_date).getTime(), isLive: true
           }));
           AppState.jobs.push(...apiJobs);
         }
       } catch(e) {}
 
-      // 2. Federated Data
       const portalKeys = Object.keys(INDIAN_PORTALS);
-      const fakeCompanies = companyQ ? [companyQ] : ['Tech Mahindra', 'TCS', 'HDFC Bank', 'Infosys', 'Wipro'];
+      const fakeCompanies = companyQ ? [companyQ] : ['Tech Mahindra', 'TCS', 'HDFC Bank', 'Infosys', 'Accenture'];
       
       for(let i=0; i<15; i++) {
         const portalName = portalKeys[i % portalKeys.length];
-        const portalConfig = INDIAN_PORTALS[portalName];
+        const pConf = INDIAN_PORTALS[portalName];
         const comp = fakeCompanies[i % fakeCompanies.length];
         
         AppState.jobs.push({
-          id: `fed_${Date.now()}_${i}`, title: `${q} - Urgent`, company: companyQ || comp, location: loc,
-          portal: `${portalName} Federated`, icon: portalConfig.icon, color: portalConfig.color,
-          desc: `<p><strong>Federated Gateway Node</strong></p><p>Target: ${q}<br>Firm: ${comp}<br>Location: ${loc}</p><p>Execute manual deployment or trigger Auto-Deploy Bot to apply.</p>`,
-          url: portalConfig.url(q, loc), time: Date.now() - (Math.random() * 86400000), isLive: false
+          id: `fed_${Date.now()}_${i}`, title: `${q} - Hiring Now`, company: companyQ || comp, location: loc,
+          portal: `${portalName}`, icon: pConf.icon,
+          desc: `<p><strong>Platform Match Configured</strong></p><p>We have synthesized a direct deep-link to this role on ${portalName}. Tap Apply to proceed directly to the submission gateway.</p>`,
+          url: pConf.url(q, loc), time: Date.now() - (Math.random() * 86400000), isLive: false
         });
       }
 
       if(companyQ) AppState.jobs = AppState.jobs.filter(j => j.company.toLowerCase().includes(companyQ));
 
-      // 3. Score against dynamic UserProfile
+      const skillsToMatch = UserProfile.skills.length > 0 ? UserProfile.skills : [UserProfile.role];
       AppState.jobs.forEach(j => {
         let matches = 0;
         const textToSearch = (j.title + ' ' + j.desc).toLowerCase();
-        
-        // Ensure there's at least one skill to avoid divide by zero
-        const skillsToMatch = UserProfile.skills.length > 0 ? UserProfile.skills : [UserProfile.role];
-        
         skillsToMatch.forEach(us => { if(textToSearch.includes(us.toLowerCase())) matches++; });
         let score = (matches / Math.max(skillsToMatch.length, 1)) * 100;
-        
         if(score === 0) score = Math.floor(Math.random() * 20) + 40; 
         j.matchScore = Math.min(99, Math.round(score));
       });
 
       AppState.jobs.sort((a,b) => b.matchScore - a.matchScore); 
       renderFeed();
-      updateTerminal(`SYNC COMPLETE. ${AppState.jobs.length} SUGGESTIONS GENERATED.`);
     }
 
     function renderFeed() {
       const feed = document.getElementById('jobFeed');
-      document.getElementById('resultCount').innerText = AppState.jobs.length;
       feed.innerHTML = '';
+      
+      if(AppState.jobs.length === 0) {
+        feed.innerHTML = `<div class="p-8 text-center text-textSubtle">No results found.</div>`;
+        return;
+      }
+
       AppState.jobs.forEach((job) => {
+        const isSelected = AppState.activeJob?.id === job.id;
         const div = document.createElement('div');
-        div.className = `data-row flex items-center px-4 py-3 ${AppState.activeJob?.id === job.id ? 'active' : ''}`;
+        // Native iOS List Item Style
+        div.className = `flex items-center px-4 py-3.5 border-b border-border active-scale cursor-pointer ${isSelected && window.innerWidth >= 1024 ? 'bg-surfaceHover' : 'hover:bg-surface'}`;
+        
         div.innerHTML = `
-          <div class="flex-1 min-w-0 pr-2">
-            <h4 class="text-sm font-semibold text-textMain truncate">${job.title}</h4>
-            <p class="text-[10px] text-textMuted truncate mt-0.5">${job.company} | ${job.location}</p>
+          <div class="w-12 h-12 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 mr-4">
+             <i class="fa-solid ${job.icon} text-xl text-textMuted"></i>
           </div>
-          <div class="w-24 text-center shrink-0">
-             <span class="text-[9px] font-mono uppercase ${job.color} flex flex-col items-center gap-1"><i class="fa-solid ${job.icon}"></i><span class="truncate w-full">${job.portal.split(' ')[0]}</span></span>
+          <div class="flex-1 min-w-0 pr-3">
+            <h4 class="text-base font-semibold text-textMain truncate">${job.title}</h4>
+            <p class="text-sm text-textSubtle truncate mt-0.5">${job.company} &bull; ${job.location}</p>
           </div>
-          <div class="w-16 text-right shrink-0">
-             <span class="text-sm font-mono font-bold ${job.matchScore > 75 ? 'text-success' : 'text-primary'}">${job.matchScore}%</span>
+          <div class="shrink-0 text-right">
+             <span class="text-sm font-bold ${job.matchScore > 75 ? 'text-success' : 'text-primary'}">${job.matchScore}%</span>
+             <p class="text-[10px] text-textSubtle mt-0.5">${job.portal}</p>
           </div>
         `;
         div.onclick = () => { renderInspector(job); openMobileInspector(); renderFeed(); };
@@ -464,7 +475,7 @@
     }
 
     /* =========================================================================
-       5. INSPECTOR 
+       4. DETAIL VIEW (BOTTOM SHEET ON MOBILE)
        ========================================================================= */
     function renderInspector(job) {
       AppState.activeJob = job;
@@ -472,35 +483,45 @@
       const inTracker = AppState.tracker.find(t => t.id === job.id);
 
       panel.innerHTML = `
-        <div class="w-full flex flex-col text-left animate-fade-in relative z-10 h-full p-6 lg:p-8">
-          <div class="mb-5 shrink-0">
-            <div class="flex justify-between items-start gap-4">
-              <div class="flex-1">
-                <span class="px-1.5 py-0.5 bg-primary/10 border border-primary/30 text-primary text-[9px] font-mono uppercase rounded">ID: ${job.id.substring(0,12)}</span>
-                <h2 class="text-xl lg:text-2xl font-bold text-textMain leading-tight mt-2">${job.title}</h2>
-                <div class="flex items-center gap-3 mt-2 text-xs text-textMuted font-mono"><span>${job.company}</span><span>${job.location}</span></div>
-              </div>
-            </div>
-            <div class="mt-4 pt-4 border-t border-border flex justify-between items-center">
-              <span class="text-[10px] font-mono uppercase text-textMuted">Profile Matrix Match</span>
-              <span class="text-sm font-mono font-bold ${job.matchScore > 75 ? 'text-success' : 'text-primary'}">${job.matchScore}%</span>
-            </div>
+        <div class="flex justify-between items-start mb-6">
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold text-textMain leading-tight">${job.title}</h2>
+            <p class="text-base text-textSubtle mt-1">${job.company} &bull; ${job.location}</p>
           </div>
-          <div class="flex-1 overflow-y-auto custom-scroll pr-3 mb-4 tech-panel rounded p-4"><div class="job-desc-html">${job.desc}</div></div>
-          
-          <div class="pt-4 border-t border-border flex flex-col sm:flex-row gap-3 mt-auto shrink-0 pb-safe">
-            <a href="${job.url}" target="_blank" class="flex-1 tech-panel hover:bg-panelHover text-textMain font-mono text-xs uppercase font-bold py-3 rounded transition-all flex items-center justify-center gap-2">Manual Apply <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i></a>
-            
-            <button onclick="triggerAutoDeploy('${job.id}')" class="flex-1 bg-primary hover:bg-primaryDark text-white font-mono text-xs uppercase font-bold py-3 rounded transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(14,165,233,0.3)]">
-              <i class="fa-solid fa-robot"></i> INIT AUTO-DEPLOY BOT
-            </button>
+          <button onclick="addToTracker('${job.id}')" class="w-10 h-10 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 ml-4 active-scale transition" ${inTracker?'disabled':''}>
+            <i class="fa-solid ${inTracker ? 'fa-bookmark text-primary' : 'fa-bookmark text-textSubtle'}"></i>
+          </button>
+        </div>
+        
+        <div class="flex gap-2 mb-6">
+          <div class="bg-[#2C2C2E] px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+            <span class="text-xs text-textSubtle">Match</span>
+            <span class="text-sm font-bold ${job.matchScore > 75 ? 'text-success' : 'text-primary'}">${job.matchScore}%</span>
           </div>
+          <div class="bg-[#2C2C2E] px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+            <span class="text-xs text-textSubtle">Source</span>
+            <span class="text-sm font-bold text-white">${job.portal}</span>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto custom-scroll mb-6">
+          <h3 class="text-sm font-semibold text-textSubtle uppercase mb-2">Description</h3>
+          <div class="job-desc-html bg-[#2C2C2E] p-4 rounded-2xl">${job.desc}</div>
+        </div>
+        
+        <div class="flex flex-col gap-3 mt-auto shrink-0 pb-4 lg:pb-0">
+          <button onclick="triggerAutoDeploy('${job.id}')" class="w-full bg-white text-black font-semibold text-lg py-3.5 rounded-xl active-scale flex justify-center items-center gap-2">
+            <i class="fa-solid fa-bolt text-primary"></i> Easy Apply (AI)
+          </button>
+          <a href="${job.url}" target="_blank" class="w-full bg-[#2C2C2E] text-white font-semibold text-lg py-3.5 rounded-xl active-scale flex justify-center items-center gap-2">
+            Apply on ${job.portal} <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+          </a>
         </div>
       `;
     }
 
     /* =========================================================================
-       6. PLAYWRIGHT BOT SIMULATION (Dynamic based on UserProfile)
+       5. AUTO-APPLY BOT (NATIVE MODAL)
        ========================================================================= */
     async function triggerAutoDeploy(jobId) {
       const modal = document.getElementById('botModal');
@@ -513,28 +534,19 @@
       terminal.innerHTML = '';
 
       const [firstName, ...lastNameArr] = UserProfile.name.split(' ');
-      const lastName = lastNameArr.join(' ') || 'User';
+      const lastName = lastNameArr.join(' ') || '';
 
       const lines = [
-        `<span class="text-primary">> INITIALIZING PLAYWRIGHT HEADLESS BROWSER...</span>`,
-        `> Requesting URL: ${job.url}`,
-        `<span class="text-warning">> Bypass protocol: Solving Captcha / Security Checks... [SUCCESS]</span>`,
-        `> Page Loaded. Locating Application Form Selectors...`,
-        `<span class="text-primary">> Injecting Profile Matrix Data:</span>`,
-        `  - First Name: <span class="text-white">${firstName}</span>`,
-        `  - Last Name: <span class="text-white">${lastName}</span>`,
-        `  - Education: <span class="text-white">${UserProfile.education || 'N/A'}</span>`,
-        `  - Latest Role: <span class="text-white">${UserProfile.role} ${UserProfile.company ? '@ '+UserProfile.company : ''}</span>`,
-        `> Attaching PDF: <span class="text-success">${firstName}_${lastName}_Resume.pdf</span>`,
-        `> Simulating human cursor movement to Submit Button...`,
-        `<span class="text-primary">> EXECUTING CLICK: SubmitApplication()</span>`,
-        `> Awaiting Server Response...`,
-        `<span class="text-success font-bold">> STATUS 200 OK: Application Successfully Deployed to ${job.company}.</span>`,
-        `> Terminating Headless Browser Instance. Updating Tracker...`
+        `> Connecting to ${job.portal} Gateway...`,
+        `> Payload: ${firstName} ${lastName} | ${UserProfile.role}`,
+        `> Validating fields... [OK]`,
+        `> Attaching resume... [OK]`,
+        `> Submitting via automated web-driver...`,
+        `> Response 200: Success.`
       ];
 
       for(let i=0; i<lines.length; i++) {
-        await new Promise(r => setTimeout(r, i===2 || i===12 ? 1500 : 600)); 
+        await new Promise(r => setTimeout(r, 600)); 
         const lineDiv = document.createElement('div');
         lineDiv.className = 'mb-1';
         lineDiv.innerHTML = lines[i];
@@ -543,57 +555,58 @@
       }
 
       if(!AppState.tracker.find(t => t.id === jobId)) {
-        AppState.tracker.push({ id: jobId, status: 'applied', title: job.title, company: job.company, portal: job.portal.split(' ')[0] });
+        AppState.tracker.push({ id: jobId, status: 'applied', title: job.title, company: job.company, portal: job.portal });
         saveTracker();
       } else {
         moveKanbanStatus(jobId, 'applied');
       }
 
-      setTimeout(() => { closeBtn.classList.remove('hidden'); }, 1000);
+      setTimeout(() => { closeBtn.classList.remove('hidden'); }, 800);
     }
-    function closeBotModal() { document.getElementById('botModal').classList.add('hidden'); }
+    function closeBotModal() { document.getElementById('botModal').classList.add('hidden'); closeMobileInspector(); }
 
     /* =========================================================================
-       7. TRACKER LOGIC
+       6. TRACKER LOGIC (Native Cards & Segmented Mobile Logic)
        ========================================================================= */
-    function saveTracker() { localStorage.setItem('ojp_ind_tracker', JSON.stringify(AppState.tracker)); renderKanban(); }
-    function clearTracker() { if(confirm('WARNING: Purge all data?')) { AppState.tracker = []; saveTracker(); } }
+    function saveTracker() { localStorage.setItem('ojp_app_tracker', JSON.stringify(AppState.tracker)); renderKanban(); }
+    function clearTracker() { if(confirm('Clear all tracker data?')) { AppState.tracker = []; saveTracker(); } }
     function moveKanbanStatus(id, newStatus) { const item = AppState.tracker.find(t => t.id === id); if(item) { item.status = newStatus; saveTracker(); } }
 
     function renderKanban() {
       const cols = { saved: document.getElementById('col-saved'), applied: document.getElementById('col-applied'), interview: document.getElementById('col-interview') };
-      const counts = { saved: 0, applied: 0, interview: 0 };
       Object.values(cols).forEach(c => c.innerHTML = '');
 
       AppState.tracker.forEach(item => {
-        counts[item.status]++;
         const el = document.createElement('div');
-        el.className = "bg-panelBg p-3 border border-border rounded cursor-grab hover:border-primary/50 transition relative overflow-hidden group";
+        el.className = "bg-[#2C2C2E] p-4 rounded-2xl active-scale cursor-grab shadow-sm relative";
         el.draggable = true; el.id = `kanban-${item.id}`;
         
+        let actions = '';
+        if(item.status === 'saved') actions = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="mt-3 w-full bg-primary/20 text-primary py-2 rounded-lg font-semibold text-sm">Mark Applied</button>`;
+        else if(item.status === 'applied') actions = `<div class="mt-3 flex gap-2"><button onclick="moveKanbanStatus('${item.id}', 'saved')" class="flex-1 bg-[#38383A] text-white py-2 rounded-lg font-semibold text-sm">Revert</button><button onclick="moveKanbanStatus('${item.id}', 'interview')" class="flex-1 bg-success/20 text-success py-2 rounded-lg font-semibold text-sm">Interview</button></div>`;
+        else if(item.status === 'interview') actions = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="mt-3 w-full bg-[#38383A] text-white py-2 rounded-lg font-semibold text-sm">Back</button>`;
+
         el.innerHTML = `
-          <div class="absolute left-0 top-0 bottom-0 w-1 ${item.status === 'saved' ? 'bg-zinc-500' : item.status === 'applied' ? 'bg-primary' : 'bg-success'}"></div>
-          <div class="flex justify-between items-start mb-1 pl-2">
-            <h4 class="font-semibold text-textMain text-xs pr-4">${item.title}</h4>
-            <button onclick="removeKanban('${item.id}')" class="text-textMuted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-xmark text-xs"></i></button>
+          <div class="flex justify-between items-start mb-1">
+            <h4 class="font-semibold text-textMain text-base pr-4 leading-tight">${item.title}</h4>
+            <button onclick="removeKanban('${item.id}')" class="text-textSubtle w-6 h-6 flex items-center justify-center rounded-full bg-[#38383A]"><i class="fa-solid fa-xmark text-xs"></i></button>
           </div>
-          <p class="text-[10px] text-textMuted font-mono pl-2 mb-2">${item.company}</p>
+          <p class="text-sm text-textSubtle mb-2">${item.company}</p>
+          ${actions}
         `;
         el.ondragstart = (e) => { e.dataTransfer.setData('text/plain', item.id); };
         cols[item.status].appendChild(el);
       });
-      document.getElementById('count-saved').innerText = counts.saved;
-      document.getElementById('count-applied').innerText = counts.applied;
-      document.getElementById('count-interview').innerText = counts.interview;
     }
     function removeKanban(id) { AppState.tracker = AppState.tracker.filter(t => t.id !== id); saveTracker(); }
     function allowDrop(ev) { ev.preventDefault(); }
     function drop(ev, status) { ev.preventDefault(); moveKanbanStatus(ev.dataTransfer.getData('text/plain'), status); }
 
     window.onload = () => { 
-      renderProfileToUI(); // Load dynamic profile on boot
+      renderProfileToUI(); 
       runGlobalSearch(); 
       renderKanban(); 
+      switchMobileTrackerTab('saved'); // Initialize mobile tracker tab
     };
   </script>
 </body>
