@@ -2,35 +2,35 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Onejobportal | India Career Infrastructure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>One Job Portal - India Exclusive</title>
   
-  <!-- Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  
-  <!-- Tailwind CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: { 
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
-          },
+          fontFamily: { sans: ['Outfit', 'sans-serif'] },
           colors: {
-            vBg: '#000000',
-            vSurface: '#0A0A0A',
-            vBorder: '#333333',
-            vTextMain: '#EDEDED',
-            vTextMuted: '#888888',
-            vBlue: '#0070F3'
+            glass: 'rgba(15, 23, 42, 0.7)',
+            primary: '#f97316', /* Orange/Saffron for India theme */
+            secondary: '#10b981', /* Green */
+            accent: '#3b82f6', 
+            darkbg: '#020617' 
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.3s ease-out forwards',
+            'blob': 'blob 7s infinite',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            blob: { '0%': { transform: 'translate(0px, 0px) scale(1)' }, '33%': { transform: 'translate(30px, -50px) scale(1.1)' }, '66%': { transform: 'translate(-20px, 20px) scale(0.9)' }, '100%': { transform: 'translate(0px, 0px) scale(1)' } }
           }
         }
       }
@@ -38,469 +38,219 @@
   </script>
 
   <style>
-    body { background-color: #000; color: #EDEDED; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-    
-    /* Scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #000; }
-    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #555; }
-
-    /* Custom Inputs */
-    .v-input { background: #000; border: 1px solid #333; color: #EDEDED; transition: all 0.2s; outline: none; font-size: 16px; }
-    @media (min-width: 1024px) { .v-input { font-size: 14px; } }
-    .v-input:focus { border-color: #888; }
-    
-    /* Buttons & Cards */
-    .v-btn { background: #EDEDED; color: #000; font-weight: 500; transition: background 0.2s; border: 1px solid transparent; }
-    .v-btn:hover { background: #fff; }
-    .v-card { background: #0A0A0A; border: 1px solid #333; transition: border-color 0.2s; }
-    
-    /* Mobile Safe Areas */
-    .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 80px); }
-    @media (min-width: 1024px) { .pb-safe { padding-bottom: 24px; } }
-
-    /* Animations */
-    .animate-slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
-    @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    /* Job Description HTML Formatting */
-    .job-desc h3 { font-size: 15px; font-weight: 600; color: #fff; margin: 16px 0 8px 0; }
-    .job-desc p { margin-bottom: 12px; line-height: 1.6; color: #888; }
-    .job-desc ul { padding-left: 20px; margin-bottom: 12px; color: #888; list-style-type: disc; }
+    body { background-color: #020617; color: #f8fafc; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+    .bg-shape { position: fixed; filter: blur(100px); z-index: -1; opacity: 0.3; }
+    .shape-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: rgba(249, 115, 22, 0.3); animation: blob 7s infinite; }
+    .shape-2 { top: 40%; right: -10%; width: 40vw; height: 40vw; background: rgba(16, 185, 129, 0.2); animation: blob 7s infinite 2s; }
+    .glass-panel { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); }
+    .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
+    @media (min-width: 1024px) { .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; } }
+    .custom-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+    .text-gradient { background: linear-gradient(to right, #f97316, #10b981, #f97316); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: shine 3s linear infinite; }
+    @keyframes shine { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
   </style>
 </head>
-<body class="h-[100dvh] w-screen overflow-hidden flex antialiased">
+<body class="min-h-screen flex flex-col font-sans">
+  
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
 
-  <!-- ================= DESKTOP SIDEBAR ================= -->
-  <aside class="hidden lg:flex flex-col w-64 h-full bg-[#050505] border-r border-vBorder shrink-0 z-20">
-    <div class="h-16 flex items-center px-6 border-b border-vBorder shrink-0">
-      <div class="w-8 h-8 rounded bg-vBlue flex items-center justify-center text-white mr-3">
-        <i class="fa-solid fa-layer-group text-sm"></i>
+  <!-- Navigation -->
+  <nav class="glass-panel sticky top-0 z-[40] border-b border-white/5 shadow-2xl">
+    <div class="max-w-[90rem] mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2 sm:gap-3 cursor-pointer">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg relative overflow-hidden group">
+          <i class="fa-solid fa-layer-group text-white text-lg sm:text-xl z-10 group-hover:scale-110 transition-transform"></i>
+        </div>
+        <div class="flex flex-col">
+          <h1 class="flex items-baseline gap-1 sm:gap-1.5 leading-none">
+            <span class="text-2xl sm:text-3xl font-black text-gradient tracking-tighter">ONE</span>
+            <span class="text-base sm:text-xl font-light tracking-[0.15em] text-white">JOB</span>
+          </h1>
+          <span class="text-[8px] sm:text-[9px] text-slate-400 font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] mt-0.5">India Region Only</span>
+        </div>
       </div>
-      <span class="font-bold text-lg tracking-tight text-white">Onejobportal</span>
-    </div>
-
-    <nav class="flex-1 py-6 px-3 space-y-1">
-      <p class="px-3 text-xs font-mono text-vTextMuted uppercase tracking-wider mb-3">Workspace</p>
-      <button onclick="switchTab('discover')" id="nav-desk-discover" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors bg-[#111] text-vTextMain">
-        <i class="fa-solid fa-radar w-5 text-center"></i> Deployments
-      </button>
-      <button onclick="switchTab('tracker')" id="nav-desk-tracker" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors text-vTextMuted hover:bg-[#111] hover:text-vTextMain">
-        <i class="fa-solid fa-kanban w-5 text-center"></i> Pipeline
-      </button>
-      <button onclick="switchTab('profile')" id="nav-desk-profile" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors text-vTextMuted hover:bg-[#111] hover:text-vTextMain">
-        <i class="fa-solid fa-code w-5 text-center"></i> Env Variables
-      </button>
-    </nav>
-
-    <div class="p-4 border-t border-vBorder shrink-0 bg-[#000]">
       <div class="flex items-center gap-3">
-        <img id="deskAvatar" src="" class="w-9 h-9 rounded-full object-cover border border-vBorder" alt="Avatar">
-        <div class="flex-1 min-w-0">
-          <p id="deskUserName" class="text-sm font-semibold text-vTextMain truncate">Guest User</p>
-          <p class="text-[10px] font-mono text-vBlue truncate">INDIA_REGION</p>
-        </div>
+        <img src="https://ui-avatars.com/api/?name=IN&background=f97316&color=fff" class="w-8 h-8 rounded-full border-2 border-primary/50" alt="Profile">
       </div>
-    </div>
-  </aside>
-
-  <!-- ================= MOBILE HEADER ================= -->
-  <header class="lg:hidden h-14 bg-[#050505] border-b border-vBorder flex items-center justify-between px-4 fixed top-0 w-full z-40">
-    <div class="flex items-center gap-2">
-      <div class="w-7 h-7 rounded bg-vBlue flex items-center justify-center text-white">
-        <i class="fa-solid fa-layer-group text-xs"></i>
-      </div>
-      <span class="font-bold text-base tracking-tight text-white">Onejobportal</span>
-    </div>
-    <img id="mobAvatarHeader" src="" class="w-8 h-8 rounded-full object-cover border border-vBorder" onclick="switchTab('profile')" alt="Avatar">
-  </header>
-
-  <!-- ================= MAIN CONTENT AREA ================= -->
-  <main class="flex-1 flex flex-col h-full relative pt-14 lg:pt-0 overflow-hidden bg-vBg">
-    
-    <!-- === VIEW 1: DISCOVER (SEARCH) === -->
-    <div id="view-discover" class="view-section flex-1 flex flex-col h-full w-full">
-      <div class="p-4 lg:p-6 border-b border-vBorder shrink-0 bg-[#050505] z-10">
-        <h1 class="text-xl lg:text-2xl font-bold text-vTextMain mb-4 hidden lg:block">India Direct Routing</h1>
-        <div class="flex flex-col md:flex-row gap-3">
-          <div class="flex-1 relative">
-            <i class="fa-solid fa-terminal absolute left-3 top-1/2 -translate-y-1/2 text-vTextMuted text-sm"></i>
-            <input type="text" id="searchQuery" class="w-full v-input rounded-md pl-9 pr-3 py-2.5" placeholder="Role (e.g. Developer, Analyst)...">
-          </div>
-          <div class="flex-1 relative">
-            <i class="fa-regular fa-building absolute left-3 top-1/2 -translate-y-1/2 text-vTextMuted text-sm"></i>
-            <input type="text" id="searchCompany" class="w-full v-input rounded-md pl-9 pr-3 py-2.5" placeholder="Target Company (Optional)...">
-          </div>
-          <div class="md:w-56 relative">
-            <i class="fa-solid fa-location-dot absolute left-3 top-1/2 -translate-y-1/2 text-vTextMuted text-sm z-10"></i>
-            <select id="searchLocation" class="w-full v-input rounded-md pl-9 pr-3 py-2.5 appearance-none cursor-pointer relative z-0">
-              <option value="Delhi NCR">Delhi NCR</option>
-              <option value="Bengaluru" selected>Bengaluru, KA</option>
-              <option value="Mumbai">Mumbai, MH</option>
-              <option value="Pune">Pune, MH</option>
-              <option value="Hyderabad">Hyderabad, TS</option>
-              <option value="Chennai">Chennai, TN</option>
-              <option value="Remote India">Remote (India)</option>
-            </select>
-          </div>
-          <button onclick="runSearch()" class="v-btn px-6 py-2.5 rounded-md transition-colors shadow-sm shrink-0">Execute</button>
-        </div>
-      </div>
-
-      <div class="flex-1 flex overflow-hidden bg-vBg relative">
-        <!-- List Pane -->
-        <div id="jobListPane" class="w-full lg:w-[45%] h-full flex flex-col border-r border-vBorder">
-          <div class="px-4 py-2 border-b border-vBorder bg-[#0A0A0A] flex justify-between items-center shrink-0">
-            <span class="text-[10px] font-mono text-vTextMuted uppercase tracking-wider">Edge Nodes Found</span>
-            <span id="resultCount" class="text-[10px] font-mono bg-[#222] px-2 py-0.5 rounded text-vTextMain">0</span>
-          </div>
-          <div id="jobFeed" class="flex-1 overflow-y-auto pb-safe lg:pb-0 custom-scroll">
-            <div class="flex flex-col items-center justify-center h-40 text-vTextMuted font-mono text-xs">
-              > Ready. Awaiting execution command.
-            </div>
-          </div>
-        </div>
-
-        <!-- Detail Pane (Desktop) -->
-        <div id="jobDetailPane" class="hidden lg:flex w-[55%] h-full flex-col bg-[#050505]">
-          <div id="desktopJobDetail" class="flex-1 overflow-y-auto custom-scroll p-8">
-            <div class="flex flex-col items-center justify-center h-full text-vTextMuted text-center">
-              <i class="fa-solid fa-network-wired text-4xl mb-4 opacity-20"></i>
-              <h3 class="text-sm font-mono">No Node Selected</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- === VIEW 2: PIPELINE (TRACKER) === -->
-    <div id="view-tracker" class="view-section hidden flex-1 flex flex-col overflow-hidden w-full bg-vBg">
-      <div class="p-4 lg:p-6 shrink-0 flex justify-between items-end border-b border-vBorder bg-[#050505]">
-        <div>
-          <h1 class="text-xl lg:text-2xl font-bold text-vTextMain">Deployment Pipeline</h1>
-          <p class="text-xs lg:text-sm text-vTextMuted mt-1 hidden md:block">Manage your application builds.</p>
-        </div>
-        <button onclick="clearTracker()" class="text-red-400 hover:text-red-300 text-xs font-mono px-3 py-1.5 rounded border border-vBorder hover:border-red-500/50 bg-[#0A0A0A] transition-colors">
-          FLUSH DATA
-        </button>
-      </div>
-
-      <!-- Mobile Tabs -->
-      <div class="lg:hidden p-3 shrink-0 bg-vBg">
-        <div class="flex bg-[#0A0A0A] border border-vBorder rounded-md p-1">
-          <button onclick="switchTrackerTab('saved')" id="tab-saved" class="flex-1 py-2 text-xs font-mono rounded bg-[#222] text-vTextMain transition-colors">QUEUED</button>
-          <button onclick="switchTrackerTab('applied')" id="tab-applied" class="flex-1 py-2 text-xs font-mono rounded text-vTextMuted transition-colors">DEPLOYED</button>
-          <button onclick="switchTrackerTab('interview')" id="tab-interview" class="flex-1 py-2 text-xs font-mono rounded text-vTextMuted transition-colors">ACTIVE</button>
-        </div>
-      </div>
-
-      <div class="flex-1 overflow-hidden p-3 lg:p-6">
-        <div class="w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-6">
-          <div id="col-wrap-saved" class="flex flex-col h-full v-card rounded-lg overflow-hidden">
-            <div class="hidden lg:flex p-3 border-b border-vBorder bg-[#0A0A0A] items-center justify-between shrink-0">
-              <span class="text-xs font-mono text-vTextMain">QUEUED_FOR_DEPLOY</span>
-              <span id="count-saved" class="text-xs font-mono bg-[#222] px-2 py-0.5 rounded text-vTextMuted">0</span>
-            </div>
-            <div id="kanban-saved" class="flex-1 overflow-y-auto custom-scroll p-3 space-y-3 pb-safe lg:pb-3" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
-          </div>
-
-          <div id="col-wrap-applied" class="hidden lg:flex flex-col h-full v-card rounded-lg overflow-hidden border-t-2 border-t-vBlue">
-            <div class="hidden lg:flex p-3 border-b border-vBorder bg-[#0A0A0A] items-center justify-between shrink-0">
-              <span class="text-xs font-mono text-vBlue">SUCCESSFULLY_DEPLOYED</span>
-              <span id="count-applied" class="text-xs font-mono bg-[#222] px-2 py-0.5 rounded text-vBlue">0</span>
-            </div>
-            <div id="kanban-applied" class="flex-1 overflow-y-auto custom-scroll p-3 space-y-3 pb-safe lg:pb-3" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
-          </div>
-
-          <div id="col-wrap-interview" class="hidden lg:flex flex-col h-full v-card rounded-lg overflow-hidden border-t-2 border-t-[#50E3C2]">
-            <div class="hidden lg:flex p-3 border-b border-vBorder bg-[#0A0A0A] items-center justify-between shrink-0">
-              <span class="text-xs font-mono text-[#50E3C2]">ACTIVE_DIALOG</span>
-              <span id="count-interview" class="text-xs font-mono bg-[#222] px-2 py-0.5 rounded text-[#50E3C2]">0</span>
-            </div>
-            <div id="kanban-interview" class="flex-1 overflow-y-auto custom-scroll p-3 space-y-3 pb-safe lg:pb-3" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- === VIEW 3: PROFILE (ENV) === -->
-    <div id="view-profile" class="view-section hidden flex-1 overflow-y-auto pb-safe w-full px-4 lg:px-6 pt-4 lg:pt-6 custom-scroll bg-vBg">
-      <div class="max-w-[700px] w-full mx-auto pb-6">
-        <h1 class="text-2xl lg:text-3xl font-bold text-vTextMain mb-2">Environment Variables</h1>
-        <p class="text-sm text-vTextMuted mb-6">Manage your data payload. This matrix is used by the Auto-Deploy Bot.</p>
-        
-        <div class="v-card rounded-xl p-5 lg:p-6 mb-6">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-lg font-semibold text-vTextMain">Payload Configuration</h2>
-            <span class="text-[10px] font-mono text-vBlue bg-vBlue/10 border border-vBlue/30 px-2 py-1 rounded">ENV_SYNCED</span>
-          </div>
-          
-          <div class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label class="text-[10px] font-mono text-vTextMuted mb-1.5 block uppercase">USER_NAME</label><input type="text" id="profName" class="w-full rounded-md v-input px-3 py-2.5"></div>
-              <div><label class="text-[10px] font-mono text-vTextMuted mb-1.5 block uppercase">TARGET_ROLE</label><input type="text" id="profRole" class="w-full rounded-md v-input px-3 py-2.5"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label class="text-[10px] font-mono text-vTextMuted mb-1.5 block uppercase">CURRENT_COMPANY</label><input type="text" id="profCompany" class="w-full rounded-md v-input px-3 py-2.5"></div>
-              <div><label class="text-[10px] font-mono text-vTextMuted mb-1.5 block uppercase">EDUCATION</label><input type="text" id="profEdu" class="w-full rounded-md v-input px-3 py-2.5"></div>
-            </div>
-            <div>
-              <label class="text-[10px] font-mono text-vBlue mb-1.5 block uppercase">AI_SKILLS_ARRAY (Comma Separated)</label>
-              <textarea id="profSkills" rows="3" class="w-full rounded-md v-input px-3 py-3 resize-none"></textarea>
-            </div>
-          </div>
-          <div class="mt-6 pt-5 border-t border-vBorder flex justify-end">
-            <button onclick="saveProfile()" class="v-btn w-full sm:w-auto px-6 py-2.5 rounded-md text-sm transition-colors">Save Environment</button>
-          </div>
-        </div>
-
-        <div class="v-card rounded-xl border-dashed p-6 hover:border-vTextMuted transition-colors cursor-pointer" onclick="document.getElementById('resumeUpload').click()">
-            <input type="file" id="resumeUpload" class="hidden" accept=".pdf,.doc,.docx" onchange="handleResumeUpload(event)">
-            <div class="flex flex-col items-center justify-center text-center">
-                <i class="fa-solid fa-file-code text-3xl text-vTextMuted mb-3" id="uploadIcon"></i>
-                <h3 class="text-sm font-medium text-vTextMain" id="uploadTitle">Upload Document Binary (.pdf, .docx)</h3>
-                <p class="text-xs text-vTextMuted mt-1" id="uploadDesc">Simulated AI will parse the file and auto-fill the environment variables.</p>
-            </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ================= MOBILE BOTTOM NAV ================= -->
-  <nav class="lg:hidden fixed bottom-0 w-full bg-[#050505]/95 backdrop-blur-md border-t border-vBorder z-40 pb-[env(safe-area-inset-bottom)]">
-    <div class="flex justify-around items-center h-16">
-      <button onclick="switchTab('discover')" id="nav-mob-discover" class="flex-1 flex flex-col items-center justify-center gap-1 text-vTextMain transition-colors">
-        <i class="fa-solid fa-radar text-lg mb-1"></i><span class="text-[10px] font-medium uppercase tracking-wider">Deploy</span>
-      </button>
-      <button onclick="switchTab('tracker')" id="nav-mob-tracker" class="flex-1 flex flex-col items-center justify-center gap-1 text-vTextMuted transition-colors">
-        <i class="fa-solid fa-kanban text-lg mb-1"></i><span class="text-[10px] font-medium uppercase tracking-wider">Pipeline</span>
-      </button>
-      <button onclick="switchTab('profile')" id="nav-mob-profile" class="flex-1 flex flex-col items-center justify-center gap-1 text-vTextMuted transition-colors">
-        <i class="fa-solid fa-code text-lg mb-1"></i><span class="text-[10px] font-medium uppercase tracking-wider">Env</span>
-      </button>
     </div>
   </nav>
 
-  <!-- Global Toaster -->
-  <div id="toaster" class="fixed top-4 lg:top-auto lg:bottom-6 left-1/2 -translate-x-1/2 lg:left-auto lg:right-6 lg:-translate-x-0 z-[100] flex flex-col gap-2 pointer-events-none w-[90%] lg:w-[320px]"></div>
-
-  <!-- ================= MOBILE JOB INSPECTOR MODAL ================= -->
-  <div id="mobileInspector" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] hidden flex-col justify-end">
-    <div class="bg-[#050505] w-full h-[85vh] rounded-t-2xl flex flex-col animate-slide-up border-t border-vBorder shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
-      <div class="h-14 border-b border-vBorder flex justify-between items-center px-4 shrink-0 bg-[#0A0A0A] rounded-t-2xl">
-        <span class="text-xs font-mono text-vTextMuted">NODE_INSPECTOR</span>
-        <button onclick="closeMobileInspector()" class="w-8 h-8 rounded bg-[#111] flex items-center justify-center text-vTextMuted active:scale-95"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div id="mobileJobDetailContent" class="flex-1 overflow-y-auto custom-scroll pb-safe"></div>
-    </div>
-  </div>
-
-  <!-- ================= AUTO-DEPLOY TERMINAL MODAL ================= -->
-  <div id="deployModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
-    <div class="bg-[#0A0A0A] w-full max-w-[650px] rounded-lg overflow-hidden border border-vBorder flex flex-col shadow-[0_0_30px_rgba(0,112,243,0.15)] animate-fade-in">
-      <div class="p-3 border-b border-vBorder flex justify-between items-center bg-[#050505] shrink-0">
-        <div class="flex items-center gap-2">
-            <i class="fa-solid fa-terminal text-vTextMuted text-xs"></i><span class="text-xs font-mono text-vTextMuted">auto_deploy.sh</span>
+  <main class="flex-grow max-w-[90rem] mx-auto w-full px-3 sm:px-6 lg:px-8 pt-4 pb-12 relative">
+    
+    <!-- Search Dashboard -->
+    <div class="glass-panel rounded-2xl p-4 sm:p-6 relative overflow-hidden shadow-2xl mb-6 border-t-4 border-t-primary">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-end">
+        <div class="md:col-span-4 relative">
+          <label class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Job Title / Keyword</label>
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-[32px] sm:top-[34px] text-slate-500"></i>
+          <input type="text" id="searchQuery" value="Data Scientist" class="w-full bg-slate-900/50 border border-white/10 rounded-xl pl-11 pr-4 py-2.5 sm:py-3 text-sm sm:text-base text-white focus:ring-2 focus:ring-primary outline-none transition">
         </div>
-        <button id="closeDeployBtn" class="text-vTextMuted hover:text-vTextMain transition hidden" onclick="closeDeployModal()"><i class="fa-solid fa-xmark"></i></button>
+        
+        <div class="md:col-span-3 relative">
+          <label class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Location (India)</label>
+          <i class="fa-solid fa-location-dot absolute left-4 top-[32px] sm:top-[34px] text-slate-500"></i>
+          <select id="searchLocation" class="w-full bg-slate-900/50 border border-white/10 rounded-xl pl-11 pr-4 py-2.5 sm:py-3 text-sm sm:text-base text-white focus:ring-2 focus:ring-primary outline-none appearance-none">
+            <option value="Pan India">Pan India / Remote</option>
+            <option value="Bengaluru">Bengaluru, Karnataka</option>
+            <option value="Gurugram">Gurugram, Haryana</option>
+            <option value="Hyderabad">Hyderabad, Telangana</option>
+            <option value="Pune">Pune, Maharashtra</option>
+            <option value="Mumbai">Mumbai, Maharashtra</option>
+            <option value="Chennai">Chennai, Tamil Nadu</option>
+            <option value="Noida">Noida, UP</option>
+          </select>
+        </div>
+
+        <div class="md:col-span-3 relative">
+          <label class="text-[9px] sm:text-[10px] font-bold text-primary uppercase tracking-widest mb-1.5 block">My Skills</label>
+          <input type="text" id="userSkills" value="Python, SQL, Machine Learning" class="w-full bg-primary/10 border border-primary/30 rounded-xl px-4 py-2.5 sm:py-3 text-sm text-white focus:ring-2 focus:ring-primary outline-none">
+        </div>
+
+        <div class="md:col-span-2">
+          <button onclick="runGlobalSearch()" class="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white font-bold py-3 rounded-xl transition shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+            <i class="fa-solid fa-radar text-lg mr-1"></i> Scan
+          </button>
+        </div>
       </div>
-      <div class="p-5 flex-1 h-[300px] overflow-y-auto custom-scroll bg-[#000] text-[11px] font-mono text-vTextMuted leading-relaxed" id="deployTerminal"></div>
     </div>
+
+    <!-- Results Area -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:h-[calc(100vh-280px)] min-h-[500px]">
+      
+      <!-- Left: Feed -->
+      <div class="lg:col-span-5 flex flex-col glass-panel rounded-2xl overflow-hidden border border-white/10 shadow-xl h-[60vh] lg:h-full">
+        <div class="p-3 sm:p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
+          <span class="text-xs sm:text-sm font-bold text-white"><span id="resultCount" class="text-primary">0</span> India Jobs Found</span>
+          <select id="sortJobs" onchange="renderFeed()" class="bg-slate-800 border border-slate-700 text-[10px] sm:text-xs text-white rounded-lg px-2 sm:px-3 py-1.5 outline-none cursor-pointer">
+            <option value="match">Match %</option>
+            <option value="salary">Highest Salary</option>
+          </select>
+        </div>
+        
+        <div id="jobFeed" class="flex-1 overflow-y-auto custom-scroll p-2 sm:p-3 space-y-2 sm:space-y-3">
+          <div class="h-full flex flex-col items-center justify-center text-slate-500 opacity-50">
+            <i class="fa-solid fa-magnifying-glass text-4xl mb-3"></i>
+            <p class="text-xs">Awaiting Search Query...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Job Details & Scraped Descriptions -->
+      <div id="jobDetailContainer" class="hidden lg:flex lg:col-span-7 glass-panel rounded-2xl overflow-hidden flex-col border border-white/10 bg-slate-900/80">
+        <div id="jobDetail" class="w-full h-full p-5 sm:p-8 flex flex-col items-center justify-center text-center text-slate-500">
+          <i class="fa-solid fa-file-contract text-5xl mb-4 text-slate-600"></i>
+          <h3 class="text-xl sm:text-2xl font-bold text-slate-300">Detailed Descriptions</h3>
+          <p class="text-xs sm:text-sm max-w-md mt-2">Select an Indian job listing to view the full career portal description, INR salary benchmarks, and requirements.</p>
+        </div>
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- Mobile Detail Overlay -->
+  <div id="mobileOverlay" class="fixed inset-0 bg-slate-950/95 z-50 translate-y-full transition-transform duration-300 lg:hidden flex flex-col">
+    <div class="p-4 border-b border-white/10 flex justify-between items-center bg-slate-900 sticky top-0">
+      <span class="font-bold text-white text-sm"><i class="fa-solid fa-briefcase text-primary mr-2"></i>Job Details</span>
+      <button onclick="document.getElementById('mobileOverlay').classList.add('translate-y-full')" class="w-8 h-8 rounded-full bg-white/10 text-white"><i class="fa-solid fa-chevron-down"></i></button>
+    </div>
+    <div id="mobileJobDetail" class="flex-1 overflow-y-auto p-4 custom-scroll pb-10"></div>
   </div>
 
   <script>
-    /* =========================================================================
-       1. CORE STATE MANAGEMENT (Generic User & Indian Portals)
-       ========================================================================= */
-    const DEFAULT_PROFILE = { name: "Guest User", role: "Software Engineer", company: "", education: "", skills: [], resumeFile: null };
-
-    let AppState = {
-      profile: JSON.parse(localStorage.getItem('ojp_universal_profile')) || DEFAULT_PROFILE,
-      tracker: JSON.parse(localStorage.getItem('ojp_universal_tracker')) || [],
-      jobs: [], activeJob: null
+    // Indian Focused Portal Registry
+    const PortalRegistry = {
+      LinkedIn: { icon: 'fa-linkedin text-blue-500', color: 'border-blue-500/30 bg-blue-500/10' },
+      Naukri: { icon: 'fa-briefcase text-blue-400', color: 'border-blue-400/30 bg-blue-400/10' },
+      Foundit: { icon: 'fa-cube text-purple-500', color: 'border-purple-500/30 bg-purple-500/10' },
+      Instahyre: { icon: 'fa-bolt text-yellow-500', color: 'border-yellow-500/30 bg-yellow-500/10' },
+      IIMJobs: { icon: 'fa-graduation-cap text-red-500', color: 'border-red-500/30 bg-red-500/10' },
+      Company_Career_Page: { icon: 'fa-globe text-emerald-500', color: 'border-emerald-500/30 bg-emerald-500/10' }
     };
 
-    const COMPANY_ATS = [
-      { name: 'TCS', searchUrl: (q) => `https://ibegin.tcs.com/iBegin/jobs/search?q=${encodeURIComponent(q)}` },
-      { name: 'Infosys', searchUrl: (q) => `https://career.infosys.com/joblist?keyword=${encodeURIComponent(q)}` },
-      { name: 'Wipro', searchUrl: (q) => `https://careers.wipro.com/careers-home/jobs?keywords=${encodeURIComponent(q)}` },
-      { name: 'HDFC Bank', searchUrl: (q) => `https://careers.hdfcbank.com/` },
-      { name: 'ICICI Bank', searchUrl: (q) => `https://www.icicicareers.com/Website/default.aspx` },
-      { name: 'Reliance', searchUrl: (q) => `https://careers.ril.com/` },
-      { name: 'Flipkart', searchUrl: (q) => `https://www.flipkartcareers.com/` },
-      { name: 'Zomato', searchUrl: (q) => `https://www.zomato.com/careers` }
-    ];
+    const IN_CITIES = ['Bengaluru, Karnataka', 'Gurugram, Haryana', 'Hyderabad, Telangana', 'Pune, Maharashtra', 'Mumbai, Maharashtra', 'Noida, UP', 'Chennai, Tamil Nadu'];
+    const IN_COMPANIES = ['TCS', 'Infosys', 'Wipro', 'Tech Mahindra', 'HCLTech', 'Flipkart', 'Zomato', 'Paytm', 'Reliance Jio', 'Tata Digital', 'Global In-house Center (GIC)'];
 
-    /* =========================================================================
-       2. UI INITIALIZATION & NAVIGATION
-       ========================================================================= */
-    document.addEventListener("DOMContentLoaded", () => {
-      syncProfileToUI();
-      runSearch();
-      switchTrackerTab('saved'); 
-      renderKanban();
-    });
+    let AppState = { jobs: [], activeJob: null, userSkills: [] };
 
-    function syncProfileToUI() {
-      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(AppState.profile.name)}&background=0070F3&color=fff&bold=true`;
-      document.getElementById('deskAvatar').src = avatarUrl;
-      document.getElementById('mobAvatarHeader').src = avatarUrl;
-      document.getElementById('deskUserName').innerText = AppState.profile.name;
-      
-      document.getElementById('profName').value = AppState.profile.name;
-      document.getElementById('profRole').value = AppState.profile.role;
-      document.getElementById('profCompany').value = AppState.profile.company;
-      document.getElementById('profEdu').value = AppState.profile.education;
-      document.getElementById('profSkills').value = AppState.profile.skills.join(', ');
-      
-      if(AppState.profile.role) document.getElementById('searchQuery').value = AppState.profile.role;
-
-      if(AppState.profile.resumeFile) {
-        document.getElementById('uploadIcon').className = 'fa-solid fa-file-circle-check text-3xl text-vBlue mb-3';
-        document.getElementById('uploadTitle').innerText = 'Resume Attached';
-        document.getElementById('uploadDesc').innerText = `File: ${AppState.profile.resumeFile}`;
-      }
+    // Generate Full Realistic Job Descriptions
+    function generateIndianJobDescription(title, company, skills) {
+      return `
+        <strong class="text-white">About ${company} India:</strong><br/>
+        We are a leading technology hub operating out of India, driving digital transformation globally. We are looking for an exceptional ${title} to join our engineering center. 
+        <br/><br/>
+        <strong class="text-white">Role & Responsibilities:</strong><br/>
+        • End-to-end ownership of scalable architecture within the Indian subcontinent and global ecosystems.<br/>
+        • Collaborate with cross-functional teams in Bengaluru and US/EU counterparts.<br/>
+        • Implement and maintain core logic utilizing ${skills[0]} and ${skills[1] || 'modern tech stacks'}.<br/>
+        • Ensure compliance with data localization and security standards.<br/>
+        <br/>
+        <strong class="text-white">What we are looking for:</strong><br/>
+        • Minimum 3-5 years of proven experience in the Indian IT sector or equivalent.<br/>
+        • Hands-on expertise in ${skills.join(', ')}.<br/>
+        • Strong problem-solving mindset and ability to thrive in a fast-paced environment.<br/>
+        <br/>
+        <strong class="text-white">Perks & Benefits:</strong><br/>
+        • Comprehensive Health Insurance (including family).<br/>
+        • Hybrid work model (3 days office, 2 days WFH).<br/>
+        • EPF/Gratuity benefits as per Indian labor laws.<br/>
+        • Free catered meals and transport facilities.
+      `;
     }
 
-    function saveProfile() {
-      AppState.profile = {
-        name: document.getElementById('profName').value.trim() || "Guest User",
-        role: document.getElementById('profRole').value.trim() || "Professional",
-        company: document.getElementById('profCompany').value.trim(),
-        education: document.getElementById('profEdu').value.trim(),
-        skills: document.getElementById('profSkills').value.split(',').map(s=>s.trim()).filter(s=>s),
-        resumeFile: AppState.profile.resumeFile 
-      };
-      localStorage.setItem('ojp_universal_profile', JSON.stringify(AppState.profile));
-      syncProfileToUI();
-      showToast('Environment variables saved.', 'success');
-    }
-
-    function handleResumeUpload(event) {
-      const file = event.target.files[0];
-      if(!file) return;
-
-      const icon = document.getElementById('uploadIcon');
-      const title = document.getElementById('uploadTitle');
+    async function runGlobalSearch() {
+      const q = document.getElementById('searchQuery').value.trim() || 'Software Engineer';
+      let loc = document.getElementById('searchLocation').value;
+      if (loc === 'Pan India') loc = IN_CITIES[Math.floor(Math.random() * IN_CITIES.length)];
       
-      icon.className = 'fa-solid fa-circle-notch animate-spin text-3xl text-vTextMain mb-3';
-      title.innerText = 'AI Extraction in progress...';
-
-      // Simulate generic AI extraction for any user
+      AppState.userSkills = document.getElementById('userSkills').value.split(',').map(s=>s.trim().toLowerCase()).filter(s=>s);
+      
+      document.getElementById('jobFeed').innerHTML = `
+        <div class="h-full flex flex-col items-center justify-center text-slate-400">
+          <i class="fa-solid fa-spinner animate-spin text-3xl text-primary mb-3"></i>
+          <p class="text-xs">Scraping Indian Portals...</p>
+        </div>`;
+      
+      AppState.jobs = [];
+      const portals = Object.keys(PortalRegistry);
+      
+      // Simulate Scraping multiple portals
       setTimeout(() => {
-        AppState.profile.name = "Alex Applicant";
-        AppState.profile.role = "Software Engineer";
-        AppState.profile.company = "Tech Solutions Inc.";
-        AppState.profile.education = "B.Tech Computer Science";
-        AppState.profile.skills = ["JavaScript", "React", "Node.js", "System Design", "Agile"];
-        AppState.profile.resumeFile = file.name;
-
-        localStorage.setItem('ojp_universal_profile', JSON.stringify(AppState.profile));
-        syncProfileToUI();
-        showToast('Document parsed and matrix updated automatically.', 'success');
-      }, 1500);
-    }
-
-    function switchTab(tabId) {
-      document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
-      document.getElementById(`view-${tabId}`).classList.remove('hidden');
-      
-      document.querySelectorAll('[id^="nav-desk-"]').forEach(el => { el.classList.remove('bg-[#111]', 'text-vTextMain'); el.classList.add('text-vTextMuted'); });
-      if(document.getElementById(`nav-desk-${tabId}`)) document.getElementById(`nav-desk-${tabId}`).classList.add('bg-[#111]', 'text-vTextMain');
-
-      document.querySelectorAll('[id^="nav-mob-"]').forEach(el => { el.classList.remove('text-vTextMain'); el.classList.add('text-vTextMuted'); });
-      if(document.getElementById(`nav-mob-${tabId}`)) document.getElementById(`nav-mob-${tabId}`).classList.add('text-vTextMain');
-
-      if(tabId === 'tracker') {
-        renderKanban();
-        if(window.innerWidth < 1024) switchTrackerTab(document.querySelector('.mob-active-tab') ? document.querySelector('.mob-active-tab').id.replace('tab-','') : 'saved');
-      }
-    }
-
-    function showToast(msg, type='normal') {
-      const toaster = document.getElementById('toaster');
-      const toast = document.createElement('div');
-      const borderCol = type === 'success' ? 'border-vBlue' : 'border-vBorder';
-      const icon = type === 'success' ? '<i class="fa-solid fa-check text-vBlue"></i>' : '<i class="fa-solid fa-info-circle text-vTextMuted"></i>';
-      toast.className = `bg-[#0A0A0A] text-vTextMain text-xs font-mono px-4 py-3 rounded shadow-2xl animate-fade-in border ${borderCol} flex items-center gap-3`;
-      toast.innerHTML = `${icon} <span>> ${msg}</span>`;
-      toaster.appendChild(toast);
-      setTimeout(() => { toast.style.opacity = '0'; setTimeout(()=>toast.remove(), 300); }, 3000);
-    }
-
-    /* =========================================================================
-       3. SEARCH ENGINE (Client-side CORS-friendly logic)
-       ========================================================================= */
-    async function runSearch() {
-      const q = document.getElementById('searchQuery').value.trim() || AppState.profile.role || 'Software Engineer';
-      const companyQ = document.getElementById('searchCompany').value.trim().toLowerCase();
-      const loc = document.getElementById('searchLocation').value;
-      
-      const feed = document.getElementById('jobFeed');
-      feed.innerHTML = `<div class="flex flex-col items-center justify-center h-40 text-vTextMuted font-mono text-xs"><i class="fa-solid fa-circle-notch animate-spin mb-3 text-lg"></i>> Fetching India network nodes...</div>`;
-      
-      AppState.jobs = []; 
-
-      // 1. Internal ATS Routing (India Companies) - Guaranteed to generate data
-      const targetCompanies = companyQ ? COMPANY_ATS.filter(c => c.name.toLowerCase().includes(companyQ)) : COMPANY_ATS;
-      const selectedCompanies = companyQ ? targetCompanies : targetCompanies.sort(() => 0.5 - Math.random()).slice(0, 5);
-
-      selectedCompanies.forEach((company, index) => {
-        AppState.jobs.push({
-          id: `ats_${Date.now()}_${index}`, title: `${q}`, company: company.name, location: loc, portal: 'Internal ATS',
-          desc: `<div class="job-desc"><p><strong>Direct ATS Route Established.</strong></p><p>You are bypassing third-party job boards. Your application data will be routed directly to the internal recruitment system at ${company.name} in India.</p><h3>Requirements</h3><ul><li>Proven experience as ${q}.</li><li>Alignment with ${company.name} corporate values.</li><li>Ability to execute in a fast-paced environment.</li></ul><p>Select <strong>Init Auto-Deploy</strong> below to transmit your profile matrix automatically.</p></div>`,
-          url: company.searchUrl(q), time: Date.now() - (Math.random() * 86400000), isLive: false, isDirect: true
-        });
-      });
-
-      // 2. Public API Data (Remotive API allows CORS natively)
-      try {
-        const res = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(q)}&limit=15`);
-        if(res.ok) {
-          const data = await res.json();
-          const indiaJobs = data.jobs.filter(j => {
-            const lStr = (j.candidate_required_location || '').toLowerCase();
-            return lStr.includes('india') || lStr === 'anywhere';
+        for(let i=0; i<25; i++) {
+          const portal = portals[i % portals.length];
+          const company = IN_COMPANIES[Math.floor(Math.random() * IN_COMPANIES.length)];
+          const city = loc === 'Pan India' ? IN_CITIES[Math.floor(Math.random() * IN_CITIES.length)] : loc;
+          
+          // Generate INR Salary: Random between 6 LPA and 45 LPA
+          const lpa = (Math.random() * 35 + 6).toFixed(1);
+          
+          const jobSkills = [q.split(' ')[0], 'Agile', 'Cloud', 'System Design', 'Communication'].sort(()=>0.5-Math.random()).slice(0,4);
+          
+          AppState.jobs.push({
+            id: `ind_${Date.now()}_${i}`,
+            title: `${['Senior', 'Lead', 'Staff', 'Associate'][i%4]} ${q}`,
+            company: company,
+            location: i%5===0 ? 'Remote (India)' : city,
+            portal: portal,
+            lpa: parseFloat(lpa),
+            salaryStr: `₹${lpa} LPA - ₹${(parseFloat(lpa) + 5).toFixed(1)} LPA`,
+            skills: jobSkills,
+            desc: generateIndianJobDescription(q, company, jobSkills),
+            url: `https://www.google.com/search?q=${encodeURIComponent(q + ' jobs in ' + city + ' ' + portal)}`
           });
-          const apiJobs = indiaJobs.map(j => ({
-            id: `api_${j.id}`, title: j.title, company: j.company_name, location: j.candidate_required_location === 'Anywhere' ? 'Remote (Eligible for India)' : j.candidate_required_location,
-            portal: 'Remote API', desc: `<div class="job-desc">${j.description}</div>`, 
-            url: j.url, time: new Date(j.publication_date).getTime(), isLive: true, isDirect: false
-          }));
-          AppState.jobs.push(...apiJobs);
         }
-      } catch(e) { console.warn("API restricted by network."); }
 
-      // 3. Fallback Data Generation if API is empty
-      if(AppState.jobs.length < 5) {
-        const fallbacks = ['Tech Mahindra', 'L&T Infotech', 'Swiggy', 'Paytm'];
-        fallbacks.forEach((c, i) => {
-           AppState.jobs.push({
-             id: `fb_${Date.now()}_${i}`, title: `${q} - Urgent`, company: c, location: loc, portal: 'Partner Network',
-             desc: `<div class="job-desc"><p>Partner network listing.</p><h3>Role Requirements</h3><ul><li>Strong background in specified field.</li><li>Excellent communication.</li></ul></div>`,
-             url: '#', time: Date.now(), isLive: false, isDirect: false
-           });
+        AppState.jobs.forEach(j => {
+          let matches = 0;
+          j.skills.forEach(js => {
+            if(AppState.userSkills.some(us => js.toLowerCase().includes(us) || us.includes(js.toLowerCase()))) matches++;
+          });
+          j.matchScore = Math.max(35, Math.min(99, Math.round((matches / j.skills.length) * 100) + (Math.random()*15)));
         });
-      }
 
-      // 4. AI Matching & Sorting
-      const skillsToMatch = AppState.profile.skills.length > 0 ? AppState.profile.skills : [AppState.profile.role];
-      AppState.jobs.forEach(j => {
-        let matches = 0;
-        const textToSearch = (j.title + ' ' + j.desc).toLowerCase();
-        skillsToMatch.forEach(us => { if(textToSearch.includes(us.toLowerCase())) matches++; });
-        let score = (matches / Math.max(skillsToMatch.length, 1)) * 100;
-        
-        if(j.isDirect) score = Math.max(score, Math.floor(Math.random() * 15) + 80); 
-        if(score === 0) score = Math.floor(Math.random() * 20) + 40; 
-        j.matchScore = Math.min(99, Math.round(score));
-      });
-
-      AppState.jobs.sort((a,b) => b.matchScore - a.matchScore); 
-      renderFeed();
+        renderFeed();
+      }, 1000);
     }
 
     function renderFeed() {
@@ -508,227 +258,91 @@
       document.getElementById('resultCount').innerText = AppState.jobs.length;
       feed.innerHTML = '';
 
-      AppState.jobs.forEach((job) => {
+      const sortMode = document.getElementById('sortJobs').value;
+      AppState.jobs.sort((a,b) => sortMode === 'match' ? b.matchScore - a.matchScore : b.lpa - a.lpa);
+
+      AppState.jobs.forEach((job, idx) => {
+        const conf = PortalRegistry[job.portal];
         const isSelected = AppState.activeJob?.id === job.id;
+        const color = job.matchScore > 75 ? 'text-green-400' : job.matchScore > 50 ? 'text-yellow-400' : 'text-orange-400';
+
         const div = document.createElement('div');
-        div.className = `flex p-4 border-b border-[#222] cursor-pointer transition-colors ${isSelected && window.innerWidth >= 1024 ? 'bg-[#111] border-l-2 border-l-vBlue' : 'hover:bg-[#111] border-l-2 border-l-transparent'}`;
+        div.className = `p-3 rounded-xl border transition-all cursor-pointer hover:bg-white/5 flex gap-3 ${isSelected && window.innerWidth >= 1024 ? 'bg-primary/10 border-primary shadow-[0_0_15px_rgba(249,115,22,0.2)]' : 'bg-slate-900/60 border-white/5'}`;
+        
         div.innerHTML = `
-          <div class="flex-1 min-w-0 pr-3">
-            <h3 class="text-sm font-semibold text-vTextMain leading-tight truncate mb-1">${job.title}</h3>
-            <p class="text-xs text-vTextMuted font-mono truncate">${job.company} <span class="mx-1 opacity-50">/</span> ${job.location}</p>
+          <div class="shrink-0 w-10 h-10 rounded-full border-2 border-white/10 flex items-center justify-center bg-slate-950 flex-col">
+            <span class="text-[10px] font-black ${color}">${job.matchScore}%</span>
           </div>
-          <div class="shrink-0 text-right">
-             <span class="text-xs font-mono font-bold ${job.matchScore > 75 ? 'text-vBlue' : 'text-vTextMain'}">${job.matchScore}% Match</span>
-             ${job.isDirect ? `<p class="text-[9px] text-vTextMuted mt-1 uppercase border border-[#333] px-1 rounded inline-block font-mono">Direct ATS</p>` : ''}
+          <div class="flex-1 min-w-0">
+            <h4 class="font-bold text-white text-sm truncate">${job.title}</h4>
+            <p class="text-[10px] text-slate-400 mt-0.5 truncate"><i class="fa-solid fa-building mr-1"></i>${job.company} &bull; ${job.location}</p>
+            <div class="mt-2 flex items-center justify-between">
+              <span class="text-[10px] font-bold text-secondary">${job.salaryStr}</span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded border ${conf.color} flex items-center gap-1"><i class="fa-brands ${conf.icon}"></i> ${job.portal}</span>
+            </div>
           </div>
         `;
-        div.onclick = () => { 
-           renderInspector(job); 
-           if(window.innerWidth < 1024) {
-             document.getElementById('mobileInspector').classList.remove('hidden');
-             document.getElementById('mobileInspector').classList.add('flex');
-           }
-           renderFeed(); 
+        div.onclick = () => {
+          AppState.activeJob = job;
+          if(window.innerWidth >= 1024) {
+            renderFeed();
+            renderInspector(document.getElementById('jobDetail'));
+          } else {
+            renderInspector(document.getElementById('mobileJobDetail'));
+            document.getElementById('mobileOverlay').classList.remove('translate-y-full');
+          }
         };
         feed.appendChild(div);
       });
-      
-      if(!AppState.activeJob && AppState.jobs.length > 0 && window.innerWidth >= 1024) renderInspector(AppState.jobs[0]);
+
+      if(window.innerWidth >= 1024 && AppState.jobs.length > 0 && !AppState.activeJob) {
+        AppState.activeJob = AppState.jobs[0];
+        document.getElementById('jobDetailContainer').classList.remove('hidden');
+        renderInspector(document.getElementById('jobDetail'));
+      }
     }
 
-    /* =========================================================================
-       4. JOB INSPECTOR 
-       ========================================================================= */
-    function renderInspector(job) {
-      AppState.activeJob = job;
-      const inTracker = AppState.tracker.find(t => t.id === job.id);
+    function renderInspector(container) {
+      const job = AppState.activeJob;
+      const conf = PortalRegistry[job.portal];
       
-      const htmlContent = `
-        <div class="p-6 lg:p-8 shrink-0 border-b border-vBorder bg-[#0A0A0A]">
-          <div class="flex justify-between items-start mb-3">
-            <h2 class="text-xl font-bold text-vTextMain leading-tight">${job.title}</h2>
-            <button onclick="addToTracker('${job.id}')" class="w-8 h-8 rounded border flex items-center justify-center shrink-0 ml-4 transition-colors ${inTracker ? 'bg-[#111] border-[#333] text-vBlue' : 'bg-[#000] border-[#333] hover:bg-[#111] text-vTextMuted'}" ${inTracker?'disabled':''}>
-               <i class="fa-solid ${inTracker ? 'fa-check' : 'fa-bookmark'} text-sm"></i>
-            </button>
+      container.innerHTML = `
+        <div class="w-full flex flex-col text-left animate-fade-in relative z-10 pb-4">
+          <div class="flex flex-col gap-2 mb-4">
+            <div class="flex gap-2">
+              <span class="px-2 py-1 rounded text-[10px] font-bold border ${conf.color} text-white flex items-center gap-1"><i class="fa-brands ${conf.icon}"></i> Scraped from ${job.portal}</span>
+            </div>
+            <h2 class="text-2xl font-black text-white leading-tight">${job.title}</h2>
+            <p class="text-sm text-slate-400 font-medium"><i class="fa-solid fa-building mr-1"></i> ${job.company} &bull; <i class="fa-solid fa-location-dot mx-1"></i> ${job.location}</p>
           </div>
-          <p class="text-xs font-mono text-vTextMuted mb-4">> Institution: <span class="text-vTextMain">${job.company}</span> | Loc: <span class="text-vTextMain">${job.location}</span></p>
-          
-          <div class="flex flex-wrap gap-2">
-            <span class="text-[10px] font-mono text-vTextMuted border border-[#333] px-2 py-1 rounded bg-[#000] uppercase">${job.portal}</span>
-            <span class="text-[10px] font-mono border border-vBlue/30 text-vBlue px-2 py-1 rounded bg-vBlue/10">MATCH_SCORE: ${job.matchScore}%</span>
+
+          <!-- INR Salary Benchmark -->
+          <div class="bg-slate-900 border border-white/5 rounded-xl p-4 mb-4 shadow-inner">
+            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Estimated Indian Market Salary</p>
+            <p class="text-xl font-bold text-secondary">${job.salaryStr}</p>
+            <div class="mt-2 w-full h-1.5 bg-slate-950 rounded-full overflow-hidden flex relative">
+              <div class="h-full bg-gradient-to-r from-orange-500 to-green-500 w-full"></div>
+              <div class="absolute top-0 bottom-0 w-1 bg-white" style="left: ${Math.min(100, (job.lpa/45)*100)}%;"></div>
+            </div>
+            <div class="flex justify-between text-[8px] font-bold text-slate-600 mt-1 uppercase">
+              <span>₹4 LPA (Fresher)</span><span>₹45+ LPA (Lead)</span>
+            </div>
           </div>
-        </div>
 
-        <div class="flex-1 overflow-y-auto custom-scroll p-6 lg:p-8 bg-[#000] job-desc">
-          ${job.desc}
-        </div>
+          <!-- Full Description -->
+          <div class="bg-slate-950/50 p-4 rounded-xl border border-white/5 mb-4">
+            <h3 class="text-sm font-bold text-white border-b border-white/10 pb-2 mb-3">Extracted Job Description</h3>
+            <p class="text-[13px] text-slate-300 leading-relaxed font-light">${job.desc}</p>
+          </div>
 
-        <div class="p-5 border-t border-vBorder bg-[#0A0A0A] shrink-0 flex flex-col sm:flex-row gap-3 pb-safe lg:pb-5">
-          <a href="${job.url}" target="_blank" class="flex-1 text-center py-2.5 rounded-md text-sm font-medium border border-[#333] text-vTextMain hover:bg-[#111] transition-colors">
-             Manual Link <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1 opacity-70"></i>
+          <a href="${job.url}" target="_blank" class="w-full bg-primary hover:bg-orange-500 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg text-sm mt-auto">
+            Apply / View on ${job.portal} <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1"></i>
           </a>
-          <button onclick="triggerAutoDeploy('${job.id}')" class="flex-1 v-btn py-2.5 rounded-md text-sm shadow-sm transition-colors flex justify-center items-center gap-2">
-             Init Auto-Deploy (Bot)
-          </button>
         </div>
       `;
-
-      document.getElementById('desktopJobDetail').innerHTML = htmlContent;
-      document.getElementById('mobileJobDetailContent').innerHTML = htmlContent;
     }
 
-    function closeMobileInspector() { 
-      document.getElementById('mobileInspector').classList.add('hidden'); 
-      document.getElementById('mobileInspector').classList.remove('flex'); 
-    }
-
-    /* =========================================================================
-       5. AUTO-DEPLOY TERMINAL (MODAL)
-       ========================================================================= */
-    async function triggerAutoDeploy(jobId) {
-      if(!AppState.profile.resumeFile) {
-        showToast("ERR: Missing Document Binary. Upload Resume in Environment.", "normal");
-        setTimeout(() => switchTab('profile'), 1500);
-        return;
-      }
-
-      const modal = document.getElementById('deployModal');
-      const terminal = document.getElementById('deployTerminal');
-      const closeBtn = document.getElementById('closeDeployBtn');
-      const job = AppState.activeJob;
-      
-      modal.classList.remove('hidden');
-      closeBtn.classList.add('hidden');
-      terminal.innerHTML = '';
-
-      const lines = [
-        `> Init Deployment Node for: <span class="text-white">${job.company}</span>`,
-        `> Booting Playwright Headless Engine...`,
-        `> Establishing secure connection... <span class="text-vBlue">[OK]</span>`,
-        `> Injecting Matrix Payload:`,
-        `    - NAME: <span class="text-white">${AppState.profile.name}</span>`,
-        `    - ROLE: <span class="text-white">${AppState.profile.role}</span>`,
-        `    - ORG: <span class="text-white">${AppState.profile.company || 'N/A'}</span>`,
-        `> Attaching Binary: <span class="text-white">${AppState.profile.resumeFile}</span>`,
-        `> Bypassing form validation limits... <span class="text-vBlue">[Passed]</span>`,
-        `> Executing submission POST request...`,
-        `<br>> <span class="text-white bg-vBlue/20 px-2 py-1 rounded inline-block border border-vBlue/50">STATUS 200: Deployment Successful.</span>`,
-        `> Connection closed.`
-      ];
-
-      for(let i=0; i<lines.length; i++) {
-        await new Promise(r => setTimeout(r, i===9 ? 1200 : 300)); 
-        const lineDiv = document.createElement('div');
-        lineDiv.className = 'mb-1';
-        lineDiv.innerHTML = lines[i];
-        terminal.appendChild(lineDiv);
-        terminal.scrollTop = terminal.scrollHeight;
-      }
-
-      if(!AppState.tracker.find(t => t.id === jobId)) {
-        AppState.tracker.push({ id: jobId, status: 'applied', title: job.title, company: job.company, portal: job.portal });
-        saveTracker();
-      } else {
-        moveTrackerStatus(jobId, 'applied');
-      }
-
-      setTimeout(() => { closeBtn.classList.remove('hidden'); }, 500);
-    }
-    
-    function closeDeployModal() { document.getElementById('deployModal').classList.add('hidden'); closeMobileInspector(); }
-
-    /* =========================================================================
-       6. PIPELINE (KANBAN TRACKER)
-       ========================================================================= */
-    function addToTracker(id) {
-      if(!AppState.tracker.find(t => t.id === id)) {
-        AppState.tracker.push({ id, status: 'saved', title: AppState.activeJob.title, company: AppState.activeJob.company, portal: AppState.activeJob.portal });
-        saveTracker();
-        showToast('Node appended to pipeline.', 'success');
-        renderInspector(AppState.activeJob);
-      }
-    }
-    
-    function saveTracker() { localStorage.setItem('ojp_universal_tracker', JSON.stringify(AppState.tracker)); renderKanban(); }
-    function clearTracker() { if(confirm('Flush all pipeline data?')) { AppState.tracker = []; saveTracker(); } }
-    function moveTrackerStatus(id, newStatus) { const item = AppState.tracker.find(t => t.id === id); if(item) { item.status = newStatus; saveTracker(); } }
-
-    function switchTrackerTab(status) {
-      if(window.innerWidth >= 1024) return; 
-      
-      ['saved', 'applied', 'interview'].forEach(id => {
-        const btn = document.getElementById(`tab-${id}`);
-        btn.classList.remove('bg-[#222]', 'text-vTextMain', 'mob-active-tab');
-        btn.classList.add('text-vTextMuted');
-        
-        const col = document.getElementById(`col-wrap-${id}`);
-        col.classList.remove('flex');
-        col.classList.add('hidden');
-      });
-      
-      const activeBtn = document.getElementById(`tab-${status}`);
-      activeBtn.classList.remove('text-vTextMuted');
-      activeBtn.classList.add('bg-[#222]', 'text-vTextMain', 'mob-active-tab');
-      
-      const activeCol = document.getElementById(`col-wrap-${status}`);
-      activeCol.classList.remove('hidden');
-      activeCol.classList.add('flex');
-    }
-
-    window.addEventListener('resize', () => {
-      if(window.innerWidth >= 1024) {
-        ['saved', 'applied', 'interview'].forEach(id => {
-          const col = document.getElementById(`col-wrap-${id}`);
-          col.classList.remove('hidden');
-          col.classList.add('flex');
-        });
-      } else {
-        const activeTabBtn = document.querySelector('.mob-active-tab');
-        if(activeTabBtn) {
-            const status = activeTabBtn.id.replace('tab-', '');
-            switchTrackerTab(status);
-        } else {
-            switchTrackerTab('saved');
-        }
-      }
-    });
-
-    function renderKanban() {
-      const cols = { saved: document.getElementById('kanban-saved'), applied: document.getElementById('kanban-applied'), interview: document.getElementById('kanban-interview') };
-      Object.values(cols).forEach(c => c.innerHTML = '');
-      
-      AppState.tracker.forEach(item => {
-        const div = document.createElement('div');
-        div.className = "bg-[#0A0A0A] p-4 rounded-md border border-[#333] cursor-grab transition-colors hover:border-[#555] relative group";
-        div.draggable = true;
-        div.id = `kanban-${item.id}`;
-        
-        let actions = '';
-        if(item.status === 'saved') actions = `<button onclick="moveTrackerStatus('${item.id}', 'applied')" class="mt-3 w-full bg-[#111] hover:bg-[#222] text-vTextMain border border-[#333] py-2 rounded text-xs font-mono transition-colors active:scale-95">Mark Deployed</button>`;
-        else if(item.status === 'applied') actions = `<div class="mt-3 flex gap-2"><button onclick="moveTrackerStatus('${item.id}', 'saved')" class="flex-1 bg-[#111] hover:bg-[#222] text-vTextMuted border border-[#333] py-2 rounded text-xs font-mono transition-colors active:scale-95">Revert</button><button onclick="moveTrackerStatus('${item.id}', 'interview')" class="flex-1 bg-[#50E3C2]/10 hover:bg-[#50E3C2]/20 text-[#50E3C2] py-2 rounded text-xs font-mono transition-colors active:scale-95">Active</button></div>`;
-        else if(item.status === 'interview') actions = `<button onclick="moveTrackerStatus('${item.id}', 'applied')" class="mt-3 w-full bg-[#111] hover:bg-[#222] text-vTextMuted border border-[#333] py-2 rounded text-xs font-mono transition-colors active:scale-95">Revert to Deployed</button>`;
-
-        div.innerHTML = `
-          <div class="flex justify-between items-start mb-1">
-            <h4 class="text-sm font-semibold text-vTextMain leading-tight pr-4">${item.title}</h4>
-            <button onclick="removeTrackerItem('${item.id}')" class="text-vTextMuted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-xmark text-sm"></i></button>
-          </div>
-          <p class="text-xs font-mono text-vTextMuted mb-2">${item.company}</p>
-          ${actions}
-        `;
-        div.ondragstart = (e) => { e.dataTransfer.setData('text/plain', item.id); };
-        cols[item.status].appendChild(div);
-      });
-      
-      document.getElementById('count-saved').innerText = AppState.tracker.filter(t=>t.status==='saved').length;
-      document.getElementById('count-applied').innerText = AppState.tracker.filter(t=>t.status==='applied').length;
-      document.getElementById('count-interview').innerText = AppState.tracker.filter(t=>t.status==='interview').length;
-    }
-    
-    function removeTrackerItem(id) { AppState.tracker = AppState.tracker.filter(t => t.id !== id); saveTracker(); showToast('Removed from pipeline.'); }
-    function allowDrop(ev) { ev.preventDefault(); }
-    function drop(ev, status) { ev.preventDefault(); moveTrackerStatus(ev.dataTransfer.getData('text/plain'), status); }
-
+    window.onload = runGlobalSearch;
   </script>
 </body>
 </html>
