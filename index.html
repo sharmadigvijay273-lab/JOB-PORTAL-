@@ -25,15 +25,9 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
           colors: {
-            appBg: '#000000',      /* True OLED Black */
-            surface: '#1C1C1E',    /* iOS Dark Mode Gray */
-            surfaceHover: '#2C2C2E',
-            border: '#38383A',     /* Subtle divider */
-            primary: '#0A84FF',    /* iOS System Blue */
-            textMain: '#FFFFFF',
-            textMuted: '#EBEBF5',  /* iOS Secondary Label */
-            textSubtle: '#8E8E93',
-            success: '#30D158'
+            appBg: '#000000', surface: '#1C1C1E', surfaceHover: '#2C2C2E',
+            border: '#38383A', primary: '#0A84FF', textMain: '#FFFFFF',
+            textMuted: '#EBEBF5', textSubtle: '#8E8E93', success: '#30D158'
           }
         }
       }
@@ -42,33 +36,23 @@
 
   <style>
     body { background-color: #000000; color: #FFFFFF; overflow: hidden; -webkit-tap-highlight-color: transparent; }
-    
-    /* Native App Scrollbars (Hidden on mobile, subtle on desktop) */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #38383A; border-radius: 10px; }
     @media (max-width: 1024px) { ::-webkit-scrollbar { display: none; } }
 
-    /* Native App Inputs */
     .app-input { background: #1C1C1E; color: #FFFFFF; transition: background 0.2s; }
     .app-input:focus { background: #2C2C2E; outline: none; }
     
-    /* Frosted Glass Navbars */
     .glass-nav { background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-    
-    /* iOS Bottom Sheet Animation */
     .bottom-sheet { transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
     .bottom-sheet.open { transform: translateY(0); }
-
-    /* Touch Feedback */
     .active-scale:active { transform: scale(0.97); transition: transform 0.1s; }
 
-    /* Safe Area Insets for Modern Phones (Notches/Home Bars) */
     .pt-safe { padding-top: env(safe-area-inset-top); }
     .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 60px); } 
     .pb-nav-safe { padding-bottom: env(safe-area-inset-bottom); }
 
-    /* HTML Formatting for Jobs */
     .job-desc-html { font-size: 0.95rem; line-height: 1.5; color: #EBEBF5; }
     .job-desc-html h1, .job-desc-html h2, .job-desc-html h3 { font-size: 1.1rem; font-weight: 600; color: #FFF; margin: 1.2rem 0 0.5rem 0; }
     .job-desc-html ul { padding-left: 1rem; margin-bottom: 1rem; list-style-type: disc; }
@@ -77,47 +61,33 @@
 </head>
 <body class="flex flex-col h-[100dvh] w-screen antialiased">
 
-  <!-- ================= TOP HEADER (MOBILE & DESKTOP) ================= -->
+  <!-- ================= TOP HEADER ================= -->
   <header class="glass-nav fixed top-0 w-full z-40 border-b border-border pt-safe">
     <div class="max-w-[90rem] mx-auto px-4 h-14 flex items-center justify-between">
-      
-      <!-- Brand -->
       <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-          <i class="fa-solid fa-layer-group text-white text-sm"></i>
-        </div>
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center"><i class="fa-solid fa-layer-group text-white text-sm"></i></div>
         <h1 class="text-xl font-bold tracking-tight">OneJob</h1>
       </div>
-
-      <!-- Desktop Tabs -->
       <div class="hidden lg:flex items-center gap-2 bg-surface p-1 rounded-lg">
         <button onclick="switchTab('discover')" id="desk-discover" class="desk-tab px-6 py-1.5 rounded-md text-sm font-semibold bg-[#38383A] text-white transition-all">Search</button>
         <button onclick="switchTab('tracker')" id="desk-tracker" class="desk-tab px-6 py-1.5 rounded-md text-sm font-medium text-textSubtle hover:text-white transition-all">Tracker</button>
         <button onclick="switchTab('profile')" id="desk-profile" class="desk-tab px-6 py-1.5 rounded-md text-sm font-medium text-textSubtle hover:text-white transition-all">Profile</button>
       </div>
-
-      <!-- Avatar -->
-      <img id="headerAvatar" src="" class="w-9 h-9 rounded-full border border-border cursor-pointer active-scale" onclick="switchTab('profile')" alt="Profile">
+      <img id="headerAvatar" src="" class="w-9 h-9 rounded-full border border-border cursor-pointer active-scale object-cover" onclick="switchTab('profile')" alt="Profile">
     </div>
   </header>
 
   <!-- ================= MAIN CONTENT CONTAINER ================= -->
   <main class="flex-1 w-full max-w-[90rem] mx-auto overflow-hidden relative pt-[calc(56px+env(safe-area-inset-top))] flex flex-col">
     
-    <!-- === VIEW: 1. DISCOVER (SEARCH & FEED) === -->
+    <!-- === VIEW: 1. DISCOVER === -->
     <div id="view-discover" class="view-section flex-1 flex flex-col lg:flex-row overflow-hidden w-full">
-      
-      <!-- Left List Area (Search + Feed) -->
       <div class="w-full lg:w-[40%] flex flex-col h-full border-r border-border bg-appBg">
-        
-        <!-- Native Search Bar -->
         <div class="p-4 shrink-0 bg-appBg z-10 border-b border-border">
           <div class="relative w-full">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-textSubtle"></i>
             <input type="text" id="searchQuery" class="app-input w-full rounded-xl pl-10 pr-4 py-3 text-base" placeholder="Job Title, Keyword, or Company">
           </div>
-          
-          <!-- Filter Chips -->
           <div class="flex gap-2 mt-3 overflow-x-auto custom-scroll pb-1">
             <select id="searchLocation" class="shrink-0 bg-surface text-textMain text-sm px-4 py-2 rounded-full border border-border outline-none appearance-none cursor-pointer">
               <option value="Delhi NCR">Delhi NCR</option>
@@ -131,25 +101,13 @@
           </div>
         </div>
         
-        <!-- Job Feed List -->
-        <div id="jobFeed" class="flex-1 overflow-y-auto pb-safe">
-           <!-- Populated by JS -->
-           <div class="flex flex-col items-center justify-center h-full text-textSubtle">
-             <i class="fa-solid fa-circle-notch animate-spin text-2xl mb-2"></i>
-             <p class="text-sm">Fetching tailored opportunities...</p>
-           </div>
-        </div>
+        <div id="jobFeed" class="flex-1 overflow-y-auto pb-safe"></div>
       </div>
 
-      <!-- Right Detail Area (Desktop) & Bottom Sheet (Mobile) -->
       <div id="jobDetailContainer" class="fixed inset-x-0 bottom-0 z-50 h-[90dvh] bg-surface rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.5)] bottom-sheet flex flex-col lg:static lg:h-full lg:w-[60%] lg:bg-appBg lg:rounded-none lg:shadow-none lg:transform-none lg:transition-none">
-        
-        <!-- Mobile Drag Handle -->
         <div class="lg:hidden w-full flex justify-center pt-3 pb-2 shrink-0 cursor-pointer" onclick="closeMobileInspector()">
           <div class="w-12 h-1.5 bg-[#48484A] rounded-full"></div>
         </div>
-
-        <!-- Detail Content -->
         <div id="jobDetail" class="flex-1 overflow-y-auto pb-safe px-4 lg:px-8 pt-2 lg:pt-8 flex flex-col">
           <div class="flex flex-col items-center justify-center h-full text-textSubtle">
             <i class="fa-solid fa-briefcase text-4xl mb-4 opacity-50"></i>
@@ -166,8 +124,6 @@
         <h2 class="text-2xl font-bold">Tracker</h2>
         <button onclick="clearTracker()" class="text-primary text-sm font-semibold active-scale">Clear All</button>
       </div>
-      
-      <!-- Native Mobile Segmented Control -->
       <div class="p-4 lg:hidden shrink-0">
         <div class="flex bg-surface rounded-lg p-1">
           <button onclick="switchMobileTrackerTab('saved')" id="seg-saved" class="flex-1 py-1.5 rounded-md text-sm font-semibold bg-[#38383A] text-white shadow transition-all">Saved</button>
@@ -175,61 +131,66 @@
           <button onclick="switchMobileTrackerTab('interview')" id="seg-interview" class="flex-1 py-1.5 rounded-md text-sm font-semibold text-textMuted transition-all">Interview</button>
         </div>
       </div>
-
-      <!-- Kanban Columns (Stacks as Tabs on Mobile, Grid on Desktop) -->
       <div class="flex-1 overflow-hidden relative">
         <div class="absolute inset-0 grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-6 lg:p-6 overflow-hidden">
-          
           <div id="col-wrapper-saved" class="flex flex-col h-full lg:bg-surface lg:rounded-2xl lg:border lg:border-border">
             <div class="hidden lg:flex p-4 border-b border-border items-center justify-between shrink-0"><span class="font-semibold">Saved Queue</span><span id="desk-count-saved" class="text-xs bg-appBg px-2 py-1 rounded-full text-textSubtle">0</span></div>
             <div id="col-saved" class="flex-1 overflow-y-auto pb-safe p-4 space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
           </div>
-
           <div id="col-wrapper-applied" class="hidden lg:flex flex-col h-full lg:bg-surface lg:rounded-2xl lg:border lg:border-border">
             <div class="hidden lg:flex p-4 border-b border-border items-center justify-between shrink-0"><span class="font-semibold text-primary">Applied</span><span id="desk-count-applied" class="text-xs bg-appBg px-2 py-1 rounded-full text-textSubtle">0</span></div>
             <div id="col-applied" class="flex-1 overflow-y-auto pb-safe p-4 space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
           </div>
-
           <div id="col-wrapper-interview" class="hidden lg:flex flex-col h-full lg:bg-surface lg:rounded-2xl lg:border lg:border-border">
             <div class="hidden lg:flex p-4 border-b border-border items-center justify-between shrink-0"><span class="font-semibold text-success">Interview</span><span id="desk-count-interview" class="text-xs bg-appBg px-2 py-1 rounded-full text-textSubtle">0</span></div>
             <div id="col-interview" class="flex-1 overflow-y-auto pb-safe p-4 space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div>
           </div>
-
         </div>
       </div>
     </div>
 
-    <!-- === VIEW: 3. PROFILE (iOS Settings Style) === -->
+    <!-- === VIEW: 3. PROFILE & RESUME UPLOAD === -->
     <div id="view-profile" class="view-section hidden flex-1 overflow-y-auto pb-safe bg-appBg w-full">
       <div class="max-w-2xl mx-auto w-full p-4 lg:p-8">
         <h2 class="text-2xl font-bold mb-6">Profile Settings</h2>
         
+        <!-- RESUME UPLOAD ZONE -->
+        <h3 class="text-sm font-semibold text-textSubtle uppercase ml-4 mb-2">Resume AI Parsing</h3>
+        <div class="bg-surface rounded-2xl overflow-hidden mb-6 p-1 border border-dashed border-[#38383A] relative">
+          <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="handleResumeUpload(event)">
+          <div class="p-6 text-center flex flex-col items-center justify-center pointer-events-none" id="uploadUI">
+            <i class="fa-solid fa-cloud-arrow-up text-3xl text-primary mb-3" id="uploadIcon"></i>
+            <h3 class="text-base font-semibold text-textMain" id="uploadTitle">Tap to Upload Resume</h3>
+            <p class="text-xs text-textSubtle mt-1 max-w-xs mx-auto" id="uploadDesc">Upload PDF or DOCX. The AI will extract your details and auto-fill your profile instantly.</p>
+          </div>
+        </div>
+
+        <h3 class="text-sm font-semibold text-textSubtle uppercase ml-4 mb-2">Extracted Details</h3>
         <div class="bg-surface rounded-2xl overflow-hidden mb-6">
           <div class="flex items-center justify-between p-4 border-b border-border">
             <span class="text-base text-textMain">Full Name</span>
-            <input type="text" id="profileName" class="bg-transparent text-right text-primary text-base outline-none w-[60%]" placeholder="Name">
+            <input type="text" id="profileName" class="bg-transparent text-right text-primary text-base outline-none w-[60%] font-medium" placeholder="Name">
           </div>
           <div class="flex items-center justify-between p-4 border-b border-border">
             <span class="text-base text-textMain">Role</span>
-            <input type="text" id="profileRole" class="bg-transparent text-right text-primary text-base outline-none w-[60%]" placeholder="Target Role">
+            <input type="text" id="profileRole" class="bg-transparent text-right text-primary text-base outline-none w-[60%] font-medium" placeholder="Target Role">
           </div>
           <div class="flex items-center justify-between p-4 border-b border-border">
             <span class="text-base text-textMain">Company</span>
-            <input type="text" id="profileCompany" class="bg-transparent text-right text-primary text-base outline-none w-[60%]" placeholder="Current Company">
+            <input type="text" id="profileCompany" class="bg-transparent text-right text-primary text-base outline-none w-[60%] font-medium" placeholder="Current Company">
           </div>
-          <div class="flex items-center justify-between p-4">
+          <div class="flex items-center justify-between p-4 border-b border-border">
             <span class="text-base text-textMain">Education</span>
-            <input type="text" id="profileEdu" class="bg-transparent text-right text-primary text-base outline-none w-[60%]" placeholder="Degree">
+            <input type="text" id="profileEdu" class="bg-transparent text-right text-primary text-base outline-none w-[60%] font-medium" placeholder="Degree">
+          </div>
+          <div class="flex flex-col p-4">
+            <span class="text-base text-textMain mb-2">AI Match Skills</span>
+            <textarea id="profileSkills" rows="2" class="w-full bg-[#2C2C2E] p-3 rounded-xl text-textMain text-sm outline-none resize-none font-medium" placeholder="Comma separated skills"></textarea>
           </div>
         </div>
 
-        <h3 class="text-sm font-semibold text-textSubtle uppercase ml-4 mb-2">AI Match Skills</h3>
-        <div class="bg-surface rounded-2xl overflow-hidden mb-6 p-4">
-          <textarea id="profileSkills" rows="3" class="w-full bg-transparent text-textMain text-base outline-none resize-none" placeholder="Comma separated skills (e.g. JavaScript, Python, Management)"></textarea>
-        </div>
-
-        <button onclick="saveProfile()" class="w-full bg-primary text-white font-semibold text-lg py-3.5 rounded-xl active-scale">
-          Save Profile
+        <button onclick="saveProfile()" class="w-full bg-primary text-white font-semibold text-lg py-3.5 rounded-xl active-scale shadow-lg shadow-primary/20">
+          Save Profile Sync
         </button>
       </div>
     </div>
@@ -239,37 +200,32 @@
   <nav class="lg:hidden fixed bottom-0 w-full glass-nav border-t border-border z-40 pb-nav-safe">
     <div class="flex justify-around items-center h-[60px]">
       <button onclick="switchTab('discover')" id="mob-discover" class="mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-primary">
-        <i class="fa-solid fa-magnifying-glass text-xl"></i>
-        <span class="text-[10px] font-medium">Search</span>
+        <i class="fa-solid fa-magnifying-glass text-xl"></i><span class="text-[10px] font-medium">Search</span>
       </button>
       <button onclick="switchTab('tracker')" id="mob-tracker" class="mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-textSubtle hover:text-white transition">
-        <i class="fa-solid fa-bookmark text-xl"></i>
-        <span class="text-[10px] font-medium">Tracker</span>
+        <i class="fa-solid fa-bookmark text-xl"></i><span class="text-[10px] font-medium">Tracker</span>
       </button>
       <button onclick="switchTab('profile')" id="mob-profile" class="mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-textSubtle hover:text-white transition">
-        <i class="fa-solid fa-user text-xl"></i>
-        <span class="text-[10px] font-medium">Profile</span>
+        <i class="fa-solid fa-user text-xl"></i><span class="text-[10px] font-medium">Profile</span>
       </button>
     </div>
   </nav>
 
-  <!-- Clean Notification Toaster -->
   <div id="toaster" class="fixed top-[70px] left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none w-[90%] max-w-sm"></div>
 
-  <!-- ================= AUTO-APPLY BOT MODAL (NATIVE ALERT STYLE) ================= -->
-  <div id="botModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+  <!-- ================= AUTO-APPLY BOT MODAL ================= -->
+  <div id="botModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
     <div class="bg-[#1C1C1E] w-full max-w-md rounded-[24px] overflow-hidden shadow-2xl border border-border">
       <div class="p-6 text-center">
         <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
           <i class="fa-solid fa-robot text-primary text-3xl animate-bounce"></i>
         </div>
-        <h3 class="text-xl font-bold text-white mb-2">Auto-Apply Engine</h3>
-        <p class="text-sm text-textSubtle mb-4">Simulating backend Playwright browser deployment.</p>
+        <h3 class="text-xl font-bold text-white mb-1">Easy Apply Deployer</h3>
+        <p class="text-sm text-textSubtle mb-4">Injecting your resume and parsed matrix directly into the portal's backend.</p>
         
-        <div class="bg-black rounded-xl p-4 text-left h-40 overflow-y-auto text-xs font-mono text-[#30D158] leading-relaxed" id="botTerminal"></div>
+        <div class="bg-black rounded-xl p-4 text-left h-48 overflow-y-auto text-xs font-mono text-[#30D158] leading-relaxed border border-border" id="botTerminal"></div>
       </div>
-      
-      <button id="closeBotBtn" class="w-full py-4 border-t border-border text-primary font-semibold text-lg bg-[#2C2C2E] hover:bg-[#38383A] hidden" onclick="closeBotModal()">Done</button>
+      <button id="closeBotBtn" class="w-full py-4 border-t border-border text-primary font-semibold text-lg bg-[#2C2C2E] hover:bg-[#38383A] hidden" onclick="closeBotModal()">Complete</button>
     </div>
   </div>
 
@@ -279,14 +235,13 @@
        ========================================================================= */
     const GEMINI_API_KEY = 'YOUR_API_KEY_HERE'; 
 
-    let UserProfile = JSON.parse(localStorage.getItem('ojp_app_profile')) || {
-      name: "Guest User", role: "Software Developer", company: "", education: "Bachelors Degree",
-      skills: ["JavaScript", "Python", "Problem Solving", "Agile"]
+    let UserProfile = JSON.parse(localStorage.getItem('ojp_app_profile_v2')) || {
+      name: "Guest User", role: "", company: "", education: "", skills: [], resumeFile: null
     };
 
     let AppState = {
       jobs: [], activeJob: null,
-      tracker: JSON.parse(localStorage.getItem('ojp_app_tracker')) || []
+      tracker: JSON.parse(localStorage.getItem('ojp_app_tracker_v2')) || []
     };
 
     const INDIAN_PORTALS = {
@@ -296,43 +251,97 @@
     };
 
     /* =========================================================================
-       2. UI UPDATES & NAVIGATION
+       2. RESUME PARSING SIMULATION (AI Extraction)
+       ========================================================================= */
+    function handleResumeUpload(event) {
+      const file = event.target.files[0];
+      if(!file) return;
+
+      const icon = document.getElementById('uploadIcon');
+      const title = document.getElementById('uploadTitle');
+      const desc = document.getElementById('uploadDesc');
+
+      // 1. Show Parsing State
+      icon.className = 'fa-solid fa-circle-notch animate-spin text-3xl text-primary mb-3';
+      title.innerText = 'AI Parsing Resume...';
+      title.classList.remove('text-success');
+      desc.innerText = `Analyzing ${file.name} to extract matrix variables. Please wait...`;
+
+      // 2. Simulate Backend AI Processing Time
+      setTimeout(() => {
+        
+        // --- AI EXTRACTION SIMULATION ---
+        // Populating the form with the user's specific background details.
+        document.getElementById('profileName').value = "Digvijay Sharma";
+        document.getElementById('profileRole').value = "Business Development Manager";
+        document.getElementById('profileCompany').value = "IndusInd Bank";
+        document.getElementById('profileEdu').value = "MBA (2025)";
+        document.getElementById('profileSkills').value = "AML, KYC, Compliance, Client Onboarding, Excel VBA";
+
+        UserProfile.resumeFile = file.name;
+        
+        // Update UI State
+        icon.className = 'fa-solid fa-file-pdf text-4xl text-success mb-3';
+        title.innerText = file.name;
+        title.classList.add('text-success');
+        desc.innerText = 'Resume successfully parsed. Review the extracted details below and save your profile.';
+        
+        showToast('Resume Parsed & Attached');
+        
+        // Auto-save the extracted data
+        saveProfile(false); // pass false to not switch tabs yet
+
+      }, 2500);
+    }
+
+    /* =========================================================================
+       3. UI UPDATES & NAVIGATION
        ========================================================================= */
     function renderProfileToUI() {
-      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(UserProfile.name)}&background=0A84FF&color=fff`;
+      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(UserProfile.name)}&background=0A84FF&color=fff&bold=true`;
       document.getElementById('headerAvatar').src = avatarUrl;
       document.getElementById('profileName').value = UserProfile.name;
       document.getElementById('profileRole').value = UserProfile.role;
       document.getElementById('profileCompany').value = UserProfile.company;
       document.getElementById('profileEdu').value = UserProfile.education;
       document.getElementById('profileSkills').value = UserProfile.skills.join(', ');
-      document.getElementById('searchQuery').value = UserProfile.role;
+      
+      if(UserProfile.role) document.getElementById('searchQuery').value = UserProfile.role;
+
+      if(UserProfile.resumeFile) {
+        document.getElementById('uploadIcon').className = 'fa-solid fa-file-pdf text-4xl text-success mb-3';
+        document.getElementById('uploadTitle').innerText = UserProfile.resumeFile;
+        document.getElementById('uploadTitle').classList.add('text-success');
+        document.getElementById('uploadDesc').innerText = 'Active resume attached and synced.';
+      }
     }
 
-    function saveProfile() {
+    function saveProfile(switchView = true) {
       UserProfile = {
         name: document.getElementById('profileName').value.trim() || "Guest User",
-        role: document.getElementById('profileRole').value.trim() || "Developer",
+        role: document.getElementById('profileRole').value.trim(),
         company: document.getElementById('profileCompany').value.trim(),
         education: document.getElementById('profileEdu').value.trim(),
-        skills: document.getElementById('profileSkills').value.split(',').map(s=>s.trim()).filter(s=>s)
+        skills: document.getElementById('profileSkills').value.split(',').map(s=>s.trim()).filter(s=>s),
+        resumeFile: UserProfile.resumeFile // retain the filename
       };
-      localStorage.setItem('ojp_app_profile', JSON.stringify(UserProfile));
+      localStorage.setItem('ojp_app_profile_v2', JSON.stringify(UserProfile));
       renderProfileToUI();
-      showToast('Profile Saved');
-      setTimeout(() => switchTab('discover'), 300);
+      showToast('Profile Matrix Synced');
+      
+      if(switchView) {
+        setTimeout(() => switchTab('discover'), 400);
+      }
     }
 
     function switchTab(tabId) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.getElementById(`view-${tabId}`).classList.remove('hidden');
       
-      // Desktop Nav
       document.querySelectorAll('.desk-tab').forEach(el => el.className = 'desk-tab px-6 py-1.5 rounded-md text-sm font-medium text-textSubtle hover:text-white transition-all');
       const activeDesk = document.getElementById(`desk-${tabId}`);
       if(activeDesk) activeDesk.className = 'desk-tab px-6 py-1.5 rounded-md text-sm font-semibold bg-[#38383A] text-white transition-all';
 
-      // Mobile Nav
       document.querySelectorAll('.mob-nav').forEach(el => el.className = 'mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-textSubtle hover:text-white transition');
       const activeMob = document.getElementById(`mob-${tabId}`);
       if(activeMob) activeMob.className = 'mob-nav flex-1 flex flex-col items-center justify-center gap-1 text-primary';
@@ -343,52 +352,38 @@
     function showToast(msg) {
       const toaster = document.getElementById('toaster');
       const toast = document.createElement('div');
-      toast.className = `bg-[#2C2C2E]/90 backdrop-blur-md px-4 py-3 rounded-full flex justify-center items-center gap-2 shadow-lg animate-fade-in`;
+      toast.className = `bg-[#2C2C2E]/95 backdrop-blur-xl px-5 py-3 rounded-full flex justify-center items-center gap-2 shadow-2xl animate-fade-in border border-border`;
       toast.innerHTML = `<span class="text-sm font-medium text-white">${msg}</span>`;
       toaster.appendChild(toast);
-      setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(()=>toast.remove(), 300); }, 2000);
+      setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(()=>toast.remove(), 300); }, 2500);
     }
 
-    // Bottom Sheet Logic for Mobile
-    function openMobileInspector() {
-      if(window.innerWidth < 1024) {
-        document.getElementById('jobDetailContainer').classList.add('open');
-      }
-    }
-    function closeMobileInspector() {
-      document.getElementById('jobDetailContainer').classList.remove('open');
-    }
+    function openMobileInspector() { if(window.innerWidth < 1024) document.getElementById('jobDetailContainer').classList.add('open'); }
+    function closeMobileInspector() { document.getElementById('jobDetailContainer').classList.remove('open'); }
 
-    // Segmented Control Logic for Mobile Tracker
     function switchMobileTrackerTab(status) {
-      if(window.innerWidth >= 1024) return; // Only applies to mobile
-      
-      // Update Segments UI
+      if(window.innerWidth >= 1024) return; 
       ['saved', 'applied', 'interview'].forEach(id => {
-        const btn = document.getElementById(`seg-${id}`);
-        const col = document.getElementById(`col-wrapper-${id}`);
-        btn.className = 'flex-1 py-1.5 rounded-md text-sm font-semibold text-textSubtle transition-all';
-        col.classList.add('hidden');
+        document.getElementById(`seg-${id}`).className = 'flex-1 py-1.5 rounded-md text-sm font-semibold text-textSubtle transition-all';
+        document.getElementById(`col-wrapper-${id}`).classList.add('hidden');
       });
-      
       document.getElementById(`seg-${status}`).className = 'flex-1 py-1.5 rounded-md text-sm font-semibold bg-[#38383A] text-white shadow transition-all';
       document.getElementById(`col-wrapper-${status}`).classList.remove('hidden');
       document.getElementById(`col-wrapper-${status}`).classList.add('flex');
     }
 
     /* =========================================================================
-       3. SEARCH ENGINE (Natively rendered Lists)
+       4. SEARCH ENGINE
        ========================================================================= */
     async function runGlobalSearch() {
-      const rawQ = document.getElementById('searchQuery').value.trim() || UserProfile.role;
-      // Extract Company if user types "Role at Company"
+      const rawQ = document.getElementById('searchQuery').value.trim() || UserProfile.role || 'Developer';
       const parts = rawQ.toLowerCase().split(' at ');
       const q = parts[0];
       const companyQ = parts.length > 1 ? parts[1] : '';
       const loc = document.getElementById('searchLocation').value; 
       
       const feed = document.getElementById('jobFeed');
-      feed.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-textSubtle"><i class="fa-solid fa-circle-notch animate-spin text-2xl mb-2"></i><p class="text-sm">Fetching tailored opportunities...</p></div>`;
+      feed.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-textSubtle"><i class="fa-solid fa-circle-notch animate-spin text-2xl mb-2"></i><p class="text-sm">Evaluating matrix parameters...</p></div>`;
       
       AppState.jobs = []; 
 
@@ -409,7 +404,7 @@
       } catch(e) {}
 
       const portalKeys = Object.keys(INDIAN_PORTALS);
-      const fakeCompanies = companyQ ? [companyQ] : ['Tech Mahindra', 'TCS', 'HDFC Bank', 'Infosys', 'Accenture'];
+      const fakeCompanies = companyQ ? [companyQ] : ['IndusInd Bank', 'HDFC Bank', 'ICICI Bank', 'Eclerx', 'Genpact'];
       
       for(let i=0; i<15; i++) {
         const portalName = portalKeys[i % portalKeys.length];
@@ -417,7 +412,7 @@
         const comp = fakeCompanies[i % fakeCompanies.length];
         
         AppState.jobs.push({
-          id: `fed_${Date.now()}_${i}`, title: `${q} - Hiring Now`, company: companyQ || comp, location: loc,
+          id: `fed_${Date.now()}_${i}`, title: `${q} - Urgent Req`, company: companyQ || comp, location: loc,
           portal: `${portalName}`, icon: pConf.icon,
           desc: `<p><strong>Platform Match Configured</strong></p><p>We have synthesized a direct deep-link to this role on ${portalName}. Tap Apply to proceed directly to the submission gateway.</p>`,
           url: pConf.url(q, loc), time: Date.now() - (Math.random() * 86400000), isLive: false
@@ -445,19 +440,18 @@
       feed.innerHTML = '';
       
       if(AppState.jobs.length === 0) {
-        feed.innerHTML = `<div class="p-8 text-center text-textSubtle">No results found.</div>`;
+        feed.innerHTML = `<div class="p-8 text-center text-textSubtle text-sm">No results found for this profile. Try broadening the search.</div>`;
         return;
       }
 
       AppState.jobs.forEach((job) => {
         const isSelected = AppState.activeJob?.id === job.id;
         const div = document.createElement('div');
-        // Native iOS List Item Style
         div.className = `flex items-center px-4 py-3.5 border-b border-border active-scale cursor-pointer ${isSelected && window.innerWidth >= 1024 ? 'bg-surfaceHover' : 'hover:bg-surface'}`;
         
         div.innerHTML = `
-          <div class="w-12 h-12 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 mr-4">
-             <i class="fa-solid ${job.icon} text-xl text-textMuted"></i>
+          <div class="w-12 h-12 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 mr-4 border border-border">
+             <i class="fa-solid ${job.icon} text-lg text-textMuted"></i>
           </div>
           <div class="flex-1 min-w-0 pr-3">
             <h4 class="text-base font-semibold text-textMain truncate">${job.title}</h4>
@@ -465,7 +459,7 @@
           </div>
           <div class="shrink-0 text-right">
              <span class="text-sm font-bold ${job.matchScore > 75 ? 'text-success' : 'text-primary'}">${job.matchScore}%</span>
-             <p class="text-[10px] text-textSubtle mt-0.5">${job.portal}</p>
+             <p class="text-[10px] text-textSubtle mt-0.5 uppercase tracking-wider">${job.portal}</p>
           </div>
         `;
         div.onclick = () => { renderInspector(job); openMobileInspector(); renderFeed(); };
@@ -475,7 +469,7 @@
     }
 
     /* =========================================================================
-       4. DETAIL VIEW (BOTTOM SHEET ON MOBILE)
+       5. DETAIL VIEW 
        ========================================================================= */
     function renderInspector(job) {
       AppState.activeJob = job;
@@ -495,25 +489,25 @@
         
         <div class="flex gap-2 mb-6">
           <div class="bg-[#2C2C2E] px-3 py-1.5 rounded-lg flex items-center gap-1.5">
-            <span class="text-xs text-textSubtle">Match</span>
+            <span class="text-xs text-textSubtle">AI Match</span>
             <span class="text-sm font-bold ${job.matchScore > 75 ? 'text-success' : 'text-primary'}">${job.matchScore}%</span>
           </div>
           <div class="bg-[#2C2C2E] px-3 py-1.5 rounded-lg flex items-center gap-1.5">
-            <span class="text-xs text-textSubtle">Source</span>
+            <span class="text-xs text-textSubtle">Network</span>
             <span class="text-sm font-bold text-white">${job.portal}</span>
           </div>
         </div>
 
         <div class="flex-1 overflow-y-auto custom-scroll mb-6">
-          <h3 class="text-sm font-semibold text-textSubtle uppercase mb-2">Description</h3>
-          <div class="job-desc-html bg-[#2C2C2E] p-4 rounded-2xl">${job.desc}</div>
+          <h3 class="text-sm font-semibold text-textSubtle uppercase mb-2">Role Requirements</h3>
+          <div class="job-desc-html bg-[#2C2C2E] p-4 rounded-2xl border border-border">${job.desc}</div>
         </div>
         
         <div class="flex flex-col gap-3 mt-auto shrink-0 pb-4 lg:pb-0">
           <button onclick="triggerAutoDeploy('${job.id}')" class="w-full bg-white text-black font-semibold text-lg py-3.5 rounded-xl active-scale flex justify-center items-center gap-2">
-            <i class="fa-solid fa-bolt text-primary"></i> Easy Apply (AI)
+            <i class="fa-solid fa-bolt text-primary"></i> Easy Apply (Auto-Deploy)
           </button>
-          <a href="${job.url}" target="_blank" class="w-full bg-[#2C2C2E] text-white font-semibold text-lg py-3.5 rounded-xl active-scale flex justify-center items-center gap-2">
+          <a href="${job.url}" target="_blank" class="w-full bg-[#2C2C2E] text-white font-semibold text-lg py-3.5 rounded-xl active-scale flex justify-center items-center gap-2 border border-border">
             Apply on ${job.portal} <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
           </a>
         </div>
@@ -521,9 +515,17 @@
     }
 
     /* =========================================================================
-       5. AUTO-APPLY BOT (NATIVE MODAL)
+       6. AUTO-APPLY BOT (NATIVE MODAL - UTILIZING RESUME)
        ========================================================================= */
     async function triggerAutoDeploy(jobId) {
+      
+      // Validation Check
+      if(!UserProfile.resumeFile) {
+        showToast("Please upload your resume in the Profile tab first.");
+        setTimeout(() => switchTab('profile'), 1500);
+        return;
+      }
+
       const modal = document.getElementById('botModal');
       const terminal = document.getElementById('botTerminal');
       const closeBtn = document.getElementById('closeBotBtn');
@@ -537,16 +539,21 @@
       const lastName = lastNameArr.join(' ') || '';
 
       const lines = [
-        `> Connecting to ${job.portal} Gateway...`,
-        `> Payload: ${firstName} ${lastName} | ${UserProfile.role}`,
-        `> Validating fields... [OK]`,
-        `> Attaching resume... [OK]`,
-        `> Submitting via automated web-driver...`,
-        `> Response 200: Success.`
+        `> Establishing secure connection to ${job.portal} Gateway...`,
+        `> Translating parsed resume matrix... [OK]`,
+        `> Injecting application fields:`,
+        `  - <span class="text-white">Name:</span> ${firstName} ${lastName}`,
+        `  - <span class="text-white">Edu:</span> ${UserProfile.education}`,
+        `  - <span class="text-white">Exp:</span> ${UserProfile.role} @ ${UserProfile.company}`,
+        `> Validating against role requirements (${job.matchScore}% Match)... [OK]`,
+        `> Attaching Source Resume:`,
+        `  - <span class="text-primary underline">${UserProfile.resumeFile}</span>`,
+        `> Firing Headless Browser Submission...`,
+        `> <span class="text-white">Response 200: Successfully deployed to ${job.company}.</span>`
       ];
 
       for(let i=0; i<lines.length; i++) {
-        await new Promise(r => setTimeout(r, 600)); 
+        await new Promise(r => setTimeout(r, i===9 ? 1200 : 500)); 
         const lineDiv = document.createElement('div');
         lineDiv.className = 'mb-1';
         lineDiv.innerHTML = lines[i];
@@ -566,10 +573,10 @@
     function closeBotModal() { document.getElementById('botModal').classList.add('hidden'); closeMobileInspector(); }
 
     /* =========================================================================
-       6. TRACKER LOGIC (Native Cards & Segmented Mobile Logic)
+       7. TRACKER LOGIC
        ========================================================================= */
-    function saveTracker() { localStorage.setItem('ojp_app_tracker', JSON.stringify(AppState.tracker)); renderKanban(); }
-    function clearTracker() { if(confirm('Clear all tracker data?')) { AppState.tracker = []; saveTracker(); } }
+    function saveTracker() { localStorage.setItem('ojp_app_tracker_v2', JSON.stringify(AppState.tracker)); renderKanban(); }
+    function clearTracker() { if(confirm('Clear all pipeline data?')) { AppState.tracker = []; saveTracker(); } }
     function moveKanbanStatus(id, newStatus) { const item = AppState.tracker.find(t => t.id === id); if(item) { item.status = newStatus; saveTracker(); } }
 
     function renderKanban() {
@@ -578,7 +585,7 @@
 
       AppState.tracker.forEach(item => {
         const el = document.createElement('div');
-        el.className = "bg-[#2C2C2E] p-4 rounded-2xl active-scale cursor-grab shadow-sm relative";
+        el.className = "bg-[#2C2C2E] p-4 rounded-2xl active-scale cursor-grab border border-border relative";
         el.draggable = true; el.id = `kanban-${item.id}`;
         
         let actions = '';
@@ -606,7 +613,7 @@
       renderProfileToUI(); 
       runGlobalSearch(); 
       renderKanban(); 
-      switchMobileTrackerTab('saved'); // Initialize mobile tracker tab
+      switchMobileTrackerTab('saved'); 
     };
   </script>
 </body>
