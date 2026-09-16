@@ -67,11 +67,6 @@
     .job-desc-html li::before { content: "›"; position: absolute; left: 0; color: #0ea5e9; font-weight: bold; }
 
     .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
-
-    /* Terminal Typing Effect */
-    .typing-line { overflow: hidden; white-space: nowrap; border-right: 2px solid #10b981; width: 0; animation: typing 1s steps(40, end) forwards, blink-caret 0.75s step-end infinite; }
-    @keyframes typing { from { width: 0 } to { width: 100% } }
-    @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #10b981; } }
   </style>
 </head>
 <body class="flex h-screen w-screen">
@@ -101,12 +96,12 @@
       </button>
     </nav>
 
-    <!-- User Status -->
-    <div class="p-4 border-t border-border bg-appBg">
+    <!-- Dynamic User Status -->
+    <div class="p-4 border-t border-border bg-appBg cursor-pointer hover:bg-panelHover transition" onclick="switchTab('profile')">
       <div class="flex items-center gap-3">
-        <img src="https://ui-avatars.com/api/?name=Digvijay+Sharma&background=0ea5e9&color=fff&bold=true" class="w-9 h-9 rounded border border-border">
+        <img id="sidebarAvatar" src="" class="w-9 h-9 rounded border border-border">
         <div class="flex-1 min-w-0">
-          <p class="text-xs font-semibold text-textMain truncate">Digvijay Sharma</p>
+          <p id="sidebarName" class="text-xs font-semibold text-textMain truncate">Loading...</p>
           <div class="flex items-center gap-1.5 mt-0.5">
             <div class="w-1.5 h-1.5 rounded-full bg-success shadow-[0_0_5px_#10b981]"></div>
             <p class="text-[9px] font-mono text-success uppercase">Auth Valid</p>
@@ -119,7 +114,7 @@
   <!-- ================= MOBILE HEADER & NAV ================= -->
   <div class="lg:hidden fixed top-0 left-0 right-0 h-14 tech-panel border-b border-border z-40 flex items-center justify-between px-4">
     <div class="flex items-center gap-2"><i class="fa-solid fa-server text-primary"></i><h1 class="text-sm font-bold uppercase">OneJob<span class="text-primary">.IND</span></h1></div>
-    <img src="https://ui-avatars.com/api/?name=Digvijay+Sharma&background=0ea5e9&color=fff" class="w-7 h-7 rounded border border-border">
+    <img id="mobileAvatar" src="" class="w-7 h-7 rounded border border-border" onclick="switchTab('profile')">
   </div>
 
   <div class="lg:hidden fixed bottom-0 left-0 right-0 tech-panel border-t border-border z-40 flex justify-around p-1 pb-safe shadow-2xl bg-panelBg">
@@ -130,51 +125,48 @@
 
   <main class="flex-1 flex flex-col h-screen overflow-hidden pt-14 lg:pt-0 relative z-10">
     
-    <!-- === VIEW: PROFILE MATRIX === -->
+    <!-- === VIEW: DYNAMIC PROFILE MATRIX (USER FORM) === -->
     <div id="view-profile" class="view-section hidden flex-1 flex-col overflow-y-auto custom-scroll animate-fade-in p-6 lg:p-10">
       <div class="max-w-3xl mx-auto w-full">
-        <h2 class="text-xl font-mono uppercase tracking-widest text-textMain mb-2">Resume Profile Matrix</h2>
-        <p class="text-xs text-textMuted mb-8">This data is injected into the Auto-Suggest Engine to algorithmically match you with live pipelines.</p>
+        <h2 class="text-xl font-mono uppercase tracking-widest text-textMain mb-2">User Profile Matrix</h2>
+        <p class="text-xs text-textMuted mb-8">Configure your details below. This dynamic matrix powers the AI Auto-Suggest matching engine and populates the Auto-Deploy Bot variables.</p>
         
-        <div class="tech-panel rounded p-6 space-y-6">
-          <div class="flex justify-between items-start border-b border-border pb-4">
+        <div class="tech-panel rounded p-6 space-y-5">
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <h3 class="text-lg font-bold text-white">Digvijay Sharma</h3>
-              <p class="text-sm font-mono text-primary mt-1">Business Development Manager</p>
+              <label class="text-[10px] font-mono uppercase text-textMuted mb-1.5 block">Full Name</label>
+              <input type="text" id="profileName" class="tech-input w-full rounded px-4 py-2.5 text-sm" placeholder="e.g. John Doe">
             </div>
-            <span class="px-2 py-1 bg-success/10 text-success border border-success/30 rounded text-[9px] font-mono uppercase">DB SYNCED</span>
+            <div>
+              <label class="text-[10px] font-mono uppercase text-textMuted mb-1.5 block">Target/Current Role</label>
+              <input type="text" id="profileRole" class="tech-input w-full rounded px-4 py-2.5 text-sm" placeholder="e.g. Software Engineer">
+            </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <p class="text-[10px] font-mono uppercase tracking-widest text-textMuted mb-2">Professional Experience</p>
-              <div class="space-y-4">
-                <div class="border-l-2 border-primary pl-3">
-                  <h4 class="text-sm font-bold text-textMain">Business Development Manager</h4>
-                  <p class="text-xs text-textMuted font-mono mt-0.5">IndusInd Bank | Jul 2026 - Present</p>
-                </div>
-                <div class="border-l-2 border-border pl-3">
-                  <h4 class="text-sm font-bold text-textMain">Analyst</h4>
-                  <p class="text-xs text-textMuted font-mono mt-0.5">Eclerx Service Ltd | Sep 2025 - Jul 2026</p>
-                </div>
-              </div>
+              <label class="text-[10px] font-mono uppercase text-textMuted mb-1.5 block">Current Company (Optional)</label>
+              <input type="text" id="profileCompany" class="tech-input w-full rounded px-4 py-2.5 text-sm" placeholder="e.g. Tech Corp">
             </div>
             <div>
-              <p class="text-[10px] font-mono uppercase tracking-widest text-textMuted mb-2">Education & Competencies</p>
-              <div class="mb-4">
-                <h4 class="text-sm font-bold text-textMain">MBA</h4>
-                <p class="text-xs text-textMuted font-mono mt-0.5">Graduated 2025</p>
-              </div>
-              <p class="text-[10px] font-mono uppercase tracking-widest text-textMuted mb-2">Core Skills Matrix</p>
-              <div class="flex flex-wrap gap-2">
-                <span class="px-2 py-1 bg-border text-xs rounded font-mono">AML</span>
-                <span class="px-2 py-1 bg-border text-xs rounded font-mono">KYC</span>
-                <span class="px-2 py-1 bg-border text-xs rounded font-mono">Client Onboarding</span>
-                <span class="px-2 py-1 bg-border text-xs rounded font-mono">Compliance</span>
-                <span class="px-2 py-1 bg-border text-xs rounded font-mono">Excel VBA</span>
-              </div>
+              <label class="text-[10px] font-mono uppercase text-textMuted mb-1.5 block">Highest Education</label>
+              <input type="text" id="profileEdu" class="tech-input w-full rounded px-4 py-2.5 text-sm" placeholder="e.g. B.Tech Computer Science">
             </div>
           </div>
+
+          <div>
+            <label class="text-[10px] font-mono uppercase text-primary mb-1.5 block">Core Skills (Comma Separated)</label>
+            <input type="text" id="profileSkills" class="tech-input w-full rounded px-4 py-2.5 text-sm border-primary/30 bg-primary/5" placeholder="e.g. JavaScript, React, Node.js, Agile">
+            <p class="text-[9px] text-textMuted mt-1.5">Crucial for AI match scoring against live job descriptions.</p>
+          </div>
+
+          <div class="pt-4 border-t border-border flex justify-end">
+            <button onclick="saveProfile()" class="bg-primary hover:bg-primaryDark text-white font-mono text-xs font-bold uppercase px-6 py-3 rounded shadow-[0_0_15px_rgba(14,165,233,0.3)] transition-all">
+              Save & Update Node
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
@@ -189,27 +181,28 @@
           
           <div class="md:col-span-3">
             <label class="text-[9px] font-mono text-textMuted uppercase mb-1 block">Target Role</label>
-            <input type="text" id="searchQuery" value="Business Development Analyst" class="tech-input w-full rounded px-3 py-2 text-sm">
+            <input type="text" id="searchQuery" class="tech-input w-full rounded px-3 py-2 text-sm" placeholder="Keyword...">
           </div>
           
           <div class="md:col-span-3">
             <label class="text-[9px] font-mono text-textMuted uppercase mb-1 block">Company / Sector</label>
-            <input type="text" id="searchCompany" placeholder="e.g. Banking, Eclerx..." class="tech-input w-full rounded px-3 py-2 text-sm">
+            <input type="text" id="searchCompany" placeholder="e.g. Banking, Tech..." class="tech-input w-full rounded px-3 py-2 text-sm">
           </div>
 
           <div class="md:col-span-2">
             <label class="text-[9px] font-mono text-textMuted uppercase mb-1 block">Region</label>
             <select id="searchLocation" class="tech-input w-full rounded px-3 py-2 text-sm">
               <option value="Delhi NCR">Delhi NCR</option>
-              <option value="Gurugram" selected>Gurugram, HR</option>
-              <option value="Noida">Noida, UP</option>
+              <option value="Bangalore" selected>Bangalore, KA</option>
               <option value="Mumbai">Mumbai, MH</option>
+              <option value="Pune">Pune, MH</option>
+              <option value="Hyderabad">Hyderabad, TS</option>
             </select>
           </div>
           
           <div class="md:col-span-3">
             <label class="text-[9px] font-mono text-primary uppercase mb-1 block"><i class="fa-solid fa-bolt text-primary mr-1"></i> Auto-Suggest Sync</label>
-            <div class="tech-input w-full rounded px-3 py-2 text-sm border-primary/30 text-primary bg-primary/5 flex items-center justify-between">
+            <div class="tech-input w-full rounded px-3 py-2 text-sm border-primary/30 text-primary bg-primary/5 flex items-center justify-between cursor-pointer" onclick="switchTab('profile')">
               <span class="truncate">Linked to Profile Matrix</span>
               <i class="fa-solid fa-link text-xs"></i>
             </div>
@@ -268,33 +261,30 @@
 
   <div id="toaster" class="fixed bottom-20 lg:bottom-6 right-4 z-[80] flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- ================= AUTO-DEPLOY BOT SIMULATOR (MODAL) ================= -->
+  <!-- ================= AUTO-DEPLOY BOT SIMULATOR ================= -->
   <div id="botModal" class="fixed inset-0 bg-appBg/95 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
     <div class="tech-panel w-full max-w-2xl border border-primary/50 shadow-[0_0_40px_rgba(14,165,233,0.2)] flex flex-col overflow-hidden">
       <div class="p-3 border-b border-border bg-black flex justify-between items-center">
-        <h3 class="text-[10px] font-mono text-primary uppercase flex items-center gap-2"><i class="fa-solid fa-robot animate-pulse-fast"></i> Auto-Deploy Bot [Playwright Engine]</h3>
+        <h3 class="text-[10px] font-mono text-primary uppercase flex items-center gap-2"><i class="fa-solid fa-robot animate-pulse-fast"></i> Auto-Deploy Bot Engine</h3>
         <button id="closeBotBtn" class="text-textMuted hidden hover:text-white" onclick="closeBotModal()"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      
-      <div class="p-6 h-[400px] bg-black text-sm font-mono leading-relaxed overflow-y-auto" id="botTerminal">
-        <!-- Terminal lines injected here -->
-      </div>
+      <div class="p-6 h-[400px] bg-black text-sm font-mono leading-relaxed overflow-y-auto" id="botTerminal"></div>
     </div>
   </div>
 
   <script>
     /* =========================================================================
-       1. CORE CONFIGURATION & MOCK DB STATE
+       1. DYNAMIC USER PROFILE & STATE
        ========================================================================= */
     const GEMINI_API_KEY = 'YOUR_API_KEY_HERE'; 
 
-    // System profile matches context provided.
-    const UserProfile = {
-      name: "Digvijay Sharma",
-      role: "Business Development Manager",
-      company: "IndusInd Bank",
-      education: "MBA (2025)",
-      skills: ["AML", "KYC", "Client Onboarding", "Compliance", "Financial Analysis", "Excel VBA"]
+    // Initialize from LocalStorage or provide generic defaults
+    let UserProfile = JSON.parse(localStorage.getItem('ojp_user_profile')) || {
+      name: "Guest User",
+      role: "Software Developer",
+      company: "",
+      education: "Bachelors Degree",
+      skills: ["JavaScript", "Python", "Problem Solving", "Agile"]
     };
 
     let AppState = {
@@ -309,7 +299,46 @@
     };
 
     /* =========================================================================
-       2. UI NAVIGATION
+       2. PROFILE MANAGEMENT & UI UPDATES
+       ========================================================================= */
+    function renderProfileToUI() {
+      // Update Sidebar & Header
+      document.getElementById('sidebarName').innerText = UserProfile.name;
+      
+      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(UserProfile.name)}&background=0ea5e9&color=fff&bold=true`;
+      document.getElementById('sidebarAvatar').src = avatarUrl;
+      document.getElementById('mobileAvatar').src = avatarUrl;
+
+      // Populate Form
+      document.getElementById('profileName').value = UserProfile.name;
+      document.getElementById('profileRole').value = UserProfile.role;
+      document.getElementById('profileCompany').value = UserProfile.company;
+      document.getElementById('profileEdu').value = UserProfile.education;
+      document.getElementById('profileSkills').value = UserProfile.skills.join(', ');
+
+      // Populate Default Search
+      document.getElementById('searchQuery').value = UserProfile.role;
+    }
+
+    function saveProfile() {
+      UserProfile = {
+        name: document.getElementById('profileName').value.trim() || "Guest User",
+        role: document.getElementById('profileRole').value.trim() || "Developer",
+        company: document.getElementById('profileCompany').value.trim(),
+        education: document.getElementById('profileEdu').value.trim(),
+        skills: document.getElementById('profileSkills').value.split(',').map(s=>s.trim()).filter(s=>s)
+      };
+
+      localStorage.setItem('ojp_user_profile', JSON.stringify(UserProfile));
+      renderProfileToUI();
+      showToast('Profile Matrix Synced Successfully.');
+      
+      // Auto-switch back to Discover to use new params
+      switchTab('discover');
+    }
+
+    /* =========================================================================
+       3. NAVIGATION & UI UTILS
        ========================================================================= */
     function switchTab(tabId) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
@@ -340,7 +369,7 @@
     function closeMobileInspector() { document.getElementById('jobDetailContainer').classList.add('translate-y-full'); }
 
     /* =========================================================================
-       3. SEARCH ENGINE (Natively using Profile Context)
+       4. SEARCH ENGINE 
        ========================================================================= */
     async function runGlobalSearch() {
       const q = document.getElementById('searchQuery').value.trim() || UserProfile.role;
@@ -352,6 +381,7 @@
       updateTerminal(`ALGORITHMIC SEARCH [${loc.toUpperCase()}]...`);
       AppState.jobs = []; 
 
+      // 1. Live Remote Data
       try {
         const remotiveRes = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(q)}&limit=50`);
         if(remotiveRes.ok) {
@@ -369,8 +399,9 @@
         }
       } catch(e) {}
 
+      // 2. Federated Data
       const portalKeys = Object.keys(INDIAN_PORTALS);
-      const fakeCompanies = companyQ ? [companyQ] : ['Barclays India', 'NatWest Group', 'HDFC Bank', 'ICICI Bank', 'Genpact'];
+      const fakeCompanies = companyQ ? [companyQ] : ['Tech Mahindra', 'TCS', 'HDFC Bank', 'Infosys', 'Wipro'];
       
       for(let i=0; i<15; i++) {
         const portalName = portalKeys[i % portalKeys.length];
@@ -387,12 +418,17 @@
 
       if(companyQ) AppState.jobs = AppState.jobs.filter(j => j.company.toLowerCase().includes(companyQ));
 
-      // AUTO-SUGGEST ALGORITHM (Scores jobs based on Digvijay's Profile matrix)
+      // 3. Score against dynamic UserProfile
       AppState.jobs.forEach(j => {
         let matches = 0;
         const textToSearch = (j.title + ' ' + j.desc).toLowerCase();
-        UserProfile.skills.forEach(us => { if(textToSearch.includes(us.toLowerCase())) matches++; });
-        let score = (matches / Math.max(UserProfile.skills.length, 1)) * 100;
+        
+        // Ensure there's at least one skill to avoid divide by zero
+        const skillsToMatch = UserProfile.skills.length > 0 ? UserProfile.skills : [UserProfile.role];
+        
+        skillsToMatch.forEach(us => { if(textToSearch.includes(us.toLowerCase())) matches++; });
+        let score = (matches / Math.max(skillsToMatch.length, 1)) * 100;
+        
         if(score === 0) score = Math.floor(Math.random() * 20) + 40; 
         j.matchScore = Math.min(99, Math.round(score));
       });
@@ -428,7 +464,7 @@
     }
 
     /* =========================================================================
-       4. INSPECTOR 
+       5. INSPECTOR 
        ========================================================================= */
     function renderInspector(job) {
       AppState.activeJob = job;
@@ -464,7 +500,7 @@
     }
 
     /* =========================================================================
-       5. PLAYWRIGHT BOT SIMULATION (Auto-Deploy)
+       6. PLAYWRIGHT BOT SIMULATION (Dynamic based on UserProfile)
        ========================================================================= */
     async function triggerAutoDeploy(jobId) {
       const modal = document.getElementById('botModal');
@@ -476,17 +512,20 @@
       closeBtn.classList.add('hidden');
       terminal.innerHTML = '';
 
+      const [firstName, ...lastNameArr] = UserProfile.name.split(' ');
+      const lastName = lastNameArr.join(' ') || 'User';
+
       const lines = [
         `<span class="text-primary">> INITIALIZING PLAYWRIGHT HEADLESS BROWSER...</span>`,
         `> Requesting URL: ${job.url}`,
         `<span class="text-warning">> Bypass protocol: Solving Captcha / Security Checks... [SUCCESS]</span>`,
         `> Page Loaded. Locating Application Form Selectors...`,
         `<span class="text-primary">> Injecting Profile Matrix Data:</span>`,
-        `  - First Name: <span class="text-white">Digvijay</span>`,
-        `  - Last Name: <span class="text-white">Sharma</span>`,
-        `  - Education: <span class="text-white">MBA 2025</span>`,
-        `  - Latest Role: <span class="text-white">Business Development Manager @ IndusInd</span>`,
-        `> Attaching PDF: <span class="text-success">Digvijay_Sharma_Resume_2026.pdf</span>`,
+        `  - First Name: <span class="text-white">${firstName}</span>`,
+        `  - Last Name: <span class="text-white">${lastName}</span>`,
+        `  - Education: <span class="text-white">${UserProfile.education || 'N/A'}</span>`,
+        `  - Latest Role: <span class="text-white">${UserProfile.role} ${UserProfile.company ? '@ '+UserProfile.company : ''}</span>`,
+        `> Attaching PDF: <span class="text-success">${firstName}_${lastName}_Resume.pdf</span>`,
         `> Simulating human cursor movement to Submit Button...`,
         `<span class="text-primary">> EXECUTING CLICK: SubmitApplication()</span>`,
         `> Awaiting Server Response...`,
@@ -495,7 +534,7 @@
       ];
 
       for(let i=0; i<lines.length; i++) {
-        await new Promise(r => setTimeout(r, i===2 || i===12 ? 1500 : 600)); // Variable typing speed
+        await new Promise(r => setTimeout(r, i===2 || i===12 ? 1500 : 600)); 
         const lineDiv = document.createElement('div');
         lineDiv.className = 'mb-1';
         lineDiv.innerHTML = lines[i];
@@ -503,7 +542,6 @@
         terminal.scrollTop = terminal.scrollHeight;
       }
 
-      // Add to applied pipeline
       if(!AppState.tracker.find(t => t.id === jobId)) {
         AppState.tracker.push({ id: jobId, status: 'applied', title: job.title, company: job.company, portal: job.portal.split(' ')[0] });
         saveTracker();
@@ -516,7 +554,7 @@
     function closeBotModal() { document.getElementById('botModal').classList.add('hidden'); }
 
     /* =========================================================================
-       6. TRACKER LOGIC
+       7. TRACKER LOGIC
        ========================================================================= */
     function saveTracker() { localStorage.setItem('ojp_ind_tracker', JSON.stringify(AppState.tracker)); renderKanban(); }
     function clearTracker() { if(confirm('WARNING: Purge all data?')) { AppState.tracker = []; saveTracker(); } }
@@ -552,7 +590,11 @@
     function allowDrop(ev) { ev.preventDefault(); }
     function drop(ev, status) { ev.preventDefault(); moveKanbanStatus(ev.dataTransfer.getData('text/plain'), status); }
 
-    window.onload = () => { runGlobalSearch(); renderKanban(); };
+    window.onload = () => { 
+      renderProfileToUI(); // Load dynamic profile on boot
+      runGlobalSearch(); 
+      renderKanban(); 
+    };
   </script>
 </body>
 </html>
