@@ -31,7 +31,7 @@
             vTextMain: '#EDEDED',
             vTextMuted: '#888888',
             vBlue: '#0070F3',
-            vSuccess: '#0070F3' /* Using Vercel Blue as the success indicator */
+            vSuccess: '#0070F3' 
           }
         }
       }
@@ -48,7 +48,9 @@
     ::-webkit-scrollbar-thumb:hover { background: #555; }
 
     /* Vercel Inputs & Buttons */
-    .v-input { background: #000; border: 1px solid #333; color: #EDEDED; transition: border-color 0.2s ease, box-shadow 0.2s ease; outline: none; }
+    /* Mobile font size is 16px to prevent iOS auto-zoom, desktop can be 14px */
+    .v-input { background: #000; border: 1px solid #333; color: #EDEDED; transition: border-color 0.2s ease, box-shadow 0.2s ease; outline: none; font-size: 16px; }
+    @media (min-width: 768px) { .v-input { font-size: 14px; } }
     .v-input:focus { border-color: #888; }
     
     .v-btn-primary { background: #EDEDED; color: #000; font-weight: 500; transition: background 0.2s ease; border: 1px solid transparent; }
@@ -65,8 +67,17 @@
     .nav-item.active { color: #EDEDED; font-weight: 500; }
     .nav-item:hover { color: #EDEDED; }
 
+    /* Responsive Kanban Logic */
+    .kanban-wrapper { display: none; }
+    .kanban-wrapper.mob-active { display: flex; }
+    @media (min-width: 1024px) {
+      .kanban-wrapper { display: flex !important; }
+    }
+
+    /* Safe Area Padding */
     .pt-safe { padding-top: env(safe-area-inset-top); }
-    .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 80px); } 
+    .pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 90px); } 
+    @media (min-width: 1024px) { .pb-safe { padding-bottom: 24px; } }
 
     /* Terminal Output */
     .terminal-text { font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; color: #888; }
@@ -80,17 +91,17 @@
 <body class="flex flex-col h-[100dvh] w-screen antialiased">
 
   <!-- ================= TOP HEADER (Vercel Style) ================= -->
-  <header class="bg-[#000] border-b border-vBorder fixed top-0 w-full z-50 h-[64px] flex items-center box-border pt-safe">
-    <div class="max-w-[1200px] w-full mx-auto px-6 flex items-center justify-between">
+  <header class="bg-[#000]/90 backdrop-blur-md border-b border-vBorder fixed top-0 w-full z-40 h-[64px] flex items-center box-border pt-safe">
+    <div class="max-w-[1200px] w-full mx-auto px-4 lg:px-6 flex items-center justify-between">
       
       <!-- Left: Logo -->
       <div class="flex items-center gap-3 cursor-pointer">
         <svg height="24" viewBox="0 0 75 65" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M37.59.25l36.95 64H.64l36.95-64z"></path></svg>
-        <span class="text-vTextMain font-semibold text-lg tracking-tight ml-2 border-l border-vBorder pl-4">Career Infrastructure</span>
+        <span class="text-vTextMain font-semibold text-base md:text-lg tracking-tight ml-2 border-l border-vBorder pl-3 md:pl-4">Career Infrastructure</span>
       </div>
 
-      <!-- Center: Navigation -->
-      <div class="hidden md:flex items-center gap-6">
+      <!-- Center: Navigation (Desktop) -->
+      <div class="hidden lg:flex items-center gap-6">
         <button onclick="switchTab('discover')" id="nav-discover" class="nav-item active text-sm">Deployments</button>
         <button onclick="switchTab('tracker')" id="nav-tracker" class="nav-item text-sm">Pipeline</button>
         <button onclick="switchTab('profile')" id="nav-profile" class="nav-item text-sm">Environment Variables</button>
@@ -109,24 +120,24 @@
   <main class="flex-1 w-full max-w-[1200px] mx-auto overflow-hidden relative pt-[calc(64px+env(safe-area-inset-top))] flex flex-col">
     
     <!-- === VIEW 1: DEPLOYMENTS (DISCOVER/SEARCH) === -->
-    <div id="view-discover" class="view-section flex-1 flex flex-col overflow-hidden w-full px-4 lg:px-6 pt-6">
+    <div id="view-discover" class="view-section flex-1 flex flex-col overflow-hidden w-full px-4 lg:px-6 pt-4 lg:pt-6">
       
-      <div class="mb-6 shrink-0">
-        <h1 class="text-3xl font-bold tracking-tight text-vTextMain mb-2">Direct Routing Engine</h1>
-        <p class="text-sm text-vTextMuted">Bypass public job boards. Route queries directly into proprietary corporate ATS platforms.</p>
+      <div class="mb-4 lg:mb-6 shrink-0">
+        <h1 class="text-2xl lg:text-3xl font-bold tracking-tight text-vTextMain mb-1 lg:mb-2">Direct Routing Engine</h1>
+        <p class="text-xs lg:text-sm text-vTextMuted">Bypass public job boards. Route queries directly into proprietary ATS platforms.</p>
       </div>
 
       <!-- Command Palette Search -->
-      <div class="w-full v-card rounded-lg p-4 mb-6 shrink-0 flex flex-col sm:flex-row gap-4 items-center">
+      <div class="w-full v-card rounded-lg p-3 lg:p-4 mb-4 lg:mb-6 shrink-0 flex flex-col md:flex-row gap-3 items-center">
         <div class="flex-1 relative w-full">
             <i class="fa-solid fa-terminal absolute left-4 top-1/2 -translate-y-1/2 text-vTextMuted text-xs"></i>
-            <input type="text" id="searchQuery" class="w-full rounded-md v-input pl-10 pr-4 py-2.5 text-sm" placeholder="Define role payload (e.g. Analyst, BDM)...">
+            <input type="text" id="searchQuery" class="w-full rounded-md v-input pl-10 pr-4 py-2.5" placeholder="Define role payload (e.g. Analyst)...">
         </div>
         <div class="flex-1 relative w-full">
             <i class="fa-regular fa-building absolute left-4 top-1/2 -translate-y-1/2 text-vTextMuted text-xs"></i>
-            <input type="text" id="searchCompany" class="w-full rounded-md v-input pl-10 pr-4 py-2.5 text-sm" placeholder="Target specific institution (Optional)...">
+            <input type="text" id="searchCompany" class="w-full rounded-md v-input pl-10 pr-4 py-2.5" placeholder="Target specific institution (Optional)...">
         </div>
-        <button onclick="runGlobalSearch()" class="v-btn-primary w-full sm:w-auto px-6 py-2.5 rounded-md text-sm shrink-0 whitespace-nowrap shadow-[0_0_15px_rgba(255,255,255,0.1)]">Execute Build</button>
+        <button onclick="runGlobalSearch()" class="v-btn-primary w-full md:w-auto px-6 py-2.5 rounded-md text-sm shrink-0 whitespace-nowrap shadow-[0_0_15px_rgba(255,255,255,0.1)]">Execute Build</button>
       </div>
 
       <!-- Main Interface (Feed & Detail) -->
@@ -138,14 +149,14 @@
             <span class="text-xs font-mono text-vTextMuted">EDGE_NODES_FOUND</span>
             <span class="text-xs font-mono text-vTextMain" id="resultCount">0</span>
           </div>
-          <div id="jobFeed" class="flex-1 overflow-y-auto pb-safe lg:pb-0 bg-[#000] custom-scroll">
-             <div class="flex flex-col items-center justify-center h-40 text-vTextMuted font-mono text-xs">
+          <div id="jobFeed" class="flex-1 overflow-y-auto pb-safe bg-[#000] custom-scroll">
+             <div class="flex flex-col items-center justify-center h-full text-vTextMuted font-mono text-xs p-6 text-center">
                > Ready. Awaiting execution command.
              </div>
           </div>
         </div>
 
-        <!-- Right Panel: Log Inspector -->
+        <!-- Right Panel: Log Inspector (Desktop) -->
         <div id="jobDetailContainer" class="hidden lg:flex flex-col flex-1 h-full bg-[#050505] relative">
           <div class="p-3 border-b border-vBorder bg-[#050505] flex justify-between items-center shrink-0">
             <span class="text-xs font-mono text-vTextMuted">NODE_INSPECTOR</span>
@@ -165,22 +176,22 @@
         <!-- Mobile Detail Overlay -->
         <div id="mobileDetailOverlay" class="fixed inset-0 bg-[#000] z-[60] flex flex-col lg:hidden transform translate-x-full transition-transform duration-300">
             <div class="h-14 border-b border-vBorder flex items-center px-4 bg-[#0A0A0A] shrink-0 pt-safe justify-between">
-                <button onclick="closeMobileInspector()" class="text-vTextMuted hover:text-vTextMain p-2"><i class="fa-solid fa-chevron-left text-sm"></i> Back</button>
+                <button onclick="closeMobileInspector()" class="text-vTextMuted hover:text-vTextMain p-2 active:scale-95"><i class="fa-solid fa-chevron-left text-sm mr-1"></i> Back</button>
                 <span class="text-xs font-mono text-vTextMuted">NODE_INSPECTOR</span>
             </div>
-            <div id="mobileJobDetail" class="flex-1 overflow-y-auto pb-safe bg-[#050505] custom-scroll p-6"></div>
+            <div id="mobileJobDetail" class="flex-1 overflow-y-auto pb-safe bg-[#050505] custom-scroll p-5"></div>
         </div>
       </div>
     </div>
 
     <!-- === VIEW 2: PIPELINE (TRACKER) === -->
-    <div id="view-tracker" class="view-section hidden flex-1 flex flex-col overflow-hidden w-full px-4 lg:px-6 pt-6">
-      <div class="mb-6 shrink-0 flex justify-between items-end">
+    <div id="view-tracker" class="view-section hidden flex-1 flex flex-col overflow-hidden w-full px-4 lg:px-6 pt-4 lg:pt-6">
+      <div class="mb-4 lg:mb-6 shrink-0 flex justify-between items-end">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight text-vTextMain mb-2">Deployment Pipeline</h1>
-          <p class="text-sm text-vTextMuted">Monitor the state of your automated application builds.</p>
+          <h1 class="text-2xl lg:text-3xl font-bold tracking-tight text-vTextMain mb-1">Deployment Pipeline</h1>
+          <p class="text-xs lg:text-sm text-vTextMuted">Monitor the state of your automated application builds.</p>
         </div>
-        <button onclick="clearTracker()" class="v-btn-secondary px-4 py-2 rounded-md text-xs text-red-400 hover:text-red-300 border-vBorder hover:border-red-900/50">Flush Data</button>
+        <button onclick="clearTracker()" class="v-btn-secondary px-3 lg:px-4 py-2 rounded-md text-xs text-red-400 hover:text-red-300 border-vBorder hover:border-red-900/50">Flush Data</button>
       </div>
 
       <!-- Mobile Tabs -->
@@ -194,28 +205,28 @@
       <div class="flex-1 overflow-hidden relative mb-6">
         <div class="absolute inset-0 grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-6 overflow-hidden">
           
-          <div id="col-wrapper-saved" class="flex flex-col h-full v-card rounded-lg overflow-hidden">
+          <div id="col-wrapper-saved" class="flex-col h-full v-card rounded-lg overflow-hidden kanban-wrapper mob-active">
             <div class="hidden lg:flex p-3 border-b border-vBorder bg-[#050505] items-center justify-between shrink-0">
                 <span class="text-xs font-mono text-vTextMain">QUEUED_FOR_DEPLOY</span>
                 <span id="desk-count-saved" class="text-xs font-mono text-vTextMuted">0</span>
             </div>
-            <div id="col-saved" class="flex-1 overflow-y-auto custom-scroll p-4 space-y-3 bg-[#000]" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
+            <div id="col-saved" class="flex-1 overflow-y-auto custom-scroll pb-safe p-3 lg:p-4 space-y-3 bg-[#000]" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
           </div>
 
-          <div id="col-wrapper-applied" class="hidden lg:flex flex-col h-full v-card rounded-lg overflow-hidden border-t-2 border-t-vBlue">
+          <div id="col-wrapper-applied" class="flex-col h-full v-card rounded-lg overflow-hidden border-t-2 border-t-vBlue kanban-wrapper">
             <div class="hidden lg:flex p-3 border-b border-vBorder bg-[#050505] items-center justify-between shrink-0">
                 <span class="text-xs font-mono text-vBlue">SUCCESSFULLY_DEPLOYED</span>
                 <span id="desk-count-applied" class="text-xs font-mono text-vBlue">0</span>
             </div>
-            <div id="col-applied" class="flex-1 overflow-y-auto custom-scroll p-4 space-y-3 bg-[#000]" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
+            <div id="col-applied" class="flex-1 overflow-y-auto custom-scroll pb-safe p-3 lg:p-4 space-y-3 bg-[#000]" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
           </div>
 
-          <div id="col-wrapper-interview" class="hidden lg:flex flex-col h-full v-card rounded-lg overflow-hidden border-t-2 border-t-[#50E3C2]">
+          <div id="col-wrapper-interview" class="flex-col h-full v-card rounded-lg overflow-hidden border-t-2 border-t-[#50E3C2] kanban-wrapper">
             <div class="hidden lg:flex p-3 border-b border-vBorder bg-[#050505] items-center justify-between shrink-0">
                 <span class="text-xs font-mono text-[#50E3C2]">ACTIVE_DIALOG</span>
                 <span id="desk-count-interview" class="text-xs font-mono text-[#50E3C2]">0</span>
             </div>
-            <div id="col-interview" class="flex-1 overflow-y-auto custom-scroll p-4 space-y-3 bg-[#000]" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div>
+            <div id="col-interview" class="flex-1 overflow-y-auto custom-scroll pb-safe p-3 lg:p-4 space-y-3 bg-[#000]" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div>
           </div>
 
         </div>
@@ -223,59 +234,59 @@
     </div>
 
     <!-- === VIEW 3: ENVIRONMENT VARIABLES (PROFILE) === -->
-    <div id="view-profile" class="view-section hidden flex-1 overflow-y-auto pb-safe w-full px-4 lg:px-6 pt-6 custom-scroll">
-      <div class="max-w-[800px] w-full mx-auto">
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold tracking-tight text-vTextMain mb-2">Environment Variables</h1>
-          <p class="text-sm text-vTextMuted">Manage your personal data matrix. This payload is injected into target corporate ATS systems upon deployment.</p>
+    <div id="view-profile" class="view-section hidden flex-1 overflow-y-auto pb-safe w-full px-4 lg:px-6 pt-4 lg:pt-6 custom-scroll">
+      <div class="max-w-[800px] w-full mx-auto pb-6">
+        <div class="mb-6 lg:mb-8">
+          <h1 class="text-2xl lg:text-3xl font-bold tracking-tight text-vTextMain mb-1 lg:mb-2">Environment Variables</h1>
+          <p class="text-xs lg:text-sm text-vTextMuted">Manage your personal data matrix. This payload is injected into target corporate ATS systems upon deployment.</p>
         </div>
         
-        <div class="v-card rounded-lg p-6 lg:p-8 mb-8">
-          <h2 class="text-lg font-semibold text-vTextMain mb-6 flex items-center justify-between">
+        <div class="v-card rounded-lg p-5 lg:p-8 mb-6 lg:mb-8">
+          <h2 class="text-base lg:text-lg font-semibold text-vTextMain mb-5 lg:mb-6 flex items-center justify-between">
             Payload Configuration
             <span class="text-[10px] font-mono text-vBlue bg-vBlue/10 px-2 py-1 rounded border border-vBlue/30">ENV_SYNCED</span>
           </h2>
           
-          <div class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4 lg:space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               <div>
                 <label class="text-xs font-mono text-vTextMuted mb-2 block">USER_NAME</label>
-                <input type="text" id="envName" class="w-full rounded-md v-input px-4 py-2.5 text-sm font-mono">
+                <input type="text" id="envName" class="w-full rounded-md v-input px-3 lg:px-4 py-2 lg:py-2.5 font-mono">
               </div>
               <div>
                 <label class="text-xs font-mono text-vTextMuted mb-2 block">TARGET_ROLE</label>
-                <input type="text" id="envRole" class="w-full rounded-md v-input px-4 py-2.5 text-sm font-mono">
+                <input type="text" id="envRole" class="w-full rounded-md v-input px-3 lg:px-4 py-2 lg:py-2.5 font-mono">
               </div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               <div>
                 <label class="text-xs font-mono text-vTextMuted mb-2 block">CURRENT_INSTITUTION</label>
-                <input type="text" id="envCompany" class="w-full rounded-md v-input px-4 py-2.5 text-sm font-mono">
+                <input type="text" id="envCompany" class="w-full rounded-md v-input px-3 lg:px-4 py-2 lg:py-2.5 font-mono">
               </div>
               <div>
                 <label class="text-xs font-mono text-vTextMuted mb-2 block">EDUCATION_DEGREE</label>
-                <input type="text" id="envEdu" class="w-full rounded-md v-input px-4 py-2.5 text-sm font-mono">
+                <input type="text" id="envEdu" class="w-full rounded-md v-input px-3 lg:px-4 py-2 lg:py-2.5 font-mono">
               </div>
             </div>
 
             <div>
               <label class="text-xs font-mono text-vBlue mb-2 block">AI_MATCHING_ARRAY (Comma Separated)</label>
-              <textarea id="envSkills" rows="3" class="w-full rounded-md v-input px-4 py-3 text-sm font-mono resize-none"></textarea>
+              <textarea id="envSkills" rows="3" class="w-full rounded-md v-input px-3 lg:px-4 py-3 font-mono resize-none"></textarea>
             </div>
           </div>
 
-          <div class="mt-8 pt-6 border-t border-vBorder flex justify-end">
-            <button onclick="saveProfile()" class="v-btn-primary px-8 py-2.5 rounded-md text-sm shadow-[0_0_15px_rgba(255,255,255,0.1)]">Save Environment</button>
+          <div class="mt-6 lg:mt-8 pt-5 lg:pt-6 border-t border-vBorder flex justify-end">
+            <button onclick="saveProfile()" class="v-btn-primary w-full sm:w-auto px-8 py-2.5 rounded-md text-sm shadow-[0_0_15px_rgba(255,255,255,0.1)]">Save Environment</button>
           </div>
         </div>
 
-        <div class="v-card rounded-lg p-6 lg:p-8 mb-8 border-dashed border-[#333] hover:border-vTextMuted transition-colors relative cursor-pointer" onclick="document.getElementById('resumeUpload').click()">
+        <div class="v-card rounded-lg p-6 lg:p-8 border-dashed border-[#333] hover:border-vTextMuted transition-colors relative cursor-pointer" onclick="document.getElementById('resumeUpload').click()">
             <input type="file" id="resumeUpload" class="hidden" accept=".pdf,.doc,.docx" onchange="handleResumeUpload(event)">
             <div class="flex flex-col items-center justify-center text-center">
                 <i class="fa-solid fa-file-code text-3xl text-vTextMuted mb-4" id="uploadIcon"></i>
-                <h3 class="text-base font-medium text-vTextMain" id="uploadTitle">Upload Document Binary (.pdf, .docx)</h3>
-                <p class="text-sm text-vTextMuted mt-1" id="uploadDesc">The system will parse the binary and auto-fill the Environment Variables above.</p>
+                <h3 class="text-sm lg:text-base font-medium text-vTextMain" id="uploadTitle">Upload Document Binary (.pdf, .docx)</h3>
+                <p class="text-xs lg:text-sm text-vTextMuted mt-1" id="uploadDesc">The system will parse the binary and auto-fill the Environment Variables above.</p>
             </div>
         </div>
 
@@ -284,7 +295,7 @@
   </main>
 
   <!-- Mobile Bottom Nav -->
-  <nav class="lg:hidden fixed bottom-0 w-full bg-[#0A0A0A] border-t border-vBorder z-40 pb-safe">
+  <nav class="lg:hidden fixed bottom-0 w-full bg-[#0A0A0A]/95 backdrop-blur-md border-t border-vBorder z-40 pb-safe">
     <div class="flex justify-around items-center h-[64px]">
       <button onclick="switchTab('discover')" id="mob-discover" class="nav-item active flex-1 flex flex-col items-center justify-center transition-colors">
         <i class="fa-solid fa-radar text-lg mb-1"></i><span class="text-[10px] font-medium uppercase tracking-wider">Deploy</span>
@@ -299,7 +310,7 @@
   </nav>
 
   <!-- Notification Toast -->
-  <div id="toaster" class="fixed bottom-24 lg:bottom-6 right-4 z-[100] flex flex-col gap-2 pointer-events-none transition-all w-[300px]"></div>
+  <div id="toaster" class="fixed bottom-24 lg:bottom-6 right-4 lg:right-6 z-[100] flex flex-col gap-2 pointer-events-none transition-all w-[300px]"></div>
 
   <!-- ================= DEPLOYMENT TERMINAL (MODAL) ================= -->
   <div id="applyModal" class="fixed inset-0 bg-[#000]/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
@@ -319,7 +330,7 @@
       </div>
       
       <!-- Terminal Body -->
-      <div class="p-5 flex-1 min-h-[300px] max-h-[60vh] overflow-y-auto custom-scroll bg-[#000]" id="applyTerminal">
+      <div class="p-4 lg:p-5 flex-1 min-h-[300px] max-h-[60vh] overflow-y-auto custom-scroll bg-[#000]" id="applyTerminal">
          <!-- Logs injected here -->
       </div>
       <div class="glow-line hidden" id="terminalGlow"></div>
@@ -331,7 +342,7 @@
        1. CORE STATE & CONTEXT MANAGEMENT
        ========================================================================= */
     
-    // User context pre-synced as per Digvijay Sharma's background
+    // User context pre-synced
     let UserProfile = JSON.parse(localStorage.getItem('vercel_portal_profile')) || {
       name: "Digvijay Sharma",
       role: "Business Development Manager",
@@ -347,7 +358,7 @@
       currentTrackerTab: 'saved'
     };
 
-    // DIRECT CAREER PORTAL REGISTRY (Bypassing public boards)
+    // DIRECT CAREER PORTAL REGISTRY 
     const COMPANY_REGISTRY = [
       { name: 'Google', searchUrl: (q) => `https://www.google.com/about/careers/applications/jobs/results/?q=${encodeURIComponent(q)}` },
       { name: 'Amazon', searchUrl: (q) => `https://www.amazon.jobs/en/search?base_query=${encodeURIComponent(q)}` },
@@ -366,18 +377,15 @@
        2. UI SYNCHRONIZATION & NAVIGATION
        ========================================================================= */
     function renderProfileToUI() {
-      // Update Avatars
       const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(UserProfile.name)}&background=000&color=fff&bold=true`;
       document.getElementById('headerAvatar').src = avatarUrl;
       
-      // Update Env Form
       document.getElementById('envName').value = UserProfile.name;
       document.getElementById('envRole').value = UserProfile.role;
       document.getElementById('envCompany').value = UserProfile.company;
       document.getElementById('envEdu').value = UserProfile.education;
       document.getElementById('envSkills').value = UserProfile.skills.join(', ');
       
-      // Update Initial Search
       if(UserProfile.role) document.getElementById('searchQuery').value = UserProfile.role;
 
       if(UserProfile.resumeFile) {
@@ -435,7 +443,10 @@
       const activeMob = document.getElementById(`mob-${tabId}`);
       if(activeMob) activeMob.classList.add('active', 'text-vTextMain');
 
-      if(tabId === 'tracker') renderKanban();
+      if(tabId === 'tracker') {
+        renderKanban();
+        if(window.innerWidth < 1024) switchTrackerTab(AppState.currentTrackerTab);
+      }
       if(tabId === 'discover') closeMobileInspector(); 
     }
 
@@ -460,14 +471,12 @@
       const companyQ = document.getElementById('searchCompany').value.trim().toLowerCase();
       
       const feed = document.getElementById('jobFeed');
-      feed.innerHTML = `<div class="flex flex-col items-center justify-center h-40 text-vTextMuted font-mono text-xs"><i class="fa-solid fa-circle-notch animate-spin mb-3 text-lg"></i>> Fetching nodes...</div>`;
+      feed.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-vTextMuted font-mono text-xs"><i class="fa-solid fa-circle-notch animate-spin mb-3 text-lg"></i>> Fetching edge nodes...</div>`;
       
       AppState.jobs = []; 
 
       // 1. Generate Direct Company Portal Links
       const targetCompanies = companyQ ? COMPANY_REGISTRY.filter(c => c.name.toLowerCase().includes(companyQ)) : COMPANY_REGISTRY;
-      
-      // Randomly select 8 companies if no specific company searched, to simulate feed diversity
       const selectedCompanies = companyQ ? targetCompanies : targetCompanies.sort(() => 0.5 - Math.random()).slice(0, 8);
 
       selectedCompanies.forEach((company, index) => {
@@ -477,7 +486,7 @@
           company: company.name, 
           location: "Multiple / Remote",
           portal: 'Internal ATS',
-          desc: `<div class="terminal-text p-4 bg-[#000] rounded border border-[#333]">
+          desc: `<div class="terminal-text p-4 bg-[#000] rounded border border-[#333] overflow-x-auto">
                    <p>> <span class="highlight">SYSTEM_LOG:</span> Direct ATS routing established.</p>
                    <p>> <span class="highlight">DESTINATION:</span> ${company.name} Internal Career Portal.</p>
                    <p>> <span class="highlight">PAYLOAD_PARAMS:</span> Role=[${q}]</p>
@@ -514,7 +523,6 @@
         skillsToMatch.forEach(us => { if(textToSearch.includes(us.toLowerCase())) matches++; });
         let score = (matches / Math.max(skillsToMatch.length, 1)) * 100;
         
-        // Direct company links get a baseline boost because they perfectly match the user's intent
         if(j.isDirect) score = Math.max(score, Math.floor(Math.random() * 20) + 75);
         if(score === 0) score = Math.floor(Math.random() * 20) + 40; 
         
@@ -570,26 +578,26 @@
       const inTracker = AppState.tracker.find(t => t.id === job.id);
       
       const htmlContent = `
-        <div class="p-8 pb-4 shrink-0 border-b border-[#222]">
+        <div class="p-5 lg:p-8 pb-4 shrink-0 border-b border-[#222]">
           <div class="flex justify-between items-start mb-4">
-            <h2 class="text-2xl font-bold text-vTextMain leading-tight">${job.title}</h2>
+            <h2 class="text-xl lg:text-2xl font-bold text-vTextMain leading-tight">${job.title}</h2>
             <button onclick="addToTracker('${job.id}')" class="w-8 h-8 rounded border flex items-center justify-center shrink-0 ml-4 transition-colors ${inTracker ? 'bg-[#111] border-[#333] text-vBlue' : 'bg-[#000] border-[#333] hover:bg-[#111] text-vTextMuted'}" ${inTracker?'disabled':''}>
                <i class="fa-solid ${inTracker ? 'fa-check' : 'fa-bookmark'} text-sm"></i>
             </button>
           </div>
-          <p class="text-sm text-vTextMuted font-mono mb-4">> Institution: <span class="text-vTextMain">${job.company}</span></p>
+          <p class="text-xs lg:text-sm text-vTextMuted font-mono mb-4">> Institution: <span class="text-vTextMain">${job.company}</span></p>
           
-          <div class="flex gap-3 mb-2">
+          <div class="flex flex-wrap gap-2 mb-2">
             <span class="text-[10px] font-mono text-vTextMain border border-[#333] px-2 py-1 rounded bg-[#0A0A0A]">${job.portal}</span>
             <span class="text-[10px] font-mono border border-vBlue/30 text-vBlue px-2 py-1 rounded bg-vBlue/10">MATCH_SCORE: ${job.matchScore}%</span>
           </div>
         </div>
 
-        <div class="flex-1 overflow-y-auto custom-scroll p-8 bg-[#000]">
+        <div class="flex-1 overflow-y-auto custom-scroll p-5 lg:p-8 bg-[#000]">
           ${job.desc}
         </div>
 
-        <div class="p-6 border-t border-[#222] bg-[#0A0A0A] shrink-0 flex flex-col sm:flex-row gap-3">
+        <div class="p-5 lg:p-6 border-t border-[#222] bg-[#0A0A0A] shrink-0 flex flex-col sm:flex-row gap-3">
           <a href="${job.url}" target="_blank" class="v-btn-secondary flex-1 text-center py-3 rounded-md text-sm transition-colors">
              Execute Manual Deployment <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1 opacity-70"></i>
           </a>
@@ -649,7 +657,7 @@
         terminal.scrollTop = terminal.scrollHeight;
       }
 
-      glow.classList.add('hidden'); // Turn off blue deployment glow
+      glow.classList.add('hidden'); 
       
       if(!AppState.tracker.find(t => t.id === jobId)) {
         AppState.tracker.push({ id: jobId, status: 'applied', title: job.title, company: job.company, portal: job.portal });
@@ -683,16 +691,17 @@
     function switchTrackerTab(status) {
       AppState.currentTrackerTab = status;
       
+      // Update Mobile Tabs UI
       ['saved', 'applied', 'interview'].forEach(id => {
         const mobTab = document.getElementById(`mob-tab-${id}`);
         mobTab.className = `flex-1 py-2 text-xs font-mono rounded-md transition-all ${status === id ? 'bg-[#333] text-white' : 'text-vTextMuted'}`;
         
-        document.getElementById(`col-wrapper-${id}`).classList.remove('flex');
-        document.getElementById(`col-wrapper-${id}`).classList.add('hidden');
+        // Remove active class from all wrappers
+        document.getElementById(`col-wrapper-${id}`).classList.remove('mob-active');
       });
       
-      document.getElementById(`col-wrapper-${status}`).classList.remove('hidden');
-      document.getElementById(`col-wrapper-${status}`).classList.add('flex');
+      // Add active class to selected wrapper
+      document.getElementById(`col-wrapper-${status}`).classList.add('mob-active');
       
       renderKanban();
     }
@@ -708,9 +717,9 @@
         div.id = `kanban-${item.id}`;
         
         let actions = '';
-        if(item.status === 'saved') actions = `<button onclick="moveTrackerStatus('${item.id}', 'applied')" class="mt-4 w-full bg-[#111] hover:bg-[#222] text-vTextMain border border-[#333] py-2 rounded text-xs font-mono transition-colors">Mark Deployed</button>`;
-        else if(item.status === 'applied') actions = `<div class="mt-4 flex gap-2"><button onclick="moveTrackerStatus('${item.id}', 'saved')" class="flex-1 bg-[#111] hover:bg-[#222] text-vTextMuted border border-[#333] py-2 rounded text-xs font-mono transition-colors">Revert</button><button onclick="moveTrackerStatus('${item.id}', 'interview')" class="flex-1 bg-[#0070F3]/10 hover:bg-[#0070F3]/20 text-vBlue border border-[#0070F3]/30 py-2 rounded text-xs font-mono transition-colors">Active</button></div>`;
-        else if(item.status === 'interview') actions = `<button onclick="moveTrackerStatus('${item.id}', 'applied')" class="mt-4 w-full bg-[#111] hover:bg-[#222] text-vTextMuted border border-[#333] py-2 rounded text-xs font-mono transition-colors">Revert to Deployed</button>`;
+        if(item.status === 'saved') actions = `<button onclick="moveTrackerStatus('${item.id}', 'applied')" class="mt-4 w-full bg-[#111] hover:bg-[#222] text-vTextMain border border-[#333] py-2 rounded text-xs font-mono transition-colors active:scale-95">Mark Deployed</button>`;
+        else if(item.status === 'applied') actions = `<div class="mt-4 flex gap-2"><button onclick="moveTrackerStatus('${item.id}', 'saved')" class="flex-1 bg-[#111] hover:bg-[#222] text-vTextMuted border border-[#333] py-2 rounded text-xs font-mono transition-colors active:scale-95">Revert</button><button onclick="moveTrackerStatus('${item.id}', 'interview')" class="flex-1 bg-[#0070F3]/10 hover:bg-[#0070F3]/20 text-vBlue border border-[#0070F3]/30 py-2 rounded text-xs font-mono transition-colors active:scale-95">Active</button></div>`;
+        else if(item.status === 'interview') actions = `<button onclick="moveTrackerStatus('${item.id}', 'applied')" class="mt-4 w-full bg-[#111] hover:bg-[#222] text-vTextMuted border border-[#333] py-2 rounded text-xs font-mono transition-colors active:scale-95">Revert to Deployed</button>`;
 
         div.innerHTML = `
           <div class="flex justify-between items-start mb-1">
@@ -739,9 +748,6 @@
       renderProfileToUI(); 
       runGlobalSearch(); 
       switchTrackerTab('saved'); 
-      
-      // Auto-assign mobile tab if viewed on small screen
-      if(window.innerWidth < 1024) switchMobileTrackerTab('saved');
     };
   </script>
 </body>
