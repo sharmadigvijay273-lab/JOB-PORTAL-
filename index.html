@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>One Job Portal - Professional Aggregation</title>
+  <title>OneJob - Elite Aggregation Engine</title>
   
-  <!-- Fonts: Inter for Professional SaaS Look -->
+  <!-- Fonts: Inter for High-End SaaS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -22,19 +22,21 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
-            background: '#09090b', /* Zinc 950 */
-            surface: '#18181b',    /* Zinc 900 */
+            background: '#040405', /* Deepest Obsidian */
+            surface: '#0e0e11',    /* Elevated Obsidian */
             border: '#27272a',     /* Zinc 800 */
             primary: '#3b82f6',    /* Professional Blue */
+            primaryGlow: 'rgba(59, 130, 246, 0.15)',
             textMain: '#f4f4f5',   /* Zinc 100 */
             textMuted: '#a1a1aa'   /* Zinc 400 */
           },
           animation: {
-            'fade-in': 'fadeIn 0.2s ease-out forwards',
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'fade-in': 'fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'float': 'float 6s ease-in-out infinite',
           },
           keyframes: {
-            fadeIn: { '0%': { opacity: '0', transform: 'translateY(5px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+            fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
           }
         }
       }
@@ -42,147 +44,190 @@
   </script>
 
   <style>
-    body { background-color: #09090b; color: #f4f4f5; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-    
-    /* Subtle Spotlight Background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 100vw; height: 500px;
-      background: radial-gradient(circle at top, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
-      z-index: -1;
-      pointer-events: none;
+    body { 
+      background-color: #040405; 
+      color: #f4f4f5; 
+      overflow-x: hidden; 
+      -webkit-tap-highlight-color: transparent; 
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%);
     }
 
-    /* Professional Scrollbar */
-    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    /* Ambient Grid Background */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-size: 40px 40px;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    }
+    
+    /* Sleek Scrollbars */
+    .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
     .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
     .custom-scroll::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
 
-    /* Inputs & Panels */
-    .saas-panel { background-color: #09090b; border: 1px solid #27272a; }
-    .saas-card { background-color: #18181b; border: 1px solid #27272a; }
-    .saas-input { background-color: #09090b; border: 1px solid #27272a; color: #f4f4f5; }
-    .saas-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 1px #3b82f6; outline: none; }
+    /* Glass Panels & Inputs */
+    .glass-panel { background: rgba(14, 14, 17, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
+    .saas-input { background: rgba(0,0,0,0.2); border: 1px solid #27272a; color: #f4f4f5; transition: all 0.2s ease; }
+    .saas-input:focus { border-color: #3b82f6; background: rgba(59,130,246,0.05); box-shadow: 0 0 15px rgba(59,130,246,0.1); outline: none; }
 
-    /* Real Job Description Formatting */
-    .job-desc-html { color: #d4d4d8; font-size: 0.875rem; line-height: 1.6; }
-    .job-desc-html h1, .job-desc-html h2, .job-desc-html h3 { font-size: 1rem; font-weight: 600; color: #f4f4f5; margin-top: 1.5rem; margin-bottom: 0.5rem; }
-    .job-desc-html p { margin-bottom: 1rem; }
-    .job-desc-html ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 1rem; }
-    .job-desc-html li { margin-bottom: 0.25rem; }
-    .job-desc-html a { color: #3b82f6; text-decoration: none; }
-    .job-desc-html a:hover { text-decoration: underline; }
+    /* Hover Spotlight Effect for Cards */
+    .spotlight-card { position: relative; overflow: hidden; background: #0e0e11; border: 1px solid #27272a; transition: border-color 0.3s; }
+    .spotlight-card::before {
+      content: ""; position: absolute; top: var(--y, 0); left: var(--x, 0); transform: translate(-50%, -50%);
+      width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+      opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 1;
+    }
+    .spotlight-card:hover::before { opacity: 1; }
+    .spotlight-card:hover { border-color: rgba(255,255,255,0.2); z-index: 10; }
+    .card-content { position: relative; z-index: 2; }
 
+    /* Rich Text Formatting for Job Descriptions */
+    .job-desc-html { font-size: 0.875rem; line-height: 1.7; color: #d4d4d8; font-weight: 300; }
+    .job-desc-html h1, .job-desc-html h2, .job-desc-html h3, .job-desc-html h4 { font-size: 1.05rem; font-weight: 600; color: #fff; margin: 1.5rem 0 0.75rem 0; letter-spacing: -0.02em; }
+    .job-desc-html p { margin-bottom: 1.2rem; }
+    .job-desc-html ul { list-style: none; padding-left: 0; margin-bottom: 1.2rem; }
+    .job-desc-html li { position: relative; padding-left: 1.25rem; margin-bottom: 0.5rem; }
+    .job-desc-html li::before { content: "→"; position: absolute; left: 0; color: #3b82f6; font-size: 0.8rem; top: 0.1rem; }
+    .job-desc-html a { color: #3b82f6; text-decoration: none; border-bottom: 1px dotted #3b82f6; transition: color 0.2s; }
+    .job-desc-html a:hover { color: #60a5fa; border-bottom-style: solid; }
+
+    ::selection { background: rgba(59, 130, 246, 0.4); color: white; }
     .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
-    
-    /* Clean text selection */
-    ::selection { background: rgba(59, 130, 246, 0.3); color: white; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans">
 
-  <!-- Minimal Top Navigation -->
-  <nav class="saas-panel sticky top-0 z-[40] border-b">
-    <div class="max-w-[90rem] mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
+  <div class="bg-grid"></div>
+
+  <!-- Ultra-Minimal Navigation -->
+  <nav class="glass-panel sticky top-0 z-[40] border-b border-white/5">
+    <div class="max-w-[90rem] mx-auto px-4 lg:px-8 py-3.5 flex items-center justify-between">
       
-      <!-- Brand -->
-      <div class="flex items-center gap-3 cursor-pointer select-none">
-        <div class="w-8 h-8 rounded bg-primary flex items-center justify-center shadow-sm">
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3 cursor-pointer select-none group">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-blue-800 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.4)] transition-transform group-hover:scale-105">
           <i class="fa-solid fa-layer-group text-white text-sm"></i>
         </div>
         <div class="flex flex-col">
-          <h1 class="text-lg font-bold text-textMain tracking-tight leading-none">OneJob</h1>
-          <span class="text-[10px] text-textMuted font-medium uppercase tracking-widest mt-0.5">Aggregator</span>
+          <h1 class="text-xl font-bold text-white tracking-tighter leading-none">One<span class="text-primary font-normal">Job</span></h1>
+          <span class="text-[9px] text-textMuted font-medium uppercase tracking-[0.2em] mt-1">Global Network</span>
         </div>
       </div>
 
-      <!-- Desktop Tabs -->
-      <div class="hidden lg:flex items-center gap-1 bg-surface p-1 rounded-lg border border-border">
-        <button onclick="switchTab('discover')" id="tab-discover" class="nav-tab-desk px-4 py-1.5 rounded-md text-sm font-medium bg-zinc-800 text-textMain transition-all"><i class="fa-solid fa-magnifying-glass mr-2 text-xs"></i>Discover</button>
-        <button onclick="switchTab('tracker')" id="tab-tracker" class="nav-tab-desk px-4 py-1.5 rounded-md text-sm font-medium text-textMuted hover:text-textMain transition-all"><i class="fa-solid fa-kanban mr-2 text-xs"></i>Tracker</button>
+      <!-- Center Segmented Control (Desktop) -->
+      <div class="hidden lg:flex items-center gap-1 bg-black/40 p-1 rounded-lg border border-white/5 shadow-inner">
+        <button onclick="switchTab('discover')" id="tab-discover" class="nav-tab-desk px-5 py-1.5 rounded-md text-sm font-medium bg-white/10 text-white shadow-sm transition-all"><i class="fa-solid fa-radar mr-2 text-primary"></i>Discover</button>
+        <button onclick="switchTab('tracker')" id="tab-tracker" class="nav-tab-desk px-5 py-1.5 rounded-md text-sm font-medium text-textMuted hover:text-white transition-all"><i class="fa-solid fa-layer-group mr-2 opacity-70"></i>Pipeline</button>
       </div>
 
-      <!-- User/Profile -->
+      <!-- Avatar -->
       <div class="flex items-center gap-4">
-        <img src="https://ui-avatars.com/api/?name=Digvijay+Sharma&background=27272a&color=fff" class="w-8 h-8 rounded-full border border-border" alt="Profile">
+        <img src="https://ui-avatars.com/api/?name=User&background=000&color=fff" class="w-9 h-9 rounded-full border border-white/10 shadow-lg cursor-pointer hover:border-white/30 transition-colors" alt="Profile">
       </div>
     </div>
   </nav>
 
-  <!-- Mobile Bottom Navigation -->
-  <div class="lg:hidden fixed bottom-0 left-0 right-0 saas-panel border-t z-[45] flex justify-around p-2 pb-safe bg-background shadow-2xl">
-    <button onclick="switchTab('discover')" id="mob-discover" class="nav-tab-mob flex flex-col items-center justify-center w-full py-2 text-textMain transition-colors">
-      <i class="fa-solid fa-magnifying-glass text-base mb-1"></i>
-      <span class="text-[10px] font-medium">Search</span>
+  <!-- Mobile Bottom Nav -->
+  <div class="lg:hidden fixed bottom-0 left-0 right-0 glass-panel border-t border-white/5 z-[45] flex justify-around p-2 pb-safe bg-background/90">
+    <button onclick="switchTab('discover')" id="mob-discover" class="nav-tab-mob flex flex-col items-center justify-center w-full py-2 text-white transition-colors">
+      <i class="fa-solid fa-radar text-lg mb-1"></i>
+      <span class="text-[10px] font-medium tracking-wide">Search</span>
     </button>
-    <button onclick="switchTab('tracker')" id="mob-tracker" class="nav-tab-mob flex flex-col items-center justify-center w-full py-2 text-textMuted hover:text-textMain transition-colors">
-      <i class="fa-solid fa-kanban text-base mb-1"></i>
-      <span class="text-[10px] font-medium">Tracker</span>
+    <button onclick="switchTab('tracker')" id="mob-tracker" class="nav-tab-mob flex flex-col items-center justify-center w-full py-2 text-textMuted hover:text-white transition-colors">
+      <i class="fa-solid fa-layer-group text-lg mb-1"></i>
+      <span class="text-[10px] font-medium tracking-wide">Pipeline</span>
     </button>
   </div>
 
-  <main class="flex-grow max-w-[90rem] mx-auto w-full px-4 lg:px-8 pt-6 pb-24 lg:pb-8 relative">
+  <main class="flex-grow max-w-[90rem] mx-auto w-full px-4 lg:px-8 pt-6 lg:pt-8 pb-24 lg:pb-8 relative">
     
     <!-- ================= VIEW: DISCOVER ================= -->
-    <div id="view-discover" class="view-section space-y-6 animate-fade-in">
+    <div id="view-discover" class="view-section space-y-6 lg:space-y-8 animate-fade-in">
       
-      <!-- Command-Palette Style Search -->
-      <div class="saas-card rounded-lg p-4 shadow-sm">
-        <div class="flex flex-col md:flex-row gap-3">
-          <div class="flex-1 relative">
-            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-[11px] text-textMuted text-sm"></i>
-            <input type="text" id="searchQuery" placeholder="Job title or keyword (e.g. Data Analyst)" value="Analyst" class="saas-input w-full rounded-md pl-9 pr-4 py-2 text-sm transition">
+      <!-- Command Center Search Panel -->
+      <div class="glass-panel rounded-xl p-5 lg:p-6 shadow-2xl relative overflow-hidden">
+        
+        <!-- Subtle Glow behind search -->
+        <div class="absolute -top-20 -right-20 w-64 h-64 bg-primary/20 rounded-full blur-[80px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 relative z-10">
+          
+          <!-- Top Row: Role & Company -->
+          <div class="md:col-span-6 relative group">
+            <label class="text-[10px] font-semibold text-textMuted uppercase tracking-widest mb-1.5 block ml-1">Target Role</label>
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-[35px] text-textMuted group-focus-within:text-primary transition-colors"></i>
+            <input type="text" id="searchQuery" placeholder="e.g. Software Engineer, Designer..." value="Analyst" class="saas-input w-full rounded-lg pl-11 pr-4 py-3 text-sm">
           </div>
-          <div class="flex-1 relative">
-            <i class="fa-solid fa-location-dot absolute left-3.5 top-[11px] text-textMuted text-sm"></i>
-            <input type="text" id="searchLocation" placeholder="Location (e.g. Remote, India)" value="Remote" class="saas-input w-full rounded-md pl-9 pr-4 py-2 text-sm transition">
+          
+          <div class="md:col-span-6 relative group">
+            <label class="text-[10px] font-semibold text-textMuted uppercase tracking-widest mb-1.5 block ml-1">Company (Optional)</label>
+            <i class="fa-regular fa-building absolute left-4 top-[35px] text-textMuted group-focus-within:text-primary transition-colors"></i>
+            <input type="text" id="searchCompany" placeholder="e.g. Google, Stripe, Remote.co..." class="saas-input w-full rounded-lg pl-11 pr-4 py-3 text-sm">
           </div>
-          <div class="flex-1 relative">
-            <i class="fa-solid fa-microchip absolute left-3.5 top-[11px] text-primary text-sm"></i>
-            <input type="text" id="searchSkills" placeholder="Your skills (for AI Match)" value="KYC, AML, Compliance" class="saas-input w-full rounded-md pl-9 pr-4 py-2 text-sm transition">
+
+          <!-- Bottom Row: Location, Skills, Button -->
+          <div class="md:col-span-4 relative group">
+            <label class="text-[10px] font-semibold text-textMuted uppercase tracking-widest mb-1.5 block ml-1">Location</label>
+            <i class="fa-solid fa-globe absolute left-4 top-[35px] text-textMuted group-focus-within:text-primary transition-colors"></i>
+            <input type="text" id="searchLocation" placeholder="e.g. Remote, New York..." value="Remote" class="saas-input w-full rounded-lg pl-11 pr-4 py-3 text-sm">
           </div>
-          <button onclick="runGlobalSearch()" class="bg-primary hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-md transition text-sm flex items-center justify-center gap-2 whitespace-nowrap">
-            Fetch Jobs <i class="fa-solid fa-arrow-right text-xs"></i>
-          </button>
+          
+          <div class="md:col-span-5 relative group">
+            <label class="text-[10px] font-semibold text-textMuted uppercase tracking-widest mb-1.5 block ml-1">My Skills <span class="text-primary font-normal">(AI Matching)</span></label>
+            <i class="fa-solid fa-bolt absolute left-4 top-[35px] text-primary transition-colors"></i>
+            <input type="text" id="searchSkills" placeholder="React, Python, KYC, Management..." value="KYC, AML, Compliance" class="saas-input w-full rounded-lg pl-11 pr-4 py-3 text-sm border-primary/30 bg-primary/[0.02]">
+          </div>
+
+          <div class="md:col-span-3 flex items-end">
+            <button onclick="runGlobalSearch()" class="w-full h-[46px] bg-white text-black hover:bg-gray-200 font-semibold rounded-lg transition-all text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-[0.98]">
+              Execute Query <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Results Area Layout -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto lg:h-[calc(100vh-220px)] min-h-[500px]">
+      <!-- Split Layout: Feed & Inspector -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-auto lg:h-[calc(100vh-280px)] min-h-[600px]">
         
-        <!-- Left: Feed List -->
-        <div class="lg:col-span-5 flex flex-col saas-panel rounded-lg overflow-hidden h-[60vh] lg:h-full">
-          <div class="p-4 border-b border-border bg-surface flex justify-between items-center">
+        <!-- Left: Dynamic Feed -->
+        <div class="lg:col-span-5 flex flex-col glass-panel rounded-xl overflow-hidden h-[60vh] lg:h-full border border-white/5">
+          <div class="p-4 border-b border-white/5 bg-black/20 flex justify-between items-center backdrop-blur-md">
             <div>
-              <span class="text-sm font-semibold text-textMain"><span id="resultCount">0</span> Openings</span>
+              <span class="text-sm font-semibold text-white tracking-tight"><span id="resultCount" class="text-primary">0</span> Live Openings</span>
             </div>
-            <span class="text-[10px] text-textMuted bg-background px-2 py-1 rounded border border-border"><i class="fa-solid fa-circle text-[8px] text-green-500 mr-1"></i>Live APIs</span>
+            <div class="flex items-center gap-1.5 text-[10px] text-green-400 bg-green-400/10 px-2 py-1 rounded-full border border-green-400/20 font-medium">
+              <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>
+              Real-Time Sync
+            </div>
           </div>
           
-          <div id="jobFeed" class="flex-1 overflow-y-auto custom-scroll p-2 space-y-1 relative bg-background">
+          <div id="jobFeed" class="flex-1 overflow-y-auto custom-scroll p-3 space-y-2 relative bg-black/10">
             <div class="absolute inset-0 flex flex-col items-center justify-center text-textMuted">
-              <i class="fa-solid fa-terminal text-2xl mb-2 opacity-50"></i>
-              <p class="text-xs">Awaiting query execution...</p>
+              <i class="fa-solid fa-satellite-dish text-3xl mb-3 opacity-30 animate-pulse"></i>
+              <p class="text-xs font-medium tracking-widest uppercase">Awaiting Parameters</p>
             </div>
           </div>
         </div>
 
-        <!-- Right: Inspector Modal/Drawer -->
-        <div id="jobDetailContainer" class="fixed inset-0 z-[60] bg-background/95 backdrop-blur-sm translate-y-full transition-transform duration-300 flex flex-col lg:static lg:bg-transparent lg:translate-y-0 lg:z-auto lg:flex lg:col-span-7 saas-panel lg:rounded-lg lg:overflow-hidden">
+        <!-- Right: Detail Inspector -->
+        <div id="jobDetailContainer" class="fixed inset-0 z-[60] bg-background/95 backdrop-blur-xl translate-y-full transition-transform duration-400 ease-out flex flex-col lg:static lg:bg-transparent lg:translate-y-0 lg:z-auto lg:flex lg:col-span-7 glass-panel lg:rounded-xl lg:overflow-hidden border border-white/5 shadow-2xl">
           
-          <div class="lg:hidden p-4 border-b border-border bg-surface flex justify-between items-center sticky top-0 z-20 pb-safe-top">
-            <span class="font-semibold text-textMain text-sm">Position Details</span>
-            <button onclick="closeMobileInspector()" class="w-8 h-8 flex items-center justify-center rounded bg-background text-textMuted border border-border hover:text-textMain"><i class="fa-solid fa-xmark"></i></button>
+          <div class="lg:hidden p-4 border-b border-white/5 bg-surface/90 flex justify-between items-center sticky top-0 z-20 pb-safe-top backdrop-blur-md">
+            <span class="font-semibold text-white text-sm">Opportunity Details</span>
+            <button onclick="closeMobileInspector()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition"><i class="fa-solid fa-chevron-down text-sm"></i></button>
           </div>
 
-          <div id="jobDetail" class="w-full h-full p-6 lg:p-8 flex flex-col items-center justify-center text-center text-textMuted relative overflow-y-auto custom-scroll pb-24 lg:pb-8 bg-background">
-            <i class="fa-solid fa-arrow-pointer text-3xl mb-4 opacity-50"></i>
-            <h3 class="text-lg font-medium text-textMain">Select a position</h3>
-            <p class="text-sm max-w-sm mt-1">View the full description and generate an AI-tailored cover letter based on your specific skills.</p>
+          <div id="jobDetail" class="w-full h-full p-6 lg:p-8 flex flex-col items-center justify-center text-center text-textMuted relative overflow-y-auto custom-scroll pb-24 lg:pb-8">
+            <div class="w-20 h-20 rounded-full border border-white/10 bg-black/30 flex items-center justify-center mb-5 animate-float">
+               <i class="fa-solid fa-arrow-pointer text-2xl text-white/50"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-white tracking-tight">Select an Opportunity</h3>
+            <p class="text-sm max-w-sm mt-2 font-light">Choose a role from the feed to view full specifications and generate an AI-tailored application.</p>
           </div>
         </div>
       </div>
@@ -192,69 +237,70 @@
     <div id="view-tracker" class="view-section hidden flex flex-col h-auto lg:h-[calc(100vh-140px)] animate-fade-in">
       <div class="mb-6 flex justify-between items-end">
         <div>
-          <h2 class="text-xl font-semibold text-textMain">Pipeline Tracker</h2>
-          <p class="text-sm text-textMuted mt-1">Manage your application lifecycle.</p>
+          <h2 class="text-2xl font-bold text-white tracking-tight">Application Pipeline</h2>
+          <p class="text-sm text-textMuted mt-1">Drag and drop to manage your lifecycle.</p>
         </div>
-        <button onclick="clearTracker()" class="text-xs text-red-400 hover:text-red-300 bg-red-400/10 px-3 py-1.5 rounded transition border border-red-400/20"><i class="fa-solid fa-trash mr-1"></i> Clear</button>
+        <button onclick="clearTracker()" class="text-xs font-medium text-red-400 hover:text-red-300 bg-red-400/10 px-3 py-2 rounded-md transition border border-red-400/20 hover:bg-red-400/20"><i class="fa-solid fa-trash-can mr-1"></i> Flush Pipeline</button>
       </div>
       
-      <!-- Sleek Kanban Columns -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 flex-1 lg:overflow-hidden pb-10 lg:pb-0">
+      <!-- Kanban Board -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6 flex-1 lg:overflow-hidden pb-10 lg:pb-0">
         
         <!-- Saved -->
-        <div class="saas-card rounded-lg flex flex-col h-[400px] lg:h-full">
-          <div class="p-3 border-b border-border bg-background flex justify-between items-center rounded-t-lg">
-            <span class="font-medium text-textMain text-sm flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-zinc-400"></div> Saved</span>
-            <span id="count-saved" class="text-xs text-textMuted font-mono bg-surface px-1.5 rounded border border-border">0</span>
+        <div class="glass-panel rounded-xl flex flex-col h-[400px] lg:h-full border-t-4 border-t-zinc-500 shadow-lg">
+          <div class="p-3.5 border-b border-white/5 bg-black/20 flex justify-between items-center backdrop-blur-sm">
+            <span class="font-semibold text-white text-sm">Saved Queue</span>
+            <span id="count-saved" class="text-[10px] text-zinc-300 font-mono bg-white/10 px-2 py-0.5 rounded-full border border-white/5">0</span>
           </div>
-          <div id="col-saved" class="kanban-col flex-1 p-2 overflow-y-auto custom-scroll space-y-2 bg-surface" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
+          <div id="col-saved" class="kanban-col flex-1 p-3 overflow-y-auto custom-scroll space-y-3 bg-black/10" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
         </div>
 
         <!-- Applied -->
-        <div class="saas-card rounded-lg flex flex-col h-[400px] lg:h-full">
-          <div class="p-3 border-b border-border bg-background flex justify-between items-center rounded-t-lg">
-            <span class="font-medium text-textMain text-sm flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-blue-500"></div> Applied</span>
-            <span id="count-applied" class="text-xs text-textMuted font-mono bg-surface px-1.5 rounded border border-border">0</span>
+        <div class="glass-panel rounded-xl flex flex-col h-[400px] lg:h-full border-t-4 border-t-primary shadow-lg">
+          <div class="p-3.5 border-b border-white/5 bg-black/20 flex justify-between items-center backdrop-blur-sm">
+            <span class="font-semibold text-white text-sm">Active Applications</span>
+            <span id="count-applied" class="text-[10px] text-primary font-mono bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20">0</span>
           </div>
-          <div id="col-applied" class="kanban-col flex-1 p-2 overflow-y-auto custom-scroll space-y-2 bg-surface" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
+          <div id="col-applied" class="kanban-col flex-1 p-3 overflow-y-auto custom-scroll space-y-3 bg-black/10" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
         </div>
 
         <!-- Interview -->
-        <div class="saas-card rounded-lg flex flex-col h-[400px] lg:h-full">
-          <div class="p-3 border-b border-border bg-background flex justify-between items-center rounded-t-lg">
-            <span class="font-medium text-textMain text-sm flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500"></div> Interview</span>
-            <span id="count-interview" class="text-xs text-textMuted font-mono bg-surface px-1.5 rounded border border-border">0</span>
+        <div class="glass-panel rounded-xl flex flex-col h-[400px] lg:h-full border-t-4 border-t-green-500 shadow-lg">
+          <div class="p-3.5 border-b border-white/5 bg-black/20 flex justify-between items-center backdrop-blur-sm">
+            <span class="font-semibold text-white text-sm">In Interview</span>
+            <span id="count-interview" class="text-[10px] text-green-400 font-mono bg-green-400/10 px-2 py-0.5 rounded-full border border-green-400/20">0</span>
           </div>
-          <div id="col-interview" class="kanban-col flex-1 p-2 overflow-y-auto custom-scroll space-y-2 bg-surface" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div>
+          <div id="col-interview" class="kanban-col flex-1 p-3 overflow-y-auto custom-scroll space-y-3 bg-black/10" ondragover="allowDrop(event)" ondrop="drop(event, 'interview')"></div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Clean Toast Notifications -->
-  <div id="toaster" class="fixed bottom-20 lg:bottom-6 right-4 lg:right-6 z-[80] flex flex-col gap-2 pointer-events-none"></div>
+  <!-- Clean Toaster -->
+  <div id="toaster" class="fixed bottom-20 lg:bottom-8 right-4 lg:right-8 z-[80] flex flex-col gap-3 pointer-events-none"></div>
 
-  <!-- Minimal AI Modal -->
-  <div id="aiModal" class="fixed inset-0 bg-background/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
-    <div class="saas-card w-full max-w-2xl rounded-lg border border-border shadow-2xl flex flex-col overflow-hidden max-h-[85vh]">
-      <div class="p-4 border-b border-border bg-surface flex justify-between items-center">
-        <h3 class="text-base font-semibold text-textMain flex items-center gap-2"><i class="fa-solid fa-sparkles text-primary"></i> AI Cover Letter Generator</h3>
-        <button onclick="closeAIModal()" class="text-textMuted hover:text-textMain transition"><i class="fa-solid fa-xmark"></i></button>
+  <!-- AI Modal (Sleek Overlay) -->
+  <div id="aiModal" class="fixed inset-0 bg-background/80 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-3xl rounded-xl border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden max-h-[85vh]">
+      <div class="p-4 lg:p-5 border-b border-white/5 bg-black/40 flex justify-between items-center">
+        <h3 class="text-base font-semibold text-white flex items-center gap-2"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> AI Cover Letter Synthesis</h3>
+        <button onclick="closeAIModal()" class="text-textMuted hover:text-white transition w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
       </div>
       
-      <div class="p-6 overflow-y-auto custom-scroll flex-1 relative min-h-[300px] bg-background">
-        <div id="aiLoader" class="absolute inset-0 flex flex-col items-center justify-center z-10 bg-background hidden">
-          <i class="fa-solid fa-circle-notch text-primary animate-spin text-2xl mb-3"></i>
-          <p class="text-textMuted text-sm">Drafting targeted cover letter...</p>
+      <div class="p-6 lg:p-8 overflow-y-auto custom-scroll flex-1 relative min-h-[350px] bg-black/20">
+        <div id="aiLoader" class="absolute inset-0 flex flex-col items-center justify-center z-10 bg-background/90 backdrop-blur hidden">
+          <i class="fa-solid fa-circle-notch text-primary animate-spin text-3xl mb-4"></i>
+          <p class="text-sm font-medium text-white tracking-wide">Analyzing Job Requirements...</p>
+          <p class="text-xs text-textMuted mt-1">Cross-referencing with your skill matrix</p>
         </div>
-        <div id="aiOutput" class="text-textMain whitespace-pre-wrap font-serif text-sm leading-relaxed p-4 saas-card rounded-md">
-          <!-- Letter content -->
+        <div id="aiOutput" class="text-textMain whitespace-pre-wrap font-serif text-sm leading-relaxed p-6 bg-black/30 rounded-lg border border-white/5 shadow-inner">
+          <!-- AI Content -->
         </div>
       </div>
       
-      <div class="p-4 border-t border-border bg-surface flex justify-end gap-3">
-        <button onclick="closeAIModal()" class="px-4 py-2 text-sm font-medium text-textMain bg-background border border-border rounded-md hover:bg-zinc-800 transition">Cancel</button>
-        <button onclick="copyCoverLetter()" class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-blue-600 transition flex items-center gap-2"><i class="fa-regular fa-copy"></i> Copy to Clipboard</button>
+      <div class="p-4 border-t border-white/5 bg-black/40 flex justify-end gap-3 backdrop-blur-md">
+        <button onclick="closeAIModal()" class="px-5 py-2.5 text-sm font-medium text-white bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition">Discard</button>
+        <button onclick="copyCoverLetter()" class="px-5 py-2.5 text-sm font-semibold text-background bg-white rounded-lg hover:bg-gray-200 transition flex items-center gap-2 shadow-[0_0_15px_rgba(255,255,255,0.1)]"><i class="fa-regular fa-copy"></i> Copy to Clipboard</button>
       </div>
     </div>
   </div>
@@ -268,12 +314,12 @@
     let AppState = {
       jobs: [],
       activeJob: null,
-      tracker: JSON.parse(localStorage.getItem('ojp_pro_tracker')) || [],
+      tracker: JSON.parse(localStorage.getItem('ojp_elite_tracker')) || [],
       userSkills: []
     };
 
     /* =========================================================================
-       2. UI NAVIGATION & TOASTS
+       2. UI NAVIGATION & INTERACTION
        ========================================================================= */
     function switchTab(tabId) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
@@ -281,22 +327,22 @@
       
       // Desktop Nav Update
       document.querySelectorAll('.nav-tab-desk').forEach(el => {
-        el.classList.remove('bg-zinc-800', 'text-textMain');
+        el.classList.remove('bg-white/10', 'text-white', 'shadow-sm');
         el.classList.add('text-textMuted');
       });
       const activeDesk = document.getElementById(`tab-${tabId}`);
       if(activeDesk) {
           activeDesk.classList.remove('text-textMuted');
-          activeDesk.classList.add('bg-zinc-800', 'text-textMain');
+          activeDesk.classList.add('bg-white/10', 'text-white', 'shadow-sm');
       }
 
       // Mobile Nav Update
       document.querySelectorAll('.nav-tab-mob').forEach(el => {
-          el.classList.remove('text-textMain');
+          el.classList.remove('text-white');
           el.classList.add('text-textMuted');
       });
       const activeMob = document.getElementById(`mob-${tabId}`);
-      if(activeMob) activeMob.classList.add('text-textMain');
+      if(activeMob) activeMob.classList.add('text-white');
 
       if(tabId === 'tracker') renderKanban();
     }
@@ -304,44 +350,54 @@
     function showToast(msg, type='success') {
       const toaster = document.getElementById('toaster');
       const toast = document.createElement('div');
-      const icon = type==='success' ? 'fa-check text-green-500' : 'fa-triangle-exclamation text-red-500';
-      toast.className = `saas-panel px-4 py-3 rounded-md flex items-center gap-3 shadow-lg animate-fade-in`;
-      toast.innerHTML = `<i class="fa-solid ${icon} text-sm"></i><span class="text-sm font-medium text-textMain">${msg}</span>`;
+      const icon = type==='success' ? 'fa-check text-green-400' : 'fa-triangle-exclamation text-red-400';
+      toast.className = `glass-panel px-4 py-3.5 rounded-lg flex items-center gap-3 shadow-2xl animate-fade-in border-l-2 ${type==='success'?'border-l-green-500':'border-l-red-500'}`;
+      toast.innerHTML = `<i class="fa-solid ${icon} text-sm"></i><span class="text-sm font-medium text-white">${msg}</span>`;
       toaster.appendChild(toast);
-      setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(()=>toast.remove(), 300); }, 3000);
+      setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(10px)'; toast.style.transition = 'all 0.3s ease'; setTimeout(()=>toast.remove(), 300); }, 3000);
     }
 
     function openMobileInspector() { if(window.innerWidth < 1024) document.getElementById('jobDetailContainer').classList.remove('translate-y-full'); }
     function closeMobileInspector() { document.getElementById('jobDetailContainer').classList.add('translate-y-full'); }
 
     /* =========================================================================
-       3. REAL LIVE SEARCH ENGINE (Remotive & Arbeitnow)
+       3. LIVE SEARCH ENGINE (WITH COMPANY FILTER)
        ========================================================================= */
     let searchTimeout;
-    ['searchQuery'].forEach(id => {
+    ['searchQuery', 'searchCompany', 'searchLocation', 'searchSkills'].forEach(id => {
       document.getElementById(id).addEventListener('input', () => {
         clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(runGlobalSearch, 800); 
+        searchTimeout = setTimeout(runGlobalSearch, 750); // Debounce
       });
     });
 
+    // Spotlight mouse tracking logic for dynamically added cards
+    function handleSpotlight(e) {
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      this.style.setProperty('--x', `${x}px`);
+      this.style.setProperty('--y', `${y}px`);
+    }
+
     async function runGlobalSearch() {
       const q = document.getElementById('searchQuery').value.trim() || 'Analyst';
+      const companyQ = document.getElementById('searchCompany').value.trim().toLowerCase();
       const loc = document.getElementById('searchLocation').value.trim().toLowerCase();
       AppState.userSkills = document.getElementById('searchSkills').value.split(',').map(s=>s.trim().toLowerCase()).filter(s=>s);
       
       const feed = document.getElementById('jobFeed');
       feed.innerHTML = `
         <div class="h-full flex flex-col items-center justify-center text-textMuted">
-          <i class="fa-solid fa-circle-notch animate-spin text-xl mb-3 text-primary"></i>
-          <p class="text-xs font-medium uppercase tracking-widest">Querying Datasets...</p>
+          <i class="fa-solid fa-circle-notch animate-spin text-2xl mb-3 text-primary"></i>
+          <p class="text-xs font-semibold uppercase tracking-widest text-white/70">Executing Query...</p>
         </div>`;
       
       AppState.jobs = []; 
 
-      // 1. FETCH FROM REMOTIVE
+      // 1. Remotive API
       try {
-        const remotiveRes = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(q)}&limit=30`);
+        const remotiveRes = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(q)}&limit=40`);
         if(remotiveRes.ok) {
           const data = await remotiveRes.json();
           const apiJobs = data.jobs.map(j => ({
@@ -352,7 +408,7 @@
         }
       } catch(e) {}
 
-      // 2. FETCH FROM ARBEITNOW
+      // 2. Arbeitnow API
       try {
         const arbeitRes = await fetch(`https://www.arbeitnow.com/api/job-board-api`);
         if(arbeitRes.ok) {
@@ -367,7 +423,9 @@
         }
       } catch(e) {}
 
+      // Apply Filters: Location & Company
       if(loc && loc !== 'remote') AppState.jobs = AppState.jobs.filter(j => j.location.toLowerCase().includes(loc));
+      if(companyQ) AppState.jobs = AppState.jobs.filter(j => j.company.toLowerCase().includes(companyQ));
 
       // Calculate AI Match Score
       AppState.jobs.forEach(j => {
@@ -380,9 +438,9 @@
         j.matchScore = Math.min(99, Math.round(score));
       });
 
-      AppState.jobs.sort((a,b) => b.time - a.time); // Sort newest
+      AppState.jobs.sort((a,b) => b.time - a.time); 
       renderFeed();
-      if(AppState.jobs.length > 0) showToast(`Retrieved ${AppState.jobs.length} open roles.`);
+      if(AppState.jobs.length > 0) showToast(`System retrieved ${AppState.jobs.length} valid entries.`);
     }
 
     function renderFeed() {
@@ -391,31 +449,33 @@
       feed.innerHTML = '';
 
       if(AppState.jobs.length === 0) {
-          feed.innerHTML = `<div class="p-4 text-center text-textMuted text-sm">No matches found. Try adjusting parameters.</div>`;
+          feed.innerHTML = `<div class="p-6 text-center text-textMuted text-sm font-light">No exact matches found. Broaden your search parameters or check spelling.</div>`;
           return;
       }
 
       AppState.jobs.forEach((job) => {
         const isSelected = AppState.activeJob?.id === job.id;
-        const color = job.matchScore > 70 ? 'text-green-500' : job.matchScore > 40 ? 'text-yellow-500' : 'text-textMuted';
+        const color = job.matchScore > 70 ? 'text-green-400' : job.matchScore > 40 ? 'text-yellow-400' : 'text-zinc-400';
         const daysAgo = Math.floor((Date.now() - job.time) / (1000 * 3600 * 24));
         const timeText = daysAgo === 0 ? 'Today' : `${daysAgo}d`;
 
         const div = document.createElement('div');
-        // Clean, dense list item design
-        div.className = `p-3 rounded-md border transition-colors cursor-pointer flex gap-3 items-start ${isSelected && window.innerWidth >= 1024 ? 'bg-surface border-primary' : 'bg-transparent border-transparent hover:bg-surface hover:border-border'}`;
+        div.className = `spotlight-card p-4 rounded-lg cursor-pointer flex gap-4 items-center ${isSelected && window.innerWidth >= 1024 ? 'bg-primary/5 border-primary/40 shadow-[0_0_15px_rgba(59,130,246,0.1)]' : ''}`;
+        
+        // Attach Mouse Move Event for Spotlight Effect
+        div.addEventListener('mousemove', handleSpotlight);
 
         div.innerHTML = `
-          <div class="flex-1 min-w-0">
+          <div class="card-content flex-1 min-w-0">
             <div class="flex justify-between items-baseline mb-1">
-              <h4 class="font-medium text-textMain text-sm truncate pr-2">${job.title}</h4>
-              <span class="text-[10px] text-textMuted whitespace-nowrap">${timeText}</span>
+              <h4 class="font-semibold text-white text-sm truncate pr-2">${job.title}</h4>
+              <span class="text-[10px] font-medium text-textMuted whitespace-nowrap bg-white/5 px-1.5 py-0.5 rounded">${timeText}</span>
             </div>
-            <p class="text-xs text-textMuted truncate">${job.company} &bull; ${job.location}</p>
+            <p class="text-xs text-textMuted truncate font-medium"><i class="fa-regular fa-building mr-1"></i>${job.company} <span class="mx-1 opacity-50">&bull;</span> ${job.location}</p>
           </div>
-          <div class="shrink-0 text-right">
-             <span class="text-xs font-semibold ${color}">${job.matchScore}%</span>
-             <p class="text-[9px] text-textMuted uppercase mt-0.5">${job.portal}</p>
+          <div class="card-content shrink-0 text-right pl-2 border-l border-white/10">
+             <span class="text-sm font-bold ${color}">${job.matchScore}%</span>
+             <p class="text-[8px] text-textMuted uppercase mt-0.5 font-bold tracking-widest">${job.portal}</p>
           </div>
         `;
         
@@ -431,7 +491,7 @@
     }
 
     /* =========================================================================
-       4. JOB INSPECTOR 
+       4. JOB INSPECTOR (RICH DATA PRESENTATION)
        ========================================================================= */
     function renderInspector(job) {
       AppState.activeJob = job;
@@ -440,43 +500,44 @@
 
       panel.innerHTML = `
         <div class="w-full flex flex-col text-left animate-fade-in relative z-10 pb-4 h-full">
-          <!-- Header -->
+          <!-- Header block -->
           <div class="mb-6">
             <div class="flex justify-between items-start gap-4">
-              <div>
-                <h2 class="text-xl lg:text-2xl font-bold text-textMain tracking-tight leading-tight">${job.title}</h2>
-                <div class="flex items-center gap-2 mt-2 text-sm text-textMuted">
-                  <span class="font-medium text-textMain">${job.company}</span>
-                  <span>&bull;</span>
-                  <span><i class="fa-solid fa-location-dot text-xs mr-1"></i>${job.location}</span>
+              <div class="flex-1">
+                <span class="inline-block px-2.5 py-1 rounded-md text-[10px] font-bold bg-white/10 text-white uppercase tracking-widest mb-3 border border-white/10">${job.portal} Network</span>
+                <h2 class="text-2xl lg:text-3xl font-bold text-white tracking-tight leading-tight">${job.title}</h2>
+                <div class="flex flex-wrap items-center gap-3 mt-3 text-sm text-textMuted font-medium">
+                  <span class="text-white bg-white/5 px-2 py-1 rounded border border-white/5"><i class="fa-regular fa-building mr-1.5 text-primary"></i>${job.company}</span>
+                  <span class="bg-white/5 px-2 py-1 rounded border border-white/5"><i class="fa-solid fa-location-dot mr-1.5 text-primary"></i>${job.location}</span>
                 </div>
               </div>
-              <button onclick="addToTracker('${job.id}')" class="px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 border ${inTracker ? 'bg-background border-border text-textMuted' : 'bg-surface border-border text-textMain hover:bg-zinc-800'}" ${inTracker?'disabled':''}>
-                <i class="fa-solid ${inTracker ? 'fa-check' : 'fa-bookmark'}"></i> ${inTracker ? 'Saved' : 'Save'}
+              <button onclick="addToTracker('${job.id}')" class="shrink-0 px-4 py-2.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 border shadow-sm ${inTracker ? 'bg-black/30 border-white/5 text-textMuted' : 'bg-white text-black border-transparent hover:bg-gray-200 active:scale-95'}" ${inTracker?'disabled':''}>
+                <i class="fa-solid ${inTracker ? 'fa-check' : 'fa-bookmark'}"></i> ${inTracker ? 'Archived' : 'Save'}
               </button>
             </div>
             
-            <div class="flex items-center gap-3 mt-4 pt-4 border-t border-border">
-              <span class="px-2 py-1 rounded-md text-[10px] font-medium bg-background border border-border text-textMuted">Source: ${job.portal}</span>
-              <span class="px-2 py-1 rounded-md text-[10px] font-medium bg-primary/10 border border-primary/20 text-primary">Skill Match: ${job.matchScore}%</span>
+            <div class="flex items-center gap-3 mt-5 pt-5 border-t border-white/5">
+              <div class="flex-1 bg-black/30 rounded-lg p-3 border border-white/5 flex items-center justify-between">
+                <span class="text-xs text-textMuted font-medium uppercase tracking-wider">AI Skill Match</span>
+                <span class="text-sm font-bold text-primary">${job.matchScore}% Validated</span>
+              </div>
             </div>
           </div>
 
-          <!-- Description -->
-          <div class="flex-1 overflow-y-auto custom-scroll pr-2 mb-4">
-            <h3 class="text-xs font-semibold text-textMain mb-3 uppercase tracking-wider">About the Role</h3>
+          <!-- Description Box -->
+          <div class="flex-1 overflow-y-auto custom-scroll pr-3 mb-4 rounded-lg">
             <div class="job-desc-html">
               ${job.desc}
             </div>
           </div>
 
-          <!-- Actions -->
-          <div class="pt-4 border-t border-border flex flex-col sm:flex-row gap-3 mt-auto bg-background/80 backdrop-blur pb-safe">
-            <button onclick="generateCoverLetter()" class="flex-1 bg-surface hover:bg-zinc-800 text-textMain border border-border font-medium py-2.5 rounded-md transition text-sm flex items-center justify-center gap-2">
-              <i class="fa-solid fa-sparkles text-primary"></i> Draft Cover Letter
+          <!-- Action Footer -->
+          <div class="pt-5 border-t border-white/5 flex flex-col sm:flex-row gap-3 mt-auto bg-transparent pb-safe">
+            <button onclick="generateCoverLetter()" class="flex-1 bg-black/40 hover:bg-black/60 text-white border border-white/10 font-semibold py-3 rounded-lg transition-all text-sm flex items-center justify-center gap-2 shadow-inner">
+              <i class="fa-solid fa-sparkles text-primary"></i> Draft Application
             </button>
-            <a href="${job.url}" target="_blank" class="flex-1 bg-textMain hover:bg-white text-background font-semibold py-2.5 rounded-md transition text-sm flex items-center justify-center gap-2">
-              Apply via ${job.portal} <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i>
+            <a href="${job.url}" target="_blank" class="flex-1 bg-primary hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition-all text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+              Proceed to Portal <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i>
             </a>
           </div>
         </div>
@@ -484,7 +545,7 @@
     }
 
     /* =========================================================================
-       5. REAL AI COVER LETTER API (GEMINI)
+       5. GEMINI API INTEGRATION
        ========================================================================= */
     async function generateCoverLetter() {
       if (!AppState.activeJob) return;
@@ -504,17 +565,17 @@
       const prompt = `Write a highly professional, concise cover letter (max 3 paragraphs) for a ${job.title} position at ${job.company}. 
       Context from job description: "${plainTextDesc}".
       My key skills: ${skills}. 
-      Format with HTML line breaks (<br>) instead of standard newlines. Tone should be confident and corporate.`;
+      Format with HTML line breaks (<br>) instead of standard newlines. Tone should be confident, executive, and highly polished. Do not use markdown backticks.`;
 
       try {
-        if(GEMINI_API_KEY === 'YOUR_API_KEY_HERE') throw new Error("API Key required. Please configure GEMINI_API_KEY.");
+        if(GEMINI_API_KEY === 'YOUR_API_KEY_HERE') throw new Error("API Configuration Missing. Please set your GEMINI_API_KEY in the source.");
         
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
 
-        if (!response.ok) throw new Error('API Request Failed');
+        if (!response.ok) throw new Error('API Request Failed.');
         const data = await response.json();
         
         loader.classList.add('hidden');
@@ -522,31 +583,31 @@
         
       } catch (error) {
         loader.classList.add('hidden');
-        output.innerHTML = `<div class="p-3 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-md">Error: ${error.message}</div>`;
+        output.innerHTML = `<div class="p-4 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-lg"><i class="fa-solid fa-triangle-exclamation mr-2"></i><strong>System Error:</strong> ${error.message}</div>`;
       }
     }
 
     function closeAIModal() { document.getElementById('aiModal').classList.add('hidden'); }
     function copyCoverLetter() {
       navigator.clipboard.writeText(document.getElementById('aiOutput').innerText);
-      showToast('Copied to clipboard');
+      showToast('Document copied to clipboard.');
       closeAIModal();
     }
 
     /* =========================================================================
-       6. TRACKER (KANBAN) SYSTEM
+       6. PIPELINE / KANBAN SYSTEM
        ========================================================================= */
     function addToTracker(id) {
       if(!AppState.tracker.find(t => t.id === id)) {
         AppState.tracker.push({ id, status: 'saved', title: AppState.activeJob.title, company: AppState.activeJob.company, portal: AppState.activeJob.portal });
         saveTracker();
-        showToast('Saved to Tracker');
+        showToast('Archived to Pipeline.');
         renderInspector(AppState.activeJob); 
       }
     }
 
-    function saveTracker() { localStorage.setItem('ojp_pro_tracker', JSON.stringify(AppState.tracker)); renderKanban(); }
-    function clearTracker() { if(confirm('Clear tracking data?')) { AppState.tracker = []; saveTracker(); } }
+    function saveTracker() { localStorage.setItem('ojp_elite_tracker', JSON.stringify(AppState.tracker)); renderKanban(); }
+    function clearTracker() { if(confirm('Are you sure you want to flush the entire pipeline?')) { AppState.tracker = []; saveTracker(); } }
 
     function moveKanbanStatus(id, newStatus) {
       const item = AppState.tracker.find(t => t.id === id);
@@ -561,27 +622,29 @@
       AppState.tracker.forEach(item => {
         counts[item.status]++;
         const el = document.createElement('div');
-        el.className = "saas-panel p-3 rounded-md shadow-sm cursor-grab active:cursor-grabbing hover:border-zinc-600 transition group";
+        el.className = "bg-black/40 p-3.5 rounded-lg border border-white/5 shadow-sm cursor-grab active:cursor-grabbing hover:border-white/20 transition group relative overflow-hidden";
         el.draggable = true;
         el.id = `kanban-${item.id}`;
         
-        // Touch fallbacks
         let moveButtons = '';
-        if(item.status === 'saved') moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="text-[10px] font-medium text-textMain bg-surface border border-border px-2 py-1 rounded w-full mt-2 lg:hidden">Move to Applied</button>`;
-        else if(item.status === 'applied') moveButtons = `<div class="flex gap-2 mt-2 lg:hidden"><button onclick="moveKanbanStatus('${item.id}', 'saved')" class="flex-1 text-[10px] text-textMuted bg-surface border border-border py-1 rounded">Back</button><button onclick="moveKanbanStatus('${item.id}', 'interview')" class="flex-1 text-[10px] text-textMain bg-surface border border-border py-1 rounded">Interview</button></div>`;
-        else if(item.status === 'interview') moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="text-[10px] text-textMuted bg-surface border border-border px-2 py-1 rounded w-full mt-2 lg:hidden">Back to Applied</button>`;
+        if(item.status === 'saved') moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="text-[10px] font-semibold text-black bg-white py-1.5 rounded w-full mt-3 lg:hidden">Promote to Applied</button>`;
+        else if(item.status === 'applied') moveButtons = `<div class="flex gap-2 mt-3 lg:hidden"><button onclick="moveKanbanStatus('${item.id}', 'saved')" class="flex-1 text-[10px] text-textMuted bg-white/5 py-1.5 rounded font-medium">Demote</button><button onclick="moveKanbanStatus('${item.id}', 'interview')" class="flex-1 text-[10px] text-black bg-white py-1.5 rounded font-semibold">Interview</button></div>`;
+        else if(item.status === 'interview') moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="text-[10px] text-textMuted bg-white/5 py-1.5 rounded font-medium w-full mt-3 lg:hidden">Demote to Applied</button>`;
 
         el.innerHTML = `
-          <div class="flex justify-between items-start mb-1">
-            <h4 class="font-medium text-textMain text-xs leading-tight pr-4">${item.title}</h4>
+          <div class="absolute left-0 top-0 bottom-0 w-1 ${item.status === 'saved' ? 'bg-zinc-500' : item.status === 'applied' ? 'bg-primary' : 'bg-green-500'}"></div>
+          <div class="flex justify-between items-start mb-1 pl-2">
+            <h4 class="font-semibold text-white text-xs leading-tight pr-4">${item.title}</h4>
             <button onclick="removeKanban('${item.id}')" class="text-textMuted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-xmark text-xs"></i></button>
           </div>
-          <p class="text-[10px] text-textMuted">${item.company}</p>
-          <span class="inline-block mt-2 px-1.5 py-0.5 rounded text-[9px] bg-background border border-border text-textMuted">${item.portal}</span>
+          <p class="text-[10px] text-textMuted font-medium pl-2"><i class="fa-regular fa-building mr-1"></i>${item.company}</p>
+          <div class="pl-2">
+             <span class="inline-block mt-2 px-1.5 py-0.5 rounded text-[8px] uppercase tracking-widest font-bold bg-white/5 text-textMuted border border-white/5">${item.portal}</span>
+          </div>
           ${moveButtons}
         `;
         
-        el.ondragstart = (e) => { e.dataTransfer.setData('text/plain', item.id); el.style.opacity = '0.5'; };
+        el.ondragstart = (e) => { e.dataTransfer.setData('text/plain', item.id); el.style.opacity = '0.4'; };
         el.ondragend = () => el.style.opacity = '1';
         cols[item.status].appendChild(el);
       });
