@@ -134,7 +134,7 @@
         <div class="flex flex-col md:flex-row gap-3">
           <div class="flex-1 relative">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-textMuted text-sm"></i>
-            <input type="text" id="searchQuery" class="w-full form-input rounded-md pl-9 pr-3 py-2.5" placeholder="Role (e.g. Analyst, Manager)...">
+            <input type="text" id="searchQuery" class="w-full form-input rounded-md pl-9 pr-3 py-2.5" placeholder="Role (e.g. Engineer, Manager)...">
           </div>
           <div class="flex-1 relative">
             <i class="fa-regular fa-building absolute left-3 top-1/2 -translate-y-1/2 text-textMuted text-sm"></i>
@@ -143,10 +143,10 @@
           <div class="md:w-48 relative">
             <i class="fa-solid fa-location-dot absolute left-3 top-1/2 -translate-y-1/2 text-textMuted text-sm z-10"></i>
             <select id="searchLocation" class="w-full form-input rounded-md pl-9 pr-3 py-2.5 appearance-none cursor-pointer relative z-0">
-              <option value="Delhi NCR">Delhi NCR</option>
-              <option value="Gurugram" selected>Gurugram</option>
-              <option value="Mumbai">Mumbai</option>
-              <option value="Bangalore">Bangalore</option>
+              <option value="New York" selected>New York</option>
+              <option value="San Francisco">San Francisco</option>
+              <option value="London">London</option>
+              <option value="Toronto">Toronto</option>
               <option value="Remote">Remote</option>
             </select>
           </div>
@@ -356,21 +356,20 @@
 
   <script>
     /* =========================================================================
-       1. CORE STATE MANAGEMENT
+       1. CORE STATE MANAGEMENT (Generic User)
        ========================================================================= */
-    // Default config matching Digvijay Sharma
     const DEFAULT_PROFILE = {
-      name: "Digvijay Sharma",
-      role: "Business Development Manager",
-      company: "IndusInd Bank",
-      education: "MBA (2025)",
-      skills: ["AML", "KYC", "Client Onboarding", "Compliance", "Financial Analysis"],
-      resumeFile: "Digvijay_Sharma_CV.pdf"
+      name: "Guest User",
+      role: "Professional",
+      company: "",
+      education: "",
+      skills: [],
+      resumeFile: null
     };
 
     let AppState = {
-      profile: JSON.parse(localStorage.getItem('ojp_crm_profile')) || DEFAULT_PROFILE,
-      tracker: JSON.parse(localStorage.getItem('ojp_crm_tracker')) || [],
+      profile: JSON.parse(localStorage.getItem('ojp_crm_universal')) || DEFAULT_PROFILE,
+      tracker: JSON.parse(localStorage.getItem('ojp_crm_tracker_universal')) || [],
       jobs: [],
       activeJob: null
     };
@@ -379,9 +378,6 @@
       { name: 'Google', searchUrl: (q) => `https://www.google.com/about/careers/applications/jobs/results/?q=${encodeURIComponent(q)}` },
       { name: 'Amazon', searchUrl: (q) => `https://www.amazon.jobs/en/search?base_query=${encodeURIComponent(q)}` },
       { name: 'JPMorgan Chase', searchUrl: (q) => `https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions?keyword=${encodeURIComponent(q)}` },
-      { name: 'IndusInd Bank', searchUrl: (q) => `https://www.indusind.com/in/en/personal/careers.html` },
-      { name: 'HDFC Bank', searchUrl: (q) => `https://careers.hdfcbank.com/` },
-      { name: 'Eclerx', searchUrl: (q) => `https://eclerx.com/careers/` },
       { name: 'Barclays', searchUrl: (q) => `https://search.jobs.barclays/search-jobs/${encodeURIComponent(q)}` }
     ];
 
@@ -391,7 +387,7 @@
     document.addEventListener("DOMContentLoaded", () => {
       syncProfileToUI();
       runSearch();
-      switchTrackerTab('saved'); // Setup mobile tabs
+      switchTrackerTab('saved'); 
       renderKanban();
     });
 
@@ -407,7 +403,9 @@
       document.getElementById('profEdu').value = AppState.profile.education;
       document.getElementById('profSkills').value = AppState.profile.skills.join(', ');
       
-      if(AppState.profile.role) document.getElementById('searchQuery').value = AppState.profile.role;
+      if(AppState.profile.role !== "Professional") {
+          document.getElementById('searchQuery').value = AppState.profile.role;
+      }
 
       if(AppState.profile.resumeFile) {
         document.getElementById('uploadIcon').className = 'fa-solid fa-file-circle-check text-3xl text-accent mb-3';
@@ -419,13 +417,13 @@
     function saveProfile() {
       AppState.profile = {
         name: document.getElementById('profName').value.trim() || "Guest User",
-        role: document.getElementById('profRole').value.trim(),
+        role: document.getElementById('profRole').value.trim() || "Professional",
         company: document.getElementById('profCompany').value.trim(),
         education: document.getElementById('profEdu').value.trim(),
         skills: document.getElementById('profSkills').value.split(',').map(s=>s.trim()).filter(s=>s),
         resumeFile: AppState.profile.resumeFile 
       };
-      localStorage.setItem('ojp_crm_profile', JSON.stringify(AppState.profile));
+      localStorage.setItem('ojp_crm_universal', JSON.stringify(AppState.profile));
       syncProfileToUI();
       showToast('Profile matrix saved successfully.', 'success');
     }
@@ -440,11 +438,18 @@
       icon.className = 'fa-solid fa-circle-notch animate-spin text-3xl text-textMain mb-3';
       title.innerText = 'AI Extraction in progress...';
 
+      // Simulate a generic AI extraction for demonstration purposes
       setTimeout(() => {
+        AppState.profile.name = "Alex Applicant";
+        AppState.profile.role = "Software Engineer";
+        AppState.profile.company = "Tech Solutions Inc.";
+        AppState.profile.education = "B.S. Computer Science";
+        AppState.profile.skills = ["JavaScript", "React", "Node.js", "System Design", "Agile"];
         AppState.profile.resumeFile = file.name;
-        localStorage.setItem('ojp_crm_profile', JSON.stringify(AppState.profile));
+
+        localStorage.setItem('ojp_crm_universal', JSON.stringify(AppState.profile));
         syncProfileToUI();
-        showToast('Document parsed and matrix updated.', 'success');
+        showToast('Document parsed and matrix updated automatically.', 'success');
       }, 1500);
     }
 
@@ -452,7 +457,7 @@
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.getElementById(`view-${tabId}`).classList.remove('hidden');
       
-      // Desktop Nav Update
+      // Desktop Nav
       document.querySelectorAll('[id^="nav-desk-"]').forEach(el => {
         el.classList.remove('bg-bgHover', 'text-textMain');
         el.classList.add('text-textMuted');
@@ -463,7 +468,7 @@
         activeDesk.classList.add('bg-bgHover', 'text-textMain');
       }
 
-      // Mobile Nav Update
+      // Mobile Nav
       document.querySelectorAll('[id^="nav-mob-"]').forEach(el => {
          el.classList.remove('text-accent');
          el.classList.add('text-textMuted');
@@ -492,7 +497,9 @@
        3. SEARCH ENGINE (Robust Fallbacks + Direct Routing)
        ========================================================================= */
     async function runSearch() {
-      const q = document.getElementById('searchQuery').value.trim() || AppState.profile.role || 'Analyst';
+      // Use role if user leaves input blank
+      const qInput = document.getElementById('searchQuery').value.trim();
+      const q = qInput || (AppState.profile.role !== "Professional" ? AppState.profile.role : 'Software Engineer');
       const companyQ = document.getElementById('searchCompany').value.trim().toLowerCase();
       const loc = document.getElementById('searchLocation').value;
       
@@ -538,10 +545,10 @@
 
       // Step 3: Fallback Data Generation (Ensures it NEVER breaks)
       if(AppState.jobs.length < 5) {
-        const fallbacks = ['Tech Mahindra', 'TCS', 'Wipro', 'Genpact'];
+        const fallbacks = ['Tech Corp', 'Global Solutions', 'Innovatech', 'NextGen Systems'];
         fallbacks.forEach((c, i) => {
            AppState.jobs.push({
-             id: `fb_${Date.now()}_${i}`, title: `${q} - Urgent`, company: c, location: loc, portal: 'Partner Network',
+             id: `fb_${Date.now()}_${i}`, title: `${q} - Urgent Req`, company: c, location: loc, portal: 'Partner Network',
              desc: `<div class="job-desc"><p>Partner network listing.</p><h3>Role Requirements</h3><ul><li>Strong background in specified field.</li><li>Excellent communication.</li></ul></div>`,
              url: '#', time: Date.now(), isLive: false, isDirect: false
            });
@@ -675,7 +682,7 @@
         `> Injecting Matrix Payload:`,
         `    - NAME: <span class="text-white">${AppState.profile.name}</span>`,
         `    - ROLE: <span class="text-white">${AppState.profile.role}</span>`,
-        `    - ORG: <span class="text-white">${AppState.profile.company}</span>`,
+        `    - ORG: <span class="text-white">${AppState.profile.company || 'N/A'}</span>`,
         `> Attaching Binary: <span class="text-white">${AppState.profile.resumeFile}</span>`,
         `> Bypassing form validation limits... <span class="text-accent">[Passed]</span>`,
         `> Executing submission POST request...`,
@@ -716,7 +723,7 @@
       }
     }
     
-    function saveTracker() { localStorage.setItem('ojp_crm_tracker', JSON.stringify(AppState.tracker)); renderKanban(); }
+    function saveTracker() { localStorage.setItem('ojp_crm_tracker_universal', JSON.stringify(AppState.tracker)); renderKanban(); }
     function clearTracker() { if(confirm('Flush all pipeline data?')) { AppState.tracker = []; saveTracker(); } }
     function moveTrackerStatus(id, newStatus) { const item = AppState.tracker.find(t => t.id === id); if(item) { item.status = newStatus; saveTracker(); } }
 
@@ -751,7 +758,6 @@
           col.classList.add('flex');
         });
       } else {
-        // Find active tab and reset mobile view
         const activeTabBtn = document.querySelector('[id^="tab-"].bg-bgHover');
         if(activeTabBtn) {
             const status = activeTabBtn.id.replace('tab-', '');
