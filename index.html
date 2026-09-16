@@ -75,7 +75,7 @@
   <div class="bg-shape shape-1"></div>
   <div class="bg-shape shape-2"></div>
 
-  <!-- Top Navigation (Desktop & Mobile Header) -->
+  <!-- Top Navigation -->
   <nav class="glass-panel sticky top-0 z-[40] border-b border-white/5 shadow-2xl">
     <div class="max-w-[90rem] mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
       
@@ -97,7 +97,7 @@
 
       <!-- Center Tabs (Desktop Only) -->
       <div class="hidden lg:flex p-1.5 bg-slate-900/80 rounded-full border border-white/10 shadow-inner gap-1">
-        <button onclick="switchTab('discover')" id="tab-discover" class="nav-tab-desk px-6 py-2 rounded-full text-sm font-bold bg-white text-slate-900 shadow-sm transition-all duration-300"><i class="fa-solid fa-magnifying-glass mr-2"></i>Discover</button>
+        <button onclick="switchTab('discover')" id="tab-discover" class="nav-tab-desk px-6 py-2 rounded-full text-sm font-bold bg-white text-slate-900 shadow-sm transition-all duration-300 transform scale-105"><i class="fa-solid fa-magnifying-glass mr-2"></i>Discover</button>
         <button onclick="switchTab('portals')" id="tab-portals" class="nav-tab-desk px-6 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-white transition-all duration-300"><i class="fa-solid fa-globe mr-2"></i>All Portals</button>
         <button onclick="switchTab('tracker')" id="tab-tracker" class="nav-tab-desk px-6 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-white transition-all duration-300"><i class="fa-solid fa-kanban mr-2"></i>Tracker</button>
       </div>
@@ -110,7 +110,7 @@
     </div>
   </nav>
 
-  <!-- Mobile Bottom Navigation (Visible on Mobile only) -->
+  <!-- Mobile Bottom Navigation -->
   <div class="lg:hidden fixed bottom-0 left-0 right-0 glass-panel border-t border-white/5 z-[45] flex justify-around p-2 pb-safe bg-slate-950/90 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
     <button onclick="switchTab('discover')" id="mob-discover" class="nav-tab-mob flex flex-col items-center justify-center w-full py-1 text-primary transition-colors">
       <i class="fa-solid fa-magnifying-glass text-lg mb-1"></i>
@@ -184,7 +184,7 @@
           </div>
         </div>
 
-        <!-- Right: Inspector Modal/Drawer (Mobile = Fixed Fullscreen Drawer, Desktop = Side Panel) -->
+        <!-- Right: Inspector Modal/Drawer -->
         <div id="jobDetailContainer" class="fixed inset-0 z-[60] bg-slate-950/95 backdrop-blur-xl translate-y-full transition-transform duration-300 flex flex-col lg:static lg:bg-transparent lg:translate-y-0 lg:z-auto lg:flex lg:col-span-7 glass-panel lg:rounded-2xl lg:overflow-hidden lg:border lg:border-white/10 lg:shadow-xl lg:bg-gradient-to-b lg:from-slate-900/50 lg:to-slate-900/80">
           
           <!-- Mobile Drawer Header -->
@@ -227,9 +227,9 @@
         <button onclick="clearTracker()" class="text-[10px] sm:text-xs text-red-400 hover:text-red-300 border border-red-500/30 px-3 py-1.5 rounded-lg transition"><i class="fa-solid fa-trash mr-1"></i> Clear</button>
       </div>
       
-      <!-- Kanban Columns (Stacks on Mobile, Grid on Desktop) -->
+      <!-- Kanban Columns -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 flex-1 lg:overflow-hidden pb-10 lg:pb-0">
-        <!-- Column 1 -->
+        <!-- Saved -->
         <div class="glass-panel rounded-2xl flex flex-col border-t-4 border-t-slate-400 h-[350px] lg:h-full">
           <div class="p-3 sm:p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
             <span class="font-bold text-white text-sm"><i class="fa-regular fa-bookmark text-slate-400 mr-2"></i>Saved</span>
@@ -237,7 +237,7 @@
           </div>
           <div id="col-saved" class="kanban-col flex-1 p-2 sm:p-3 overflow-y-auto custom-scroll space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'saved')"></div>
         </div>
-        <!-- Column 2 -->
+        <!-- Applied -->
         <div class="glass-panel rounded-2xl flex flex-col border-t-4 border-t-primary h-[350px] lg:h-full">
           <div class="p-3 sm:p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
             <span class="font-bold text-white text-sm"><i class="fa-solid fa-paper-plane text-primary mr-2"></i>Applied</span>
@@ -245,7 +245,7 @@
           </div>
           <div id="col-applied" class="kanban-col flex-1 p-2 sm:p-3 overflow-y-auto custom-scroll space-y-3" ondragover="allowDrop(event)" ondrop="drop(event, 'applied')"></div>
         </div>
-        <!-- Column 3 -->
+        <!-- Interview -->
         <div class="glass-panel rounded-2xl flex flex-col border-t-4 border-t-accent h-[350px] lg:h-full">
           <div class="p-3 sm:p-4 border-b border-white/10 bg-slate-900/50 flex justify-between items-center">
             <span class="font-bold text-white text-sm"><i class="fa-solid fa-handshake text-accent mr-2"></i>Interview</span>
@@ -286,8 +286,12 @@
 
   <script>
     /* =========================================================================
-       1. CORE CONFIGURATION & ARCHITECTURE
+       1. CORE CONFIGURATION & API
        ========================================================================= */
+    
+    // REPLACE THIS WITH YOUR REAL API KEY
+    const GEMINI_API_KEY = 'YOUR_API_KEY_HERE'; 
+
     const PortalRegistry = {
       LinkedIn: { icon: 'fa-linkedin text-blue-500', color: 'border-blue-500/30 bg-blue-500/10', type: 'Deep Search', search: (q, l) => `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(q)}&location=${encodeURIComponent(l)}` },
       Naukri: { icon: 'fa-briefcase text-indigo-400', color: 'border-indigo-400/30 bg-indigo-400/10', type: 'Deep Search', search: (q, l) => `https://www.naukri.com/${q.replace(/\s+/g,'-')}-jobs-in-${l.replace(/\s+/g,'-')}` },
@@ -314,17 +318,14 @@
        2. UI NAVIGATION & TOASTS
        ========================================================================= */
     function switchTab(tabId) {
-      // Hide all views
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       document.getElementById(`view-${tabId}`).classList.remove('hidden');
       
-      // Update Desktop Tabs
       document.querySelectorAll('.nav-tab-desk').forEach(el => {
         el.className = 'nav-tab-desk px-6 py-2 rounded-full text-sm font-bold text-slate-400 hover:text-white transition-all duration-300';
       });
       document.getElementById(`tab-${tabId}`).className = 'nav-tab-desk px-6 py-2 rounded-full text-sm font-bold bg-white text-slate-900 shadow-sm transition-all duration-300 transform scale-105';
 
-      // Update Mobile Tabs
       document.querySelectorAll('.nav-tab-mob').forEach(el => {
         el.className = 'nav-tab-mob flex flex-col items-center justify-center w-full py-1 text-slate-500 hover:text-slate-300 transition-colors';
       });
@@ -344,19 +345,27 @@
       setTimeout(() => { toast.style.opacity = '0'; setTimeout(()=>toast.remove(), 300); }, 3000);
     }
 
-    /* Mobile Drawer Toggle */
     function openMobileInspector() {
-      if(window.innerWidth < 1024) {
-        document.getElementById('jobDetailContainer').classList.remove('translate-y-full');
-      }
+      if(window.innerWidth < 1024) document.getElementById('jobDetailContainer').classList.remove('translate-y-full');
     }
+    
     function closeMobileInspector() {
       document.getElementById('jobDetailContainer').classList.add('translate-y-full');
     }
 
     /* =========================================================================
-       3. SEARCH ENGINE
+       3. SEARCH ENGINE (WITH DEBOUNCE)
        ========================================================================= */
+    let searchTimeout;
+    
+    // Attach event listeners for auto-search on input
+    ['searchQuery', 'searchLocation', 'userSkills'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(runGlobalSearch, 600); // 600ms debounce
+      });
+    });
+
     async function runGlobalSearch() {
       const q = document.getElementById('searchQuery').value.trim() || 'Developer';
       const loc = document.getElementById('searchLocation').value.trim() || 'Remote';
@@ -395,7 +404,9 @@
           }));
           AppState.jobs.push(...apiJobs);
         }
-      } catch(e) {}
+      } catch(e) {
+        console.warn("Live API fetch failed, falling back to deep search only.", e);
+      }
 
       const federatedPortals = ['LinkedIn', 'Naukri', 'Indeed', 'Glassdoor', 'GoogleJobs', 'ZipRecruiter'];
       const suffixes = ['Engineer', 'Specialist', 'Lead', 'Manager', 'Developer'];
@@ -414,7 +425,7 @@
           type: 'Full-Time',
           salaryNum: salaryBase,
           skills: [q.split(' ')[0], 'Agile', 'Communication', 'Problem Solving'].sort(()=>0.5-Math.random()).slice(0,3),
-          desc: `Aggregated Federated Result. This is a targeted deep-search result routed directly to ${portal}. Click 'Apply / View on ${portal}' to view the full native listing, exact company details, and submit your application securely through their authenticated gateway.`,
+          desc: `Aggregated Federated Result. This is a targeted deep-search result routed directly to ${portal}. Click 'Apply / View' to view the full native listing, exact company details, and submit your application securely through their authenticated gateway.`,
           url: conf.search(q, loc),
           time: Date.now() - (Math.random() * 86400000),
           isLive: false
@@ -455,14 +466,12 @@
         div.classList.add('animate-fade-in');
 
         div.innerHTML = `
-          <!-- Score Ring -->
           <div class="shrink-0 flex flex-col items-center justify-center w-10 sm:w-12">
             <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 ${ring} flex items-center justify-center bg-slate-950 shadow-inner">
               <span class="text-[10px] sm:text-xs font-black ${color}">${job.matchScore}%</span>
             </div>
             <span class="text-[7px] sm:text-[8px] uppercase tracking-wider font-bold text-slate-500 mt-1">Match</span>
           </div>
-          <!-- Info -->
           <div class="flex-1 min-w-0">
             <div class="flex justify-between items-start">
               <h4 class="font-bold text-white text-sm truncate">${job.title}</h4>
@@ -473,18 +482,24 @@
               <div class="flex gap-1 overflow-x-auto custom-scroll pb-1 pr-2 max-w-[70%]">
                 ${job.skills.map(s => `<span class="bg-white/5 border border-white/10 text-slate-300 text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded whitespace-nowrap">${s}</span>`).join('')}
               </div>
-              <span class="text-xs px-1.5 sm:px-2 py-0.5 rounded-full border ${conf.color} flex items-center gap-1 shrink-0" title="Source: ${job.portal}"><i class="fa-brands ${conf.icon}"></i> <span class="text-[8px] sm:text-[9px] font-bold text-white hidden sm:inline">${job.portal}</span></span>
+              <span class="text-xs px-1.5 sm:px-2 py-0.5 rounded-full border ${conf.color} flex items-center gap-1 shrink-0"><i class="fa-brands ${conf.icon}"></i> <span class="text-[8px] sm:text-[9px] font-bold text-white hidden sm:inline">${job.portal}</span></span>
             </div>
           </div>
         `;
+        
         div.onclick = () => {
           renderInspector(job);
           openMobileInspector();
+          renderFeed(); // Re-render to update the highlight state
         };
         feed.appendChild(div);
       });
 
-      if(AppState.jobs.length > 0 && window.innerWidth >= 1024) renderInspector(AppState.jobs[0]);
+      // Highlight first job by default if on desktop and none selected
+      if(!AppState.activeJob && AppState.jobs.length > 0 && window.innerWidth >= 1024) {
+        renderInspector(AppState.jobs[0]);
+        renderFeed();
+      }
     }
 
     /* =========================================================================
@@ -492,8 +507,6 @@
        ========================================================================= */
     function renderInspector(job) {
       AppState.activeJob = job;
-      if(window.innerWidth >= 1024) renderFeed(); // Highlight active on desktop
-      
       const conf = PortalRegistry[job.portal];
       const panel = document.getElementById('jobDetail');
       
@@ -503,7 +516,6 @@
 
       panel.innerHTML = `
         <div class="w-full flex flex-col text-left animate-fade-in relative z-10 pb-4">
-          <!-- Header -->
           <div class="flex flex-col sm:flex-row sm:justify-between items-start gap-4 mb-4 sm:mb-6">
             <div>
               <div class="flex flex-wrap items-center gap-2 mb-2">
@@ -518,7 +530,6 @@
             </button>
           </div>
 
-          <!-- Market Benchmark -->
           <div class="bg-slate-900/80 border border-white/5 rounded-xl p-4 sm:p-5 mb-5 shadow-inner">
             <div class="flex justify-between items-end mb-3">
               <div>
@@ -536,7 +547,6 @@
             </div>
           </div>
 
-          <!-- Content Details -->
           <div class="space-y-5">
             <div>
               <h3 class="text-xs sm:text-sm font-bold text-white border-b border-white/10 pb-2 mb-3">Required Competencies</h3>
@@ -555,7 +565,6 @@
             </div>
           </div>
 
-          <!-- Footer Actions -->
           <div class="pt-5 mt-6 border-t border-white/5 flex flex-col sm:grid sm:grid-cols-2 gap-3">
             <button onclick="generateCoverLetter()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition border border-white/10 flex items-center justify-center gap-2 group text-sm sm:text-base">
               <i class="fa-solid fa-wand-magic-sparkles text-primary group-hover:animate-pulse"></i> Auto-Draft Cover Letter
@@ -569,10 +578,11 @@
     }
 
     /* =========================================================================
-       5. AI COVER LETTER GENERATOR
+       5. REAL AI COVER LETTER API (GEMINI)
        ========================================================================= */
-    function generateCoverLetter() {
-      if(!AppState.activeJob) return;
+    async function generateCoverLetter() {
+      if (!AppState.activeJob) return;
+      
       const modal = document.getElementById('aiModal');
       const loader = document.getElementById('aiLoader');
       const output = document.getElementById('aiOutput');
@@ -581,14 +591,41 @@
       loader.classList.remove('hidden');
       output.innerHTML = '';
 
-      setTimeout(() => {
+      const job = AppState.activeJob;
+      const skills = AppState.userSkills.join(', ') || 'software development';
+      
+      const prompt = `Write a professional cover letter for a ${job.title} role at ${job.company}. 
+      The job requires these skills: ${job.skills.join(', ')}. 
+      My background includes: ${skills}. 
+      Keep it concise, confident, and format it with HTML line breaks (<br>) instead of standard newlines. Do not use markdown backticks.`;
+
+      try {
+        if(GEMINI_API_KEY === 'YOUR_API_KEY_HERE') {
+            throw new Error("Missing API Key. Please insert your key into the script.");
+        }
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+
+        if (!response.ok) throw new Error('API Request Failed');
+        const data = await response.json();
+        
+        const letterText = data.candidates[0].content.parts[0].text;
+        
         loader.classList.add('hidden');
-        const job = AppState.activeJob;
-        const skills = AppState.userSkills.join(', ') || 'software development';
+        output.innerHTML = letterText;
         
-        output.innerHTML = `Dear Hiring Manager at ${job.company},<br><br>I am writing to express my strong interest in the <strong>${job.title}</strong> position dynamically sourced via ${job.portal}. With a robust background in <strong>${skills}</strong>, I am confident in my ability to immediately add value to your team.<br><br>Your requirement for expertise in <em>${job.skills.join(' and ')}</em> aligns perfectly with my professional trajectory. In my recent roles, I have consistently leveraged these exact competencies to drive scalable solutions and improve system efficiencies.<br><br>What draws me to ${job.company} is the commitment to innovation and excellence implicitly required for this role. My unique blend of technical acumen and proactive problem-solving makes me an ideal fit to tackle the challenges outlined in your position brief.<br><br>I would welcome the opportunity to discuss how my specific skills and experiences match the needs of your engineering department. Thank you for your time and consideration.<br><br>Sincerely,<br>[Your Name]<br>[Your Contact Information]`;
-        
-      }, 1500);
+      } catch (error) {
+        console.error(error);
+        loader.classList.add('hidden');
+        output.innerHTML = `<div class="p-4 bg-red-500/10 border border-red-500/50 rounded-xl text-red-400">
+            <strong>Error generating letter:</strong> ${error.message} <br><br>
+            If using the API, ensure your key is valid and pasted at the top of the script.
+        </div>`;
+      }
     }
 
     function closeAIModal() { document.getElementById('aiModal').classList.add('hidden'); }
@@ -600,14 +637,14 @@
     }
 
     /* =========================================================================
-       6. TRACKER (KANBAN) SYSTEM (With Touch Support)
+       6. TRACKER (KANBAN) SYSTEM (With refined Touch Support)
        ========================================================================= */
     function addToTracker(id) {
       if(!AppState.tracker.find(t => t.id === id)) {
         AppState.tracker.push({ id, status: 'saved', title: AppState.activeJob.title, company: AppState.activeJob.company, portal: AppState.activeJob.portal });
         saveTracker();
         showToast('Saved to Application Pipeline');
-        if(window.innerWidth >= 1024) renderInspector(AppState.activeJob); 
+        renderInspector(AppState.activeJob); 
       }
     }
 
@@ -619,6 +656,7 @@
       if(item) {
         item.status = newStatus;
         saveTracker();
+        showToast(`Moved to ${newStatus.toUpperCase()}`);
       }
     }
 
@@ -636,13 +674,16 @@
         el.draggable = true;
         el.id = `kanban-${item.id}`;
         
-        // Touch fallback buttons for mobile (visible on all screens, but styled discreetly)
         let moveButtons = '';
-        if(item.status === 'saved') moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="text-[10px] text-primary bg-primary/10 px-2 py-1 rounded font-bold hover:bg-primary/20">Applied <i class="fa-solid fa-arrow-right ml-1"></i></button>`;
-        else if(item.status === 'applied') moveButtons = `
-          <button onclick="moveKanbanStatus('${item.id}', 'saved')" class="text-[10px] text-slate-400 hover:text-white px-1 py-1"><i class="fa-solid fa-arrow-left"></i></button>
-          <button onclick="moveKanbanStatus('${item.id}', 'interview')" class="text-[10px] text-accent bg-accent/10 px-2 py-1 rounded font-bold hover:bg-accent/20">Interview <i class="fa-solid fa-arrow-right ml-1"></i></button>`;
-        else if(item.status === 'interview') moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="text-[10px] text-slate-400 hover:text-white px-1 py-1"><i class="fa-solid fa-arrow-left mr-1"></i> Applied</button>`;
+        if(item.status === 'saved') {
+            moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="flex-1 text-[10px] text-primary bg-primary/10 py-1.5 rounded font-bold hover:bg-primary/20 transition">Move to Applied <i class="fa-solid fa-arrow-right ml-1"></i></button>`;
+        } else if(item.status === 'applied') {
+            moveButtons = `
+            <button onclick="moveKanbanStatus('${item.id}', 'saved')" class="text-[10px] text-slate-400 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded transition"><i class="fa-solid fa-arrow-left"></i></button>
+            <button onclick="moveKanbanStatus('${item.id}', 'interview')" class="flex-1 ml-2 text-[10px] text-accent bg-accent/10 py-1.5 rounded font-bold hover:bg-accent/20 transition">Interview <i class="fa-solid fa-arrow-right ml-1"></i></button>`;
+        } else if(item.status === 'interview') {
+            moveButtons = `<button onclick="moveKanbanStatus('${item.id}', 'applied')" class="flex-1 text-[10px] text-slate-400 bg-white/5 hover:bg-white/10 py-1.5 rounded transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Applied</button>`;
+        }
 
         el.innerHTML = `
           <div class="flex justify-between items-start mb-2">
@@ -652,7 +693,7 @@
           <h4 class="font-bold text-xs sm:text-sm text-white leading-tight">${item.title}</h4>
           <p class="text-[10px] text-slate-400 mt-1 truncate"><i class="fa-solid fa-building mr-1"></i>${item.company}</p>
           
-          <div class="mt-3 pt-2 border-t border-white/5 flex justify-between items-center lg:hidden">
+          <div class="mt-3 pt-3 border-t border-white/5 flex justify-between items-center lg:hidden">
             ${moveButtons}
           </div>
         `;
@@ -675,7 +716,6 @@
       ev.preventDefault();
       const id = ev.dataTransfer.getData('text/plain');
       moveKanbanStatus(id, status);
-      showToast(`Moved to ${status.toUpperCase()}`);
     }
 
     /* =========================================================================
@@ -694,7 +734,6 @@
             </div>
             <h4 class="font-bold text-white text-sm sm:text-lg">${name}</h4>
             <span class="mt-1 sm:mt-2 text-[8px] sm:text-[10px] font-bold px-2 py-1 rounded-full border ${isLive ? 'border-accent/50 text-accent bg-accent/10' : 'border-primary/50 text-primary bg-primary/10'}">${conf.type} Engine</span>
-            <p class="text-[10px] sm:text-xs text-slate-400 mt-2 sm:mt-3 font-medium opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all hidden sm:block">Integrated via secure routing architecture.</p>
           </div>
         `;
       });
