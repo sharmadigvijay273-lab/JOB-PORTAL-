@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>NexusCareer - Global AI Job Intelligence & NER Suite</title>
+  <title>OneJob India - Unified Career Hub & NER Portal</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -17,40 +17,17 @@
       theme: {
         extend: {
           fontFamily: { 
-            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace']
           },
           colors: {
             brand: {
-              50: '#f5f3ff',
-              400: '#a78bfa',
-              500: '#8b5cf6',
-              600: '#7c3aed',
-              DEFAULT: '#6366f1',
-              accent: '#06b6d4',
-              emerald: '#10b981'
-            },
-            surface: {
-              base: '#030712',
-              card: 'rgba(15, 23, 42, 0.72)',
-              cardHover: 'rgba(30, 41, 59, 0.75)',
-              border: 'rgba(255, 255, 255, 0.08)',
-              subtle: 'rgba(255, 255, 255, 0.03)'
-            }
-          },
-          boxShadow: {
-            'glow-brand': '0 0 30px -5px rgba(99, 102, 241, 0.35)',
-            'glow-accent': '0 0 30px -5px rgba(6, 182, 212, 0.35)',
-            'glass': '0 20px 40px -15px rgba(0, 0, 0, 0.6)'
-          },
-          animation: {
-            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'float 8s ease-in-out infinite alternate',
-          },
-          keyframes: {
-            float: {
-              '0%': { transform: 'translateY(0px) scale(1)' },
-              '100%': { transform: 'translateY(-20px) scale(1.05)' }
+              orange: '#f97316',
+              green: '#10b981',
+              blue: '#0284c7',
+              dark: '#020617',
+              panel: 'rgba(15, 23, 42, 0.78)',
+              border: 'rgba(255, 255, 255, 0.08)'
             }
           }
         }
@@ -59,322 +36,244 @@
   </script>
 
   <style>
-    body { background-color: #030712; color: #f9fafb; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-    
-    /* Background Ambience / Silicon Valley Neo-Glow */
-    .ambient-glow { position: fixed; filter: blur(140px); z-index: -1; pointer-events: none; opacity: 0.18; border-radius: 9999px; }
-    .glow-1 { top: -15%; left: 10%; width: 50vw; height: 50vw; background: radial-gradient(circle, #6366f1 0%, transparent 70%); }
-    .glow-2 { bottom: -10%; right: 5%; width: 45vw; height: 45vw; background: radial-gradient(circle, #06b6d4 0%, transparent 70%); }
-    .glow-3 { top: 40%; left: 60%; width: 35vw; height: 35vw; background: radial-gradient(circle, #8b5cf6 0%, transparent 70%); }
-
-    /* Glassmorphism */
-    .glass-card { 
-      background: var(--tw-colors-surface-card); 
-      backdrop-filter: blur(24px); 
-      -webkit-backdrop-filter: blur(24px); 
-      border: 1px solid var(--tw-colors-surface-border); 
-    }
-    .glass-input {
-      background: rgba(3, 7, 18, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(16px);
-    }
-    .glass-input:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-    }
-
-    /* Scrollbars */
+    body { background-color: #020617; color: #f8fafc; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+    .bg-shape { position: fixed; filter: blur(140px); z-index: -1; pointer-events: none; opacity: 0.18; border-radius: 9999px; }
+    .shape-1 { top: -10%; left: -5%; width: 55vw; height: 55vw; background: radial-gradient(circle, #f97316 0%, transparent 70%); }
+    .shape-2 { bottom: -10%; right: -5%; width: 50vw; height: 50vw; background: radial-gradient(circle, #10b981 0%, transparent 70%); }
+    .glass-card { background: rgba(15, 23, 42, 0.78); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .glass-input { background: rgba(2, 6, 23, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-input:focus { border-color: #f97316; outline: none; }
     .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
     .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 99px; }
-    .custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
-
-    /* Gradients */
-    .text-glow { text-shadow: 0 0 20px rgba(99, 102, 241, 0.6); }
-    .gradient-border { position: relative; border-radius: inherit; }
-    .gradient-border::before {
-      content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
-    }
+    .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.14); border-radius: 8px; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans selection:bg-brand-500 selection:text-white">
+<body class="min-h-screen flex flex-col font-sans">
   
-  <div class="ambient-glow glow-1 animate-float"></div>
-  <div class="ambient-glow glow-2"></div>
-  <div class="ambient-glow glow-3"></div>
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
 
-  <!-- Header Navigation -->
-  <header class="sticky top-0 z-50 glass-card border-b border-white/[0.08] shadow-glass">
+  <!-- Top Navigation -->
+  <header class="sticky top-0 z-50 glass-card border-b border-white/[0.08] shadow-2xl">
     <div class="max-w-[94rem] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
       
-      <!-- Brand & Status -->
-      <div class="flex items-center gap-3 cursor-pointer group" onclick="location.reload()">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-brand to-brand-accent flex items-center justify-center shadow-glow-brand transition-transform duration-300 group-hover:scale-105">
-          <i class="fa-solid fa-bolt-lightning text-white text-base"></i>
+      <!-- Brand -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-orange to-brand-green flex items-center justify-center shadow-lg shadow-orange-500/20">
+          <i class="fa-solid fa-layer-group text-white text-base"></i>
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <span class="text-lg font-black tracking-tight text-white">NEXUS<span class="text-brand-400 font-normal">CAREER</span></span>
-            <span class="px-1.5 py-0.5 rounded-full text-[9px] font-mono bg-brand-500/10 text-brand-400 border border-brand-500/30">GLOBAL NER</span>
+          <div class="flex items-center gap-1.5 leading-none">
+            <span class="text-lg font-black tracking-tight text-white">ONEJOB</span>
+            <span class="text-sm font-light text-brand-orange tracking-widest">INDIA</span>
+            <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-orange-500/10 text-orange-400 border border-orange-500/30">LPA &amp; NER</span>
           </div>
-          <p class="text-[10px] text-slate-400 hidden sm:block">Universal Intelligence & Multi-Portal Career Engine</p>
+          <p class="text-[10px] text-slate-400 mt-0.5">Aggregated Indian Recruitment &amp; Portal Deep-Redirects</p>
         </div>
       </div>
 
-      <!-- Navigation Tabs -->
-      <nav class="hidden md:flex items-center p-1 bg-slate-950/70 border border-white/10 rounded-full">
-        <button onclick="switchView('discover')" id="tab-discover" class="nav-tab px-5 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-950 shadow-md transition-all">
-          <i class="fa-solid fa-compass mr-1.5"></i>Marketplace
+      <!-- Center Tabs -->
+      <nav class="hidden md:flex items-center p-1 bg-slate-950/80 border border-white/10 rounded-full">
+        <button onclick="switchTab('feed')" id="tab-feed" class="nav-tab px-5 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-950 shadow-md transition-all">
+          <i class="fa-solid fa-compass mr-1.5"></i>Live Opportunities
         </button>
-        <button onclick="switchView('ner-parser')" id="tab-ner-parser" class="nav-tab px-5 py-1.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition-all">
-          <i class="fa-solid fa-brain-circuit mr-1.5 text-brand-400"></i>Universal Parser
+        <button onclick="switchTab('parser')" id="tab-parser" class="nav-tab px-5 py-1.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition-all">
+          <i class="fa-solid fa-brain-circuit mr-1.5 text-brand-orange"></i>Indian JD Parser
         </button>
-        <button onclick="switchView('kanban')" id="tab-kanban" class="nav-tab px-5 py-1.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition-all">
-          <i class="fa-solid fa-kanban mr-1.5"></i>Pipeline
-        </button>
-        <button onclick="switchView('analytics')" id="tab-analytics" class="nav-tab px-5 py-1.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition-all">
-          <i class="fa-solid fa-chart-line mr-1.5"></i>Market Pulse
+        <button onclick="switchTab('pipeline')" id="tab-pipeline" class="nav-tab px-5 py-1.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition-all">
+          <i class="fa-solid fa-kanban mr-1.5"></i>Pipeline Tracker
         </button>
       </nav>
 
-      <!-- Profile & Settings Controls -->
-      <div class="flex items-center gap-2.5">
-        
-        <!-- Global Portal Hub Launcher -->
-        <button onclick="openPortalLauncherModal()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-white/10 hover:border-brand-500/50 transition-all">
-          <i class="fa-solid fa-globe text-brand-accent"></i>
-          <span>Global Portals</span>
+      <!-- Profile & Multi-Portal Hub Action -->
+      <div class="flex items-center gap-3">
+        <button onclick="openAllIndianPortals()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-orange hover:bg-orange-600 text-white shadow-lg shadow-orange-500/20 transition-all">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span>Search All Portals</span>
         </button>
 
-        <!-- Command Palette Trigger -->
-        <button onclick="toggleCommandPalette()" class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-mono bg-slate-900/80 hover:bg-slate-800 text-slate-400 border border-white/10 transition-all">
-          <i class="fa-solid fa-magnifying-glass text-[11px]"></i>
-          <span class="hidden lg:inline">Search...</span>
-          <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-[9px] text-slate-300">⌘K</kbd>
-        </button>
-
-        <!-- Dynamic Candidate Profile Selector -->
-        <div onclick="openProfileModal()" class="flex items-center gap-2.5 p-1.5 pr-3 rounded-xl bg-slate-900/90 border border-white/10 hover:border-brand-500/50 cursor-pointer transition-all">
-          <div id="candidateAvatar" class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-500 to-brand-accent flex items-center justify-center text-white text-xs font-bold shadow-md">
-            JS
+        <div onclick="openProfileModal()" class="flex items-center gap-2.5 p-1.5 pr-3 rounded-xl bg-slate-900 border border-white/10 hover:border-brand-orange/50 cursor-pointer transition-all">
+          <div id="userAvatar" class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-orange to-amber-500 flex items-center justify-center text-white text-xs font-bold shadow-md">
+            DS
           </div>
           <div class="text-left hidden sm:block">
-            <div class="flex items-center gap-1.5">
-              <span id="candidateNavName" class="text-xs font-semibold text-white leading-none">Jordan Smith</span>
-              <i class="fa-solid fa-chevron-down text-[9px] text-slate-400"></i>
-            </div>
-            <span id="candidateNavRole" class="text-[9px] text-brand-400 font-mono block mt-0.5">Software Engineer</span>
+            <span id="navCandidateName" class="text-xs font-bold text-white block leading-none">Digvijay Sharma</span>
+            <span id="navCandidateRole" class="text-[9px] text-brand-green font-mono block mt-0.5">AML / Banking Operations</span>
           </div>
         </div>
-
       </div>
     </div>
   </header>
 
-  <!-- Mobile Bottom Bar -->
-  <div class="md:hidden fixed bottom-0 left-0 right-0 glass-card border-t border-white/10 z-50 flex justify-around p-2 bg-slate-950/95 backdrop-blur-xl">
-    <button onclick="switchView('discover')" id="mob-discover" class="mob-btn flex flex-col items-center py-1 text-brand-400">
-      <i class="fa-solid fa-compass text-base mb-1"></i><span class="text-[9px] font-semibold">Jobs</span>
+  <!-- Mobile Bottom Nav -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 glass-card border-t border-white/10 z-50 flex justify-around p-2 bg-slate-950/95">
+    <button onclick="switchTab('feed')" id="mob-feed" class="mob-btn flex flex-col items-center py-1 text-brand-orange">
+      <i class="fa-solid fa-compass text-base mb-1"></i><span class="text-[10px] font-bold">Search</span>
     </button>
-    <button onclick="switchView('ner-parser')" id="mob-ner-parser" class="mob-btn flex flex-col items-center py-1 text-slate-400">
-      <i class="fa-solid fa-brain-circuit text-base mb-1"></i><span class="text-[9px] font-semibold">Parser</span>
+    <button onclick="switchTab('parser')" id="mob-parser" class="mob-btn flex flex-col items-center py-1 text-slate-400">
+      <i class="fa-solid fa-brain-circuit text-base mb-1"></i><span class="text-[10px] font-bold">Parser</span>
     </button>
-    <button onclick="switchView('kanban')" id="mob-kanban" class="mob-btn flex flex-col items-center py-1 text-slate-400">
-      <i class="fa-solid fa-kanban text-base mb-1"></i><span class="text-[9px] font-semibold">Pipeline</span>
+    <button onclick="switchTab('pipeline')" id="mob-pipeline" class="mob-btn flex flex-col items-center py-1 text-slate-400">
+      <i class="fa-solid fa-kanban text-base mb-1"></i><span class="text-[10px] font-bold">Pipeline</span>
     </button>
     <button onclick="openProfileModal()" class="mob-btn flex flex-col items-center py-1 text-slate-400">
-      <i class="fa-solid fa-user-gear text-base mb-1"></i><span class="text-[9px] font-semibold">Profile</span>
+      <i class="fa-solid fa-user-gear text-base mb-1"></i><span class="text-[10px] font-bold">Profile</span>
     </button>
   </div>
 
-  <!-- Main Container -->
-  <main class="flex-grow max-w-[94rem] mx-auto w-full px-3 sm:px-6 lg:px-8 py-5 pb-24 md:pb-8">
+  <main class="flex-grow max-w-[94rem] mx-auto w-full px-3 sm:px-6 lg:px-8 py-4 pb-24 md:pb-8">
     
-    <!-- ================= VIEW 1: DISCOVER / MARKETPLACE ================= -->
-    <div id="view-discover" class="view-panel space-y-4">
+    <!-- ================= VIEW 1: DISCOVER / SEARCH ================= -->
+    <div id="view-feed" class="view-panel space-y-4">
       
-      <!-- Global Telemetry & Universal Search Filter Bar -->
-      <div class="glass-card rounded-2xl p-4 sm:p-5 shadow-2xl relative overflow-hidden border border-white/10">
+      <!-- Search Dashboard -->
+      <div class="glass-card rounded-2xl p-4 sm:p-5 shadow-2xl border-t-2 border-t-brand-orange">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
           
-          <!-- Role / Keywords -->
           <div class="lg:col-span-3">
-            <label class="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-1.5 flex items-center justify-between">
-              <span>Target Role & Title</span>
-              <span class="text-brand-400">Universal Match</span>
-            </label>
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Target Role</label>
             <div class="relative">
-              <i class="fa-solid fa-briefcase absolute left-3.5 top-3 text-slate-500 text-xs"></i>
-              <input type="text" id="targetRoleInput" value="Full-Stack Engineer" class="w-full glass-input rounded-xl pl-9 pr-3 py-2 text-xs text-white outline-none font-medium placeholder:text-slate-600 transition-all">
+              <i class="fa-solid fa-briefcase absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+              <input type="text" id="targetRole" value="Business Development Manager" class="w-full glass-input rounded-xl pl-8 pr-3 py-2 text-xs text-white">
             </div>
           </div>
 
-          <!-- Industry / Domain Pre-set -->
           <div class="lg:col-span-2">
-            <label class="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-1.5 block">Industry Vertical</label>
-            <select id="domainSelect" onchange="applyIndustryPreset(this.value)" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-white outline-none cursor-pointer">
-              <option value="tech" selected>Software & Cloud Tech</option>
-              <option value="ai">AI / Machine Learning</option>
-              <option value="finance">Finance, AML & Banking</option>
-              <option value="product">Product & UI/UX Design</option>
-              <option value="healthcare">Healthcare & Biotech</option>
-              <option value="consulting">Strategy & Business Dev</option>
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Indian Location</label>
+            <select id="targetLocation" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-white">
+              <option value="Gurugram, Haryana" selected>Gurugram</option>
+              <option value="Delhi NCR">Delhi NCR</option>
+              <option value="Noida, UP">Noida</option>
+              <option value="Bengaluru, Karnataka">Bengaluru</option>
+              <option value="Mumbai, Maharashtra">Mumbai</option>
+              <option value="Pune, Maharashtra">Pune</option>
+              <option value="Hyderabad, Telangana">Hyderabad</option>
+              <option value="Chennai, Tamil Nadu">Chennai</option>
+              <option value="Pan India">Pan India / Remote</option>
             </select>
           </div>
 
-          <!-- Region / Global Location -->
           <div class="lg:col-span-2">
-            <label class="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-1.5 block">Location Preference</label>
-            <select id="locationSelect" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-white outline-none cursor-pointer">
-              <option value="Remote Worldwide" selected>🌐 Remote (Worldwide)</option>
-              <option value="United States">🇺🇸 United States (SF/NYC/Austin)</option>
-              <option value="United Kingdom">🇬🇧 United Kingdom (London)</option>
-              <option value="European Union">🇪🇺 European Union (Berlin/Amsterdam)</option>
-              <option value="Singapore">🇸🇬 Singapore / APAC</option>
-              <option value="India">🇮🇳 India (Gurugram / Bengaluru / Mumbai)</option>
-              <option value="Canada">🇨🇦 Canada (Toronto / Vancouver)</option>
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Experience Bracket</label>
+            <select id="targetExp" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-white">
+              <option value="fresher">Fresher / Graduate (0 - 1 Yrs)</option>
+              <option value="mid" selected>Mid-Level (1 - 4 Yrs)</option>
+              <option value="senior">Senior (5 - 8 Yrs)</option>
+              <option value="lead">Leadership / Lead (8+ Yrs)</option>
             </select>
           </div>
 
-          <!-- Seniority Bracket -->
-          <div class="lg:col-span-2">
-            <label class="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-1.5 block">Seniority Tier</label>
-            <select id="senioritySelect" class="w-full glass-input rounded-xl px-3 py-2 text-xs text-white outline-none cursor-pointer">
-              <option value="entry">Entry / Graduate (0-2 Yrs)</option>
-              <option value="mid" selected>Mid-Career (3-5 Yrs)</option>
-              <option value="senior">Senior / Lead (5-8 Yrs)</option>
-              <option value="staff">Staff / Principal / Director (8+ Yrs)</option>
-            </select>
+          <div class="lg:col-span-3">
+            <label class="text-[10px] font-bold text-brand-green uppercase tracking-widest mb-1.5 block">Matching Skills Vector</label>
+            <input type="text" id="targetSkills" value="AML, KYC, Client Onboarding, Excel VBA, Document Verification" class="w-full glass-input border-brand-green/40 rounded-xl px-3 py-2 text-xs text-brand-green font-mono">
           </div>
 
-          <!-- Currency Selector -->
-          <div class="lg:col-span-1">
-            <label class="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-1.5 block">Currency</label>
-            <select id="currencySelect" onchange="convertAllCurrencies(this.value)" class="w-full glass-input rounded-xl px-2 py-2 text-xs font-mono text-white outline-none cursor-pointer">
-              <option value="USD" selected>USD ($)</option>
-              <option value="EUR">EUR (€)</option>
-              <option value="GBP">GBP (£)</option>
-              <option value="INR">INR (₹)</option>
-              <option value="CAD">CAD ($)</option>
-              <option value="SGD">SGD ($)</option>
-            </select>
-          </div>
-
-          <!-- Action Buttons -->
           <div class="lg:col-span-2 flex gap-2">
-            <button onclick="runGlobalDiscovery()" id="discoverBtn" class="flex-1 bg-gradient-to-r from-brand to-brand-600 hover:brightness-110 active:scale-[0.98] text-white font-semibold py-2 rounded-xl text-xs transition-all shadow-glow-brand flex items-center justify-center gap-1.5">
-              <i class="fa-solid fa-radar"></i>
-              <span id="discoverBtnText">Run Scan</span>
+            <button onclick="executeJobDiscovery()" id="scanBtn" class="flex-1 bg-gradient-to-r from-brand-orange to-orange-600 hover:brightness-110 text-white font-bold py-2 rounded-xl text-xs transition-all shadow-lg flex items-center justify-center gap-1.5">
+              <i class="fa-solid fa-arrows-rotate"></i>
+              <span id="scanBtnText">Scan Network</span>
             </button>
-            <button onclick="openPortalLauncherModal()" title="Deep search across all portals in one click" class="px-3 py-2 rounded-xl bg-slate-900 border border-white/10 hover:border-brand-500 text-slate-300 hover:text-white transition-all">
-              <i class="fa-solid fa-up-right-from-square text-xs"></i>
+            <button onclick="openAllIndianPortals()" title="Open all portals simultaneously" class="px-3 py-2 rounded-xl bg-slate-900 border border-white/10 hover:border-brand-orange text-slate-300 hover:text-white transition-all">
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
             </button>
           </div>
-
         </div>
 
-        <!-- Dynamic User Skills Vector Display -->
-        <div class="mt-3.5 pt-3 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">Current Candidate Match Vector:</span>
-            <div id="userSkillBadges" class="flex flex-wrap gap-1.5">
-              <!-- Dynamically populated skills -->
-            </div>
+        <!-- Quick Launchers to Indian Job Portals -->
+        <div class="mt-3 pt-3 border-t border-white/[0.08] flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-[10px] font-mono text-slate-400 uppercase">Direct Portal Redirects:</span>
+            <button onclick="launchPortalDeepLink('Naukri')" class="px-2.5 py-1 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[11px] font-semibold flex items-center gap-1">
+              <i class="fa-solid fa-briefcase"></i> Naukri.com
+            </button>
+            <button onclick="launchPortalDeepLink('LinkedIn')" class="px-2.5 py-1 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 text-[11px] font-semibold flex items-center gap-1">
+              <i class="fa-brands fa-linkedin"></i> LinkedIn India
+            </button>
+            <button onclick="launchPortalDeepLink('Indeed')" class="px-2.5 py-1 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-[11px] font-semibold flex items-center gap-1">
+              <i class="fa-solid fa-building-columns"></i> Indeed India
+            </button>
+            <button onclick="launchPortalDeepLink('Foundit')" class="px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 border border-purple-500/30 text-[11px] font-semibold flex items-center gap-1">
+              <i class="fa-solid fa-cube"></i> Foundit (Monster)
+            </button>
+            <button onclick="launchPortalDeepLink('Instahyre')" class="px-2.5 py-1 rounded-lg bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 text-[11px] font-semibold flex items-center gap-1">
+              <i class="fa-solid fa-bolt"></i> Instahyre
+            </button>
           </div>
-          <button onclick="openProfileModal()" class="text-[11px] font-mono text-brand-400 hover:text-brand-300 flex items-center gap-1">
-            <i class="fa-solid fa-sliders text-[10px]"></i> Configure Profile
+          <button onclick="openProfileModal()" class="text-[11px] text-brand-orange hover:underline font-mono">
+            <i class="fa-solid fa-user-pen mr-1"></i>Switch Candidate Persona
           </button>
         </div>
       </div>
 
-      <!-- Bento Workspace: Feed (Left) & Inspector (Right) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 h-[calc(100vh-270px)] min-h-[580px]">
+      <!-- Feed Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 h-[calc(100vh-270px)] min-h-[520px]">
         
-        <!-- Job Feed Column -->
-        <div class="lg:col-span-5 flex flex-col glass-card rounded-2xl overflow-hidden shadow-glass border border-white/10">
-          
-          <div class="p-3.5 border-b border-white/[0.08] bg-slate-950/60 flex items-center justify-between">
+        <!-- Feed Column -->
+        <div class="lg:col-span-5 flex flex-col glass-card rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+          <div class="p-3 border-b border-white/[0.08] bg-slate-950/60 flex items-center justify-between">
+            <span class="text-xs font-bold text-white"><span id="jobCount" class="text-brand-orange font-mono font-black">0</span> Live Positions</span>
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-white tracking-wide"><span id="opportunityCount" class="text-brand-400 font-mono font-black">0</span> Live Openings</span>
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            </div>
-            
-            <div class="flex items-center gap-2">
-              <span class="text-[10px] text-slate-400 font-mono">Sort By:</span>
-              <select id="feedSortBy" onchange="sortJobFeed(this.value)" class="bg-slate-900 border border-white/10 rounded-lg px-2 py-1 text-[11px] text-slate-200 outline-none cursor-pointer">
-                <option value="match" selected>Highest Fit %</option>
-                <option value="salary">Comp: High to Low</option>
-                <option value="recent">Freshest Postings</option>
+              <span class="text-[10px] text-slate-400 font-mono">Sort:</span>
+              <select id="sortCriterion" onchange="sortJobList(this.value)" class="bg-slate-900 border border-white/10 rounded-md px-2 py-1 text-[10px] text-white outline-none">
+                <option value="match" selected>Match %</option>
+                <option value="salary">Salary (LPA)</option>
               </select>
             </div>
           </div>
-
-          <div id="jobFeedContainer" class="flex-1 overflow-y-auto custom-scroll p-2.5 space-y-2 relative">
-            <!-- Dynamically populated listings -->
-          </div>
+          
+          <div id="jobFeed" class="flex-1 overflow-y-auto custom-scroll p-2 space-y-2"></div>
         </div>
 
-        <!-- Deep Inspector Panel (Desktop) -->
-        <div class="hidden lg:flex lg:col-span-7 glass-card rounded-2xl overflow-hidden flex-col shadow-glass border border-white/10 relative">
-          <div id="jobInspectorContainer" class="w-full h-full flex flex-col p-6 overflow-y-auto custom-scroll">
-            <div class="m-auto text-center max-w-sm text-slate-500 py-16">
-              <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4 text-slate-400">
-                <i class="fa-solid fa-microchip text-2xl"></i>
-              </div>
-              <h4 class="text-sm font-bold text-slate-300">Intelligent NER Entity Diagnostics</h4>
-              <p class="text-xs mt-1 leading-relaxed text-slate-500">Select any position from the live feed to decrypt skill clusters, analyze real-time compensation metrics, and generate tailored cold applications.</p>
+        <!-- Inspector Panel (Desktop) -->
+        <div class="hidden lg:flex lg:col-span-7 glass-card rounded-2xl overflow-hidden flex-col shadow-2xl border border-white/5">
+          <div id="jobInspector" class="w-full h-full p-6 flex flex-col overflow-y-auto custom-scroll">
+            <div class="m-auto text-center max-w-sm text-slate-500 py-12">
+              <i class="fa-solid fa-microchip text-4xl mb-3 text-slate-600"></i>
+              <h4 class="text-sm font-bold text-slate-300">Indian NER Inspector</h4>
+              <p class="text-xs mt-1 leading-relaxed">Select a position from the left to view parsed LPA benchmarks, required compliance/tech stacks, and direct portal redirection URLs.</p>
             </div>
           </div>
         </div>
 
       </div>
-
     </div>
 
-    <!-- ================= VIEW 2: UNIVERSAL NER PARSER ================= -->
-    <div id="view-ner-parser" class="view-panel hidden space-y-5">
+    <!-- ================= VIEW 2: INDIAN JD NER PARSER ================= -->
+    <div id="view-parser" class="view-panel hidden space-y-4">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
-        <!-- Raw JD Text Input -->
-        <div class="lg:col-span-6 glass-card rounded-2xl p-5 border border-white/10 flex flex-col shadow-glass">
+        <!-- Raw Input -->
+        <div class="lg:col-span-6 glass-card rounded-2xl p-5 border border-white/10 flex flex-col shadow-2xl">
           <div class="flex items-center justify-between mb-3">
             <div>
               <h3 class="text-base font-bold text-white flex items-center gap-2">
-                <i class="fa-solid fa-wand-magic-sparkles text-brand-accent"></i> Universal Job Description Parser
+                <i class="fa-solid fa-brain-circuit text-brand-orange"></i> Indian JD NER Entity Extractor
               </h3>
-              <p class="text-xs text-slate-400">Paste unformatted job descriptions from any portal globally.</p>
+              <p class="text-xs text-slate-400">Paste unformatted job descriptions from Naukri, LinkedIn, or recruiter emails.</p>
             </div>
-            <button onclick="injectSampleJD()" class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-brand-500/10 text-brand-400 border border-brand-500/30 hover:bg-brand-500/20 transition-colors">
-              Paste Sample JD
+            <button onclick="injectSampleIndianJD()" class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-orange-500/10 text-brand-orange border border-orange-500/30 hover:bg-orange-500/20">
+              Sample Banking/AML JD
             </button>
           </div>
 
-          <textarea id="customRawJD" rows="14" placeholder="Paste unformatted job description from LinkedIn, Greenhouse, Lever, Workday, or Naukri here...
-Example:
-'Staff AI Engineer at Anthropic. Location: San Francisco (Hybrid). Salary: $280,000 - $350,000 + Equity. Requirements: 6+ years in Python, PyTorch, Distributed Training, CUDA, and LLM evaluation architectures...'" class="w-full flex-1 glass-input rounded-xl p-3.5 text-xs font-mono text-slate-200 outline-none resize-none custom-scroll placeholder:text-slate-600 mb-3"></textarea>
+          <textarea id="rawIndianJD" rows="13" placeholder="Paste JD here... (e.g. 'Opening for Senior AML Compliance Analyst at IndusInd Bank Gurugram. CTC: 12 to 18 LPA. Requires 3+ years in KYC verification, New-to-Bank (NTB) client onboarding, and Advanced Excel VBA macros. MBA (2024/2025) preferred...')" class="w-full flex-1 glass-input rounded-xl p-3.5 text-xs font-mono text-slate-200 outline-none resize-none custom-scroll placeholder:text-slate-600 mb-3"></textarea>
 
-          <button onclick="executeRawParsing()" class="w-full bg-brand-accent hover:brightness-110 active:scale-[0.99] text-slate-950 font-bold py-2.5 rounded-xl text-xs transition-all shadow-glow-accent flex items-center justify-center gap-2">
-            <i class="fa-solid fa-bolt"></i> Extract Named Entities & Calculate Fit Vector
+          <button onclick="parseRawIndianJD()" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-lg flex items-center justify-center gap-2">
+            <i class="fa-solid fa-bolt"></i> Extract Entities &amp; Add to Feed
           </button>
         </div>
 
-        <!-- Live NER Diagnostics Dashboard -->
-        <div class="lg:col-span-6 glass-card rounded-2xl p-5 border border-white/10 flex flex-col shadow-glass">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-base font-bold text-white flex items-center gap-2">
-              <i class="fa-solid fa-network-wired text-brand-emerald"></i> Extracted Entity Architecture
-            </h3>
-            <span class="text-[10px] font-mono text-emerald-400 uppercase tracking-widest">Active Inference Model</span>
-          </div>
+        <!-- Extraction Results -->
+        <div class="lg:col-span-6 glass-card rounded-2xl p-5 border border-white/10 flex flex-col shadow-2xl">
+          <h3 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+            <i class="fa-solid fa-network-wired text-brand-green"></i> Parsed Attributes &amp; LPA Range
+          </h3>
+          <p class="text-xs text-slate-400 mb-3">Recognized entity parameters parsed using local regex models.</p>
 
-          <div id="nerExtractionView" class="flex-1 bg-slate-950/70 rounded-xl border border-white/[0.08] p-4 overflow-y-auto custom-scroll text-xs">
+          <div id="nerResultBox" class="flex-1 bg-slate-950/70 rounded-xl border border-white/[0.08] p-4 overflow-y-auto custom-scroll text-xs">
             <div class="text-center py-20 text-slate-500">
-              <i class="fa-solid fa-brain-circuit text-3xl opacity-30 mb-2"></i>
-              <p>Awaiting raw text input to run NER entity recognition.</p>
+              <i class="fa-solid fa-radar text-3xl opacity-30 mb-2"></i>
+              <p>Awaiting raw text input to run NER analysis.</p>
             </div>
           </div>
         </div>
@@ -382,700 +281,605 @@ Example:
       </div>
     </div>
 
-    <!-- ================= VIEW 3: PIPELINE KANBAN TRACKER ================= -->
-    <div id="view-kanban" class="view-panel hidden h-[calc(100vh-140px)] flex flex-col space-y-3">
+    <!-- ================= VIEW 3: PIPELINE TRACKER ================= -->
+    <div id="view-pipeline" class="view-panel hidden h-[calc(100vh-140px)] flex flex-col space-y-3">
       <div class="flex items-center justify-between">
         <div>
-          <h2 class="text-xl font-black text-white tracking-tight flex items-center gap-2">
-            <i class="fa-solid fa-layer-group text-brand-400"></i> Career Pipeline Board
-          </h2>
-          <p class="text-xs text-slate-400">Track and advance job applications across recruitment stages with drag & drop.</p>
+          <h2 class="text-xl font-black text-white tracking-tight">Application Pipeline</h2>
+          <p class="text-xs text-slate-400">Track and advance applications across recruitment milestones.</p>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="exportKanbanData()" class="px-3 py-1.5 rounded-xl text-xs font-mono bg-slate-900 border border-white/10 hover:border-white/20 text-slate-300">
-            <i class="fa-solid fa-download mr-1"></i> Export JSON
-          </button>
-          <button onclick="clearPipeline()" class="px-3 py-1.5 rounded-xl text-xs font-mono text-rose-400 hover:bg-rose-500/10 border border-rose-500/20">
-            Reset
-          </button>
-        </div>
+        <button onclick="clearPipeline()" class="px-3 py-1.5 rounded-xl text-xs font-mono text-rose-400 hover:bg-rose-500/10 border border-rose-500/20">
+          Clear Board
+        </button>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 flex-1 overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1 overflow-hidden">
         
-        <!-- Column: Bookmarked -->
-        <div class="glass-card rounded-2xl flex flex-col border-t-2 border-t-slate-400 overflow-hidden" ondragover="allowKanbanDrop(event)" ondrop="handleKanbanDrop(event, 'saved')">
+        <!-- Saved -->
+        <div class="glass-card rounded-2xl flex flex-col border-t-2 border-t-slate-400 overflow-hidden" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'saved')">
           <div class="p-3 border-b border-white/[0.08] bg-slate-950/60 flex items-center justify-between">
             <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5"><i class="fa-regular fa-bookmark text-slate-400"></i> Bookmarked</span>
             <span id="count-saved" class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300">0</span>
           </div>
-          <div id="kanban-saved" class="flex-1 p-2 space-y-2 overflow-y-auto custom-scroll"></div>
+          <div id="col-saved" class="flex-1 p-2 space-y-2 overflow-y-auto custom-scroll"></div>
         </div>
 
-        <!-- Column: Applied -->
-        <div class="glass-card rounded-2xl flex flex-col border-t-2 border-t-brand overflow-hidden" ondragover="allowKanbanDrop(event)" ondrop="handleKanbanDrop(event, 'applied')">
+        <!-- Applied -->
+        <div class="glass-card rounded-2xl flex flex-col border-t-2 border-t-brand-orange overflow-hidden" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'applied')">
           <div class="p-3 border-b border-white/[0.08] bg-slate-950/60 flex items-center justify-between">
-            <span class="text-xs font-bold text-white flex items-center gap-1.5"><i class="fa-solid fa-paper-plane text-brand-400"></i> Applied</span>
-            <span id="count-applied" class="px-2 py-0.5 rounded text-[10px] font-mono bg-brand-500/20 text-brand-400 font-bold">0</span>
+            <span class="text-xs font-bold text-white flex items-center gap-1.5"><i class="fa-solid fa-paper-plane text-brand-orange"></i> Applied on Portals</span>
+            <span id="count-applied" class="px-2 py-0.5 rounded text-[10px] font-mono bg-orange-500/20 text-brand-orange font-bold">0</span>
           </div>
-          <div id="kanban-applied" class="flex-1 p-2 space-y-2 overflow-y-auto custom-scroll"></div>
+          <div id="col-applied" class="flex-1 p-2 space-y-2 overflow-y-auto custom-scroll"></div>
         </div>
 
-        <!-- Column: Interviewing -->
-        <div class="glass-card rounded-2xl flex flex-col border-t-2 border-t-amber-400 overflow-hidden" ondragover="allowKanbanDrop(event)" ondrop="handleKanbanDrop(event, 'interview')">
+        <!-- Interview -->
+        <div class="glass-card rounded-2xl flex flex-col border-t-2 border-t-brand-green overflow-hidden" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'interview')">
           <div class="p-3 border-b border-white/[0.08] bg-slate-950/60 flex items-center justify-between">
-            <span class="text-xs font-bold text-white flex items-center gap-1.5"><i class="fa-solid fa-comments text-amber-400"></i> Interviewing</span>
-            <span id="count-interview" class="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/20 text-amber-400 font-bold">0</span>
+            <span class="text-xs font-bold text-white flex items-center gap-1.5"><i class="fa-solid fa-comments text-brand-green"></i> In Interview Calls</span>
+            <span id="count-interview" class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-400 font-bold">0</span>
           </div>
-          <div id="kanban-interview" class="flex-1 p-2 space-y-2 overflow-y-auto custom-scroll"></div>
+          <div id="col-interview" class="flex-1 p-2 space-y-2 overflow-y-auto custom-scroll"></div>
         </div>
 
-        <!-- Column: Offers Received -->
-        <div class="glass-card rounded-2xl flex flex-col border-t-2 border-t-brand-emerald overflow-hidden" ondragover="allowKanbanDrop(event)" ondrop="handleKanbanDrop(event, 'offer')">
-          <div class="p-3 border-b border-white/[0.08] bg-slate-950/60 flex items-center justify-between">
-            <span class="text-xs font-bold text-white flex items-center gap-1.5"><i class="fa-solid fa-trophy text-emerald-400"></i> Offers & Final</span>
-            <span id="count-offer" class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-400 font-bold">0</span>
-          </div>
-          <div id="kanban-offer" class="flex-1 p-2 space-y-2 overflow-y-auto custom-scroll"></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ================= VIEW 4: MARKET ANALYTICS ================= -->
-    <div id="view-analytics" class="view-panel hidden space-y-5">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        
-        <div class="glass-card p-5 rounded-2xl border border-white/10 shadow-glass">
-          <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1">Global Salary Index (Mid-Senior)</span>
-          <h3 id="statMedianComp" class="text-2xl font-black text-white font-mono">$138,500 <span class="text-xs text-emerald-400 font-normal">+8.2% YoY</span></h3>
-          <p class="text-xs text-slate-400 mt-2">Median benchmark compensation across target roles in selected currency.</p>
-        </div>
-
-        <div class="glass-card p-5 rounded-2xl border border-white/10 shadow-glass">
-          <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1">In-Demand Skill Cluster (Top 3)</span>
-          <h3 id="statTopSkills" class="text-base font-bold text-brand-400 mt-1 font-mono">React • Python • AWS</h3>
-          <p class="text-xs text-slate-400 mt-2">Highest recurring skills requested in real-time listings.</p>
-        </div>
-
-        <div class="glass-card p-5 rounded-2xl border border-white/10 shadow-glass">
-          <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1">Remote Hiring Ratio</span>
-          <h3 class="text-2xl font-black text-emerald-400 font-mono">68.4%</h3>
-          <p class="text-xs text-slate-400 mt-2">Of ingested postings support full remote or hybrid workplace models.</p>
-        </div>
-
-      </div>
-
-      <!-- Skill Gap Distribution -->
-      <div class="glass-card p-6 rounded-2xl border border-white/10 shadow-glass">
-        <h3 class="text-base font-bold text-white mb-2">Real-Time Market Skill Frequency Index</h3>
-        <p class="text-xs text-slate-400 mb-4">Correlation of open marketplace requirements against candidate profile competencies.</p>
-        
-        <div id="skillFrequencyBars" class="space-y-3 font-mono text-xs">
-          <!-- Dynamically populated bars -->
-        </div>
       </div>
     </div>
 
   </main>
 
-  <!-- ================= MODALS & DRAWERS ================= -->
+  <!-- ================= MODALS ================= -->
 
-  <!-- 1. Universal Candidate Profile Configurator Modal -->
+  <!-- Universal Candidate Profile Configurator Modal -->
   <div id="profileModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
-    <div class="glass-card bg-slate-900 w-full max-w-xl rounded-2xl border border-white/10 shadow-2xl p-6 overflow-hidden">
+    <div class="glass-card bg-slate-900 w-full max-w-xl rounded-2xl border border-white/10 shadow-2xl p-6">
       
       <div class="flex items-center justify-between pb-3 border-b border-white/[0.08]">
         <div class="flex items-center gap-2">
-          <i class="fa-solid fa-user-pen text-brand-400"></i>
-          <h3 class="text-sm font-bold text-white">Candidate Profile & Vector Configuration</h3>
+          <i class="fa-solid fa-user-gear text-brand-orange"></i>
+          <h3 class="text-sm font-bold text-white">Configure Candidate Profile</h3>
         </div>
         <button onclick="closeProfileModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
       <div class="mt-4 space-y-4 text-xs">
         
-        <!-- Preset Quick Switcher -->
+        <!-- Persona Quick Pick -->
         <div>
-          <label class="text-[10px] font-mono uppercase text-slate-400 block mb-1.5">Load Candidate Persona Preset</label>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-            <button onclick="loadPersonaPreset('swe')" class="p-2 rounded-xl bg-slate-950 border border-white/10 hover:border-brand-500 text-left text-slate-200">
-              <span class="block font-bold text-white text-[11px]">Software Dev</span>
-              <span class="text-[9px] text-slate-500 font-mono">React/Node/AWS</span>
+          <label class="text-[10px] font-mono uppercase text-slate-400 block mb-1.5">Load Persona Preset</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button onclick="loadCandidatePreset('finance')" class="p-2 rounded-xl bg-slate-950 border border-white/10 hover:border-brand-orange text-left">
+              <span class="block font-bold text-white text-[11px]">Finance &amp; AML</span>
+              <span class="text-[9px] text-slate-500 font-mono">KYC / VBA / Banking</span>
             </button>
-            <button onclick="loadPersonaPreset('finance')" class="p-2 rounded-xl bg-slate-950 border border-white/10 hover:border-brand-500 text-left text-slate-200">
-              <span class="block font-bold text-white text-[11px]">Finance & AML</span>
-              <span class="text-[9px] text-slate-500 font-mono">KYC/VBA/Banking</span>
+            <button onclick="loadCandidatePreset('tech')" class="p-2 rounded-xl bg-slate-950 border border-white/10 hover:border-brand-orange text-left">
+              <span class="block font-bold text-white text-[11px]">IT / Software</span>
+              <span class="text-[9px] text-slate-500 font-mono">React / Node / Cloud</span>
             </button>
-            <button onclick="loadPersonaPreset('ai')" class="p-2 rounded-xl bg-slate-950 border border-white/10 hover:border-brand-500 text-left text-slate-200">
-              <span class="block font-bold text-white text-[11px]">AI / ML Eng</span>
-              <span class="text-[9px] text-slate-500 font-mono">PyTorch/LLMs/Python</span>
+            <button onclick="loadCandidatePreset('sales')" class="p-2 rounded-xl bg-slate-950 border border-white/10 hover:border-brand-orange text-left">
+              <span class="block font-bold text-white text-[11px]">Sales &amp; BD</span>
+              <span class="text-[9px] text-slate-500 font-mono">Enterprise B2B</span>
             </button>
-            <button onclick="loadPersonaPreset('pm')" class="p-2 rounded-xl bg-slate-950 border border-white/10 hover:border-brand-500 text-left text-slate-200">
-              <span class="block font-bold text-white text-[11px]">Product Manager</span>
-              <span class="text-[9px] text-slate-500 font-mono">Agile/GTM/Figma</span>
+            <button onclick="loadCandidatePreset('data')" class="p-2 rounded-xl bg-slate-950 border border-white/10 hover:border-brand-orange text-left">
+              <span class="block font-bold text-white text-[11px]">Data &amp; BI</span>
+              <span class="text-[9px] text-slate-500 font-mono">SQL / Python / PowerBI</span>
             </button>
           </div>
-        </div>
-
-        <!-- Custom Details -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="text-[10px] font-mono text-slate-400 block mb-1">Full Name</label>
-            <input type="text" id="profNameInput" class="w-full glass-input rounded-xl px-3 py-2 text-white">
-          </div>
-          <div>
-            <label class="text-[10px] font-mono text-slate-400 block mb-1">Professional Title</label>
-            <input type="text" id="profTitleInput" class="w-full glass-input rounded-xl px-3 py-2 text-white">
-          </div>
-        </div>
-
-        <div>
-          <label class="text-[10px] font-mono text-slate-400 block mb-1">Core Competency Vector (Comma-Separated Skills)</label>
-          <textarea id="profSkillsInput" rows="3" class="w-full glass-input rounded-xl p-3 text-white font-mono text-xs"></textarea>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="text-[10px] font-mono text-slate-400 block mb-1">Target Min. Compensation</label>
-            <input type="text" id="profTargetCompInput" placeholder="e.g. 130000" class="w-full glass-input rounded-xl px-3 py-2 text-white font-mono">
+            <label class="text-[10px] font-mono text-slate-400 block mb-1">Full Name</label>
+            <input type="text" id="profName" class="w-full glass-input rounded-xl px-3 py-2 text-white">
           </div>
           <div>
-            <label class="text-[10px] font-mono text-slate-400 block mb-1">Highest Degree / Credential</label>
-            <input type="text" id="profEducationInput" placeholder="e.g. Master's in CS / MBA / B.Sc" class="w-full glass-input rounded-xl px-3 py-2 text-white">
+            <label class="text-[10px] font-mono text-slate-400 block mb-1">Target Role Title</label>
+            <input type="text" id="profTitle" class="w-full glass-input rounded-xl px-3 py-2 text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-[10px] font-mono text-slate-400 block mb-1">Core Skills (Comma Separated)</label>
+          <textarea id="profSkills" rows="3" class="w-full glass-input rounded-xl p-3 text-white font-mono text-xs"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-[10px] font-mono text-slate-400 block mb-1">Target Base (in LPA)</label>
+            <input type="text" id="profComp" placeholder="e.g. 12" class="w-full glass-input rounded-xl px-3 py-2 text-white font-mono">
+          </div>
+          <div>
+            <label class="text-[10px] font-mono text-slate-400 block mb-1">Degree / Qualification</label>
+            <input type="text" id="profEdu" placeholder="e.g. MBA / B.Tech / B.Com" class="w-full glass-input rounded-xl px-3 py-2 text-white">
           </div>
         </div>
 
         <div class="pt-3 border-t border-white/[0.08] flex justify-end gap-2">
           <button onclick="closeProfileModal()" class="px-4 py-2 rounded-xl text-slate-400 hover:text-white">Cancel</button>
-          <button onclick="saveProfileChanges()" class="px-5 py-2 rounded-xl bg-brand hover:brightness-110 text-white font-bold shadow-glow-brand">Save & Re-Index</button>
+          <button onclick="saveCandidateProfile()" class="px-5 py-2 rounded-xl bg-brand-orange hover:bg-orange-600 text-white font-bold shadow-lg">Save &amp; Re-Index</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 2. Global Portal Deep Launcher Modal -->
-  <div id="portalLauncherModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[110] hidden flex items-center justify-center p-4">
-    <div class="glass-card bg-slate-900 w-full max-w-2xl rounded-2xl border border-white/10 shadow-2xl p-6">
-      
-      <div class="flex items-center justify-between pb-3 border-b border-white/[0.08]">
-        <div>
-          <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-network-wired text-brand-400"></i> Global Career Portals & Search Connectors
-          </h3>
-          <p class="text-xs text-slate-400">Launch targeted Boolean search queries across international platforms simultaneously.</p>
-        </div>
-        <button onclick="closePortalLauncherModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-        
-        <!-- LinkedIn -->
-        <div onclick="launchSingleGlobalPortal('LinkedIn')" class="p-3 rounded-xl bg-slate-950/70 border border-white/5 hover:border-blue-500/40 cursor-pointer transition-all group">
-          <div class="flex items-center justify-between mb-1.5">
-            <i class="fa-brands fa-linkedin text-blue-500 text-xl"></i>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-blue-400"></i>
-          </div>
-          <span class="font-bold text-white text-xs block">LinkedIn Worldwide</span>
-          <span class="text-[10px] text-slate-500 font-mono">Direct Boolean Search</span>
-        </div>
-
-        <!-- Indeed -->
-        <div onclick="launchSingleGlobalPortal('Indeed')" class="p-3 rounded-xl bg-slate-950/70 border border-white/5 hover:border-blue-400/40 cursor-pointer transition-all group">
-          <div class="flex items-center justify-between mb-1.5">
-            <i class="fa-solid fa-building-columns text-blue-400 text-xl"></i>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-blue-400"></i>
-          </div>
-          <span class="font-bold text-white text-xs block">Indeed Global</span>
-          <span class="text-[10px] text-slate-500 font-mono">Location Filtered</span>
-        </div>
-
-        <!-- Wellfound / AngelList -->
-        <div onclick="launchSingleGlobalPortal('Wellfound')" class="p-3 rounded-xl bg-slate-950/70 border border-white/5 hover:border-rose-400/40 cursor-pointer transition-all group">
-          <div class="flex items-center justify-between mb-1.5">
-            <i class="fa-solid fa-peace text-rose-400 text-xl"></i>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-rose-400"></i>
-          </div>
-          <span class="font-bold text-white text-xs block">Wellfound (AngelList)</span>
-          <span class="text-[10px] text-slate-500 font-mono">Venture-Backed Startups</span>
-        </div>
-
-        <!-- RemoteOK -->
-        <div onclick="launchSingleGlobalPortal('RemoteOK')" class="p-3 rounded-xl bg-slate-950/70 border border-white/5 hover:border-emerald-400/40 cursor-pointer transition-all group">
-          <div class="flex items-center justify-between mb-1.5">
-            <i class="fa-solid fa-wifi text-emerald-400 text-xl"></i>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-emerald-400"></i>
-          </div>
-          <span class="font-bold text-white text-xs block">RemoteOK</span>
-          <span class="text-[10px] text-slate-500 font-mono">100% Remote Global</span>
-        </div>
-
-        <!-- Glassdoor -->
-        <div onclick="launchSingleGlobalPortal('Glassdoor')" class="p-3 rounded-xl bg-slate-950/70 border border-white/5 hover:border-teal-400/40 cursor-pointer transition-all group">
-          <div class="flex items-center justify-between mb-1.5">
-            <i class="fa-solid fa-door-open text-teal-400 text-xl"></i>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-teal-400"></i>
-          </div>
-          <span class="font-bold text-white text-xs block">Glassdoor</span>
-          <span class="text-[10px] text-slate-500 font-mono">Salary &amp; Reviews</span>
-        </div>
-
-        <!-- Google Jobs Aggregator -->
-        <div onclick="launchSingleGlobalPortal('GoogleJobs')" class="p-3 rounded-xl bg-slate-950/70 border border-white/5 hover:border-amber-400/40 cursor-pointer transition-all group">
-          <div class="flex items-center justify-between mb-1.5">
-            <i class="fa-brands fa-google text-amber-400 text-xl"></i>
-            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500 group-hover:text-amber-400"></i>
-          </div>
-          <span class="font-bold text-white text-xs block">Google Jobs Engine</span>
-          <span class="text-[10px] text-slate-500 font-mono">Aggregated Crawl</span>
-        </div>
-
-      </div>
-
-      <div class="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between">
-        <span class="text-xs text-slate-400">One-click multi-portal batch search:</span>
-        <button onclick="launchAllPortalsSimultaneously()" class="bg-gradient-to-r from-brand to-brand-600 hover:brightness-110 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-glow-brand">
-          <i class="fa-solid fa-bolt"></i> Launch All 6 in New Tabs
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- 3. AI Cold Outreach Synthesizer Modal -->
+  <!-- AI Outreach Modal -->
   <div id="aiOutreachModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[120] hidden flex items-center justify-center p-4">
     <div class="glass-card bg-slate-900 w-full max-w-2xl rounded-2xl border border-white/10 shadow-2xl flex flex-col overflow-hidden max-h-[85vh]">
       <div class="p-4 border-b border-white/[0.08] flex items-center justify-between bg-slate-950/60">
         <div class="flex items-center gap-2">
-          <i class="fa-solid fa-feather text-brand-400"></i>
-          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Dynamic Outreach Pitch Synthesizer</h3>
+          <i class="fa-solid fa-envelope-open-text text-brand-orange"></i>
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Outreach &amp; Cover Pitch Generator</h3>
         </div>
         <button onclick="closeOutreachModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="p-5 overflow-y-auto custom-scroll flex-1 bg-slate-950/50">
         <div id="aiOutreachDraft" class="text-slate-200 whitespace-pre-wrap font-sans text-xs leading-relaxed"></div>
       </div>
-      <div class="p-4 border-t border-white/[0.08] bg-slate-900 flex justify-between items-center">
-        <span class="text-[10px] text-slate-400 font-mono">Synthesized via Profile Vector Match</span>
-        <div class="flex gap-2">
-          <button onclick="closeOutreachModal()" class="px-4 py-1.5 rounded-xl text-slate-400 hover:text-white text-xs">Dismiss</button>
-          <button onclick="copyOutreachDraft()" class="px-4 py-1.5 rounded-xl bg-brand hover:brightness-110 text-white font-bold text-xs flex items-center gap-1.5 shadow-glow-brand">
-            <i class="fa-regular fa-copy"></i> Copy to Clipboard
-          </button>
-        </div>
+      <div class="p-4 border-t border-white/[0.08] bg-slate-900 flex justify-end gap-2">
+        <button onclick="closeOutreachModal()" class="px-4 py-1.5 rounded-xl text-slate-400 hover:text-white text-xs">Dismiss</button>
+        <button onclick="copyOutreachDraft()" class="px-4 py-1.5 rounded-xl bg-brand-orange hover:bg-orange-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg">
+          <i class="fa-regular fa-copy"></i> Copy Draft
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- 4. Quick Command Palette (Cmd + K) -->
-  <div id="cmdPalette" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[130] hidden flex items-start justify-center pt-24 p-4" onclick="handleCmdBackdropClick(event)">
-    <div class="glass-card bg-slate-900 w-full max-w-lg rounded-2xl border border-white/10 shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-      <div class="p-3 border-b border-white/[0.08] flex items-center gap-3">
-        <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm"></i>
-        <input type="text" id="cmdInput" oninput="handleCmdSearch(this.value)" placeholder="Type a role, skill, portal, or command..." class="w-full bg-transparent text-white text-xs outline-none">
-        <kbd class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-slate-400">ESC</kbd>
-      </div>
-      <div id="cmdResults" class="p-2 max-h-72 overflow-y-auto custom-scroll space-y-1 text-xs">
-        <!-- Search options -->
-      </div>
-    </div>
-  </div>
+  <!-- Toast -->
+  <div id="toastArea" class="fixed bottom-6 right-6 z-[150] flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- Toast Container -->
-  <div id="toastContainer" class="fixed bottom-6 right-6 z-[150] flex flex-col gap-2 pointer-events-none"></div>
-
-  <!-- ================= LOGIC & JAVASCRIPT ================= -->
   <script>
     /* =========================================================
-       1. UNIVERSAL NER ENGINE (NAMED ENTITY RECOGNITION)
+       1. INDIAN PORTAL DEEP-LINK REDIRECTORS
        ========================================================= */
-    const GlobalNER = {
-      skillsCatalog: [
-        // Tech & Engineering
-        'React', 'Vue', 'Angular', 'Node.js', 'TypeScript', 'JavaScript', 'Python', 'Go', 'Golang', 
-        'Rust', 'Java', 'C++', 'Docker', 'Kubernetes', 'AWS', 'GCP', 'Azure', 'PostgreSQL', 'MongoDB', 
-        'Redis', 'GraphQL', 'REST APIs', 'CI/CD', 'Terraform', 'Microservices', 'Linux',
-        // AI & Data
-        'PyTorch', 'TensorFlow', 'LLMs', 'Prompt Engineering', 'LangChain', 'RAG', 'Vector Databases', 
-        'Machine Learning', 'Computer Vision', 'NLP', 'Data Pipelines', 'Pandas', 'Spark', 'CUDA',
-        // Finance, Compliance & AML
-        'AML', 'Anti-Money Laundering', 'KYC', 'Know Your Customer', 'Client Onboarding', 'New-to-Bank', 
-        'NTB', 'Excel VBA', 'VBA', 'Financial Modeling', 'DCF', 'Valuation', 'Risk Assessment', 
-        'Transaction Monitoring', 'Due Diligence', 'Finacle', 'Banking Operations', 'CDD', 'EDD',
-        // Product, UX & Business
-        'Figma', 'UI/UX', 'Design Systems', 'User Research', 'Wireframing', 'Agile', 'Scrum', 'JIRA', 
-        'Product Strategy', 'Roadmapping', 'A/B Testing', 'B2B Sales', 'GTM', 'Enterprise Sales'
-      ],
-      companiesCatalog: [
-        'Anthropic', 'OpenAI', 'Google', 'Meta', 'Stripe', 'Databricks', 'Snowflake', 'Vercel', 
-        'Linear', 'NatWest Group', 'Barclays', 'IndusInd Bank', 'J.P. Morgan', 'Goldman Sachs', 
-        'Morgan Stanley', 'Deloitte', 'Amazon AWS', 'Apple', 'Microsoft', 'Figma'
-      ],
-      educationTokens: ['MBA', 'B.Sc', 'M.Sc', 'B.Tech', 'M.Tech', 'Ph.D.', 'Bachelor', 'Master', 'CFA', 'CPA'],
-      salaryPatterns: [
-        /(?:[\$\€\£\₹]\s*)?(\d{2,3}(?:,\d{3})*|\d+(?:\.\d+)?)\s*(?:-|to)\s*(?:[\$\€\£\₹]\s*)?(\d{2,3}(?:,\d{3})*|\d+(?:\.\d+)?)\s*(?:k|K|LPA|Lacs?|Lakhs?|USD|EUR|GBP|INR)?/i,
-        /(\d{2,3})\s*k\s*(?:-|to)\s*(\d{2,3})\s*k/i
-      ],
-      experiencePattern: /(\d+)\s*(?:-|to|\+)?\s*(\d+)?\s*(?:years?|yrs?)/i
+    const IndianPortalEngine = {
+      Naukri: (role, loc) => {
+        const cleanRole = encodeURIComponent(role.toLowerCase().replace(/\s+/g, '-'));
+        const cleanLoc = encodeURIComponent(loc.toLowerCase().replace(/,.*/, '').trim());
+        return `https://www.naukri.com/${cleanRole}-jobs-in-${cleanLoc}?k=${encodeURIComponent(role)}&l=${cleanLoc}`;
+      },
+      LinkedIn: (role, loc, exp) => {
+        const expMap = { fresher: '1', mid: '2,3', senior: '4', lead: '5' };
+        const expParam = expMap[exp] ? `&f_E=${expMap[exp]}` : '';
+        return `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(role)}&location=${encodeURIComponent(loc)}&f_TPR=r604800${expParam}`;
+      },
+      Indeed: (role, loc) => {
+        return `https://in.indeed.com/jobs?q=${encodeURIComponent(role)}&l=${encodeURIComponent(loc)}`;
+      },
+      Foundit: (role, loc) => {
+        return `https://www.foundit.in/srp/results?query=${encodeURIComponent(role)}&locations=${encodeURIComponent(loc)}`;
+      },
+      Instahyre: (role) => {
+        return `https://www.instahyre.com/search-jobs/?search=${encodeURIComponent(role)}`;
+      },
+      IIMJobs: (role, loc) => {
+        const cleanLoc = loc.toLowerCase().replace(/,.*/, '').trim();
+        return `https://www.iimjobs.com/search/${encodeURIComponent(role)}-${encodeURIComponent(cleanLoc)}`;
+      }
     };
 
-    function parseTextEntities(rawText) {
-      const text = rawText || '';
+    function launchPortalDeepLink(portalName) {
+      const role = document.getElementById('targetRole').value.trim() || ActiveUser.title;
+      const loc = document.getElementById('targetLocation').value;
+      const exp = document.getElementById('targetExp').value;
       
-      // 1. Skill Cluster Detection
-      const detectedSkills = [];
-      GlobalNER.skillsCatalog.forEach(skill => {
-        const regex = new RegExp(`\\b${skill.replace('+', '\\+')}\\b`, 'i');
-        if (regex.test(text)) detectedSkills.push(skill);
-      });
+      if (IndianPortalEngine[portalName]) {
+        window.open(IndianPortalEngine[portalName](role, loc, exp), '_blank');
+      }
+    }
 
-      // 2. Company Recognition
-      let detectedCompany = 'Global Enterprise';
-      for (const comp of GlobalNER.companiesCatalog) {
-        if (new RegExp(`\\b${comp}\\b`, 'i').test(text)) {
-          detectedCompany = comp;
+    function openAllIndianPortals() {
+      const role = document.getElementById('targetRole').value.trim() || ActiveUser.title;
+      const loc = document.getElementById('targetLocation').value;
+      const exp = document.getElementById('targetExp').value;
+
+      ['Naukri', 'LinkedIn', 'Indeed', 'Foundit', 'Instahyre'].forEach(portal => {
+        window.open(IndianPortalEngine[portal](role, loc, exp), '_blank');
+      });
+      showToast('Redirected to Naukri, LinkedIn, Indeed, Foundit, and Instahyre in new tabs!');
+    }
+
+    /* =========================================================
+       2. CANDIDATE PROFILE & PRESETS
+       ========================================================= */
+    const Candidates = {
+      finance: {
+        name: 'Digvijay Sharma',
+        title: 'Business Development Manager / AML Analyst',
+        skills: ['AML', 'KYC', 'Client Onboarding', 'Excel VBA', 'Document Verification', 'Risk Assessment'],
+        education: 'MBA (Completed 2025)',
+        comp: '10 - 16 LPA'
+      },
+      tech: {
+        name: 'Rahul Verma',
+        title: 'Full-Stack Developer',
+        skills: ['React', 'Node.js', 'TypeScript', 'Docker', 'AWS', 'MongoDB', 'REST APIs'],
+        education: 'B.Tech in Computer Science',
+        comp: '12 - 22 LPA'
+      },
+      sales: {
+        name: 'Pooja Iyer',
+        title: 'Enterprise Business Development Specialist',
+        skills: ['B2B Sales', 'Client Acquisition', 'Lead Generation', 'CRM', 'Pipeline Management'],
+        education: 'MBA in Marketing',
+        comp: '8 - 15 LPA'
+      },
+      data: {
+        name: 'Amit Patel',
+        title: 'Data & BI Analyst',
+        skills: ['SQL', 'Python', 'PowerBI', 'Tableau', 'Excel VBA', 'ETL Pipelines'],
+        education: 'B.Sc / M.Sc in Data Science',
+        comp: '9 - 17 LPA'
+      }
+    };
+
+    let ActiveUser = JSON.parse(localStorage.getItem('ojp_candidate')) || Candidates.finance;
+    let CurrentJobs = [];
+    let SelectedJob = null;
+    let Pipeline = JSON.parse(localStorage.getItem('ojp_pipeline')) || [];
+
+    function syncUserNav() {
+      document.getElementById('navCandidateName').innerText = ActiveUser.name;
+      document.getElementById('navCandidateRole').innerText = ActiveUser.title;
+      const initials = ActiveUser.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+      document.getElementById('userAvatar').innerText = initials;
+      document.getElementById('targetSkills').value = ActiveUser.skills.join(', ');
+    }
+
+    function loadCandidatePreset(key) {
+      if (Candidates[key]) {
+        ActiveUser = { ...Candidates[key] };
+        localStorage.setItem('ojp_candidate', JSON.stringify(ActiveUser));
+        document.getElementById('targetRole').value = ActiveUser.title.split('/')[0].trim();
+        syncUserNav();
+        closeProfileModal();
+        showToast(`Loaded candidate profile: ${ActiveUser.name}`);
+        executeJobDiscovery();
+      }
+    }
+
+    function openProfileModal() {
+      document.getElementById('profName').value = ActiveUser.name;
+      document.getElementById('profTitle').value = ActiveUser.title;
+      document.getElementById('profSkills').value = ActiveUser.skills.join(', ');
+      document.getElementById('profComp').value = ActiveUser.comp;
+      document.getElementById('profEdu').value = ActiveUser.education;
+      document.getElementById('profileModal').classList.remove('hidden');
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profileModal').classList.add('hidden');
+    }
+
+    function saveCandidateProfile() {
+      ActiveUser.name = document.getElementById('profName').value.trim() || ActiveUser.name;
+      ActiveUser.title = document.getElementById('profTitle').value.trim() || ActiveUser.title;
+      ActiveUser.skills = document.getElementById('profSkills').value.split(',').map(s=>s.trim()).filter(Boolean);
+      ActiveUser.education = document.getElementById('profEdu').value.trim() || ActiveUser.education;
+      ActiveUser.comp = document.getElementById('profComp').value.trim() || ActiveUser.comp;
+
+      localStorage.setItem('ojp_candidate', JSON.stringify(ActiveUser));
+      syncUserNav();
+      closeProfileModal();
+      showToast('Profile updated & matched vectors refreshed!');
+      executeJobDiscovery();
+    }
+
+    /* =========================================================
+       3. NER EXTRACTION ENGINE FOR INDIAN JOBS
+       ========================================================= */
+    const IndianEntities = {
+      companies: [
+        'IndusInd Bank', 'Eclerx Service Ltd', 'NatWest Group', 'Barclays India', 'HDFC Bank', 
+        'ICICI Bank', 'Kotak Mahindra', 'Genpact', 'Tata Consultancy Services (TCS)', 'Infosys', 
+        'Wipro', 'Accenture India', 'Standard Chartered Bank', 'HSBC India', 'Deloitte India'
+      ],
+      skills: [
+        'AML', 'Anti-Money Laundering', 'KYC', 'Know Your Customer', 'Client Onboarding', 
+        'New-to-Bank', 'NTB', 'Excel VBA', 'VBA', 'Document Verification', 'Compliance',
+        'Transaction Monitoring', 'Risk Assessment', 'Finacle', 'Banking Operations',
+        'React', 'Node.js', 'TypeScript', 'Java', 'Python', 'SQL', 'AWS', 'Docker'
+      ],
+      salaryLPA: /(?:₹\s*|\bINR\s*|Rs\.?\s*)?(\d+(?:\.\d+)?)\s*(?:-|to)\s*(\d+(?:\.\d+)?)\s*(?:LPA|Lacs?|Lakhs?)/i,
+      singleLPA: /(\d+(?:\.\d+)?)\s*(?:LPA|Lacs?|Lakhs?)/i,
+      expPattern: /(\d+)\s*(?:-|to|\+)?\s*(\d+)?\s*(?:years?|yrs?)/i
+    };
+
+    function extractIndianEntities(rawText) {
+      const text = rawText || '';
+
+      // 1. Company
+      let comp = 'Leading Financial Institution';
+      for (const c of IndianEntities.companies) {
+        if (new RegExp(`\\b${c.replace(/[()]/g, '')}\\b`, 'i').test(text)) {
+          comp = c;
           break;
         }
       }
 
-      // 3. Seniority Detection
-      let seniority = 'Mid-Level';
-      if (/intern|graduate|junior|associate/i.test(text)) seniority = 'Junior / Associate';
-      else if (/staff|principal|director|head of|vp/i.test(text)) seniority = 'Staff / Executive';
-      else if (/senior|lead/i.test(text)) seniority = 'Senior / Lead';
+      // 2. Skills
+      const extractedSkills = [];
+      IndianEntities.skills.forEach(s => {
+        if (new RegExp(`\\b${s}\\b`, 'i').test(text)) extractedSkills.push(s);
+      });
 
-      // 4. Compensation Extraction
-      let minComp = 95000, maxComp = 145000;
-      let curr = ActiveCandidate.currency;
-      
-      if (/LPA|Lakh/i.test(text) || curr === 'INR') {
-        minComp = 12; maxComp = 22;
+      // 3. LPA Salary
+      let minLpa = 8.5, maxLpa = 14.5;
+      const salMatch = text.match(IndianEntities.salaryLPA);
+      if (salMatch) {
+        minLpa = parseFloat(salMatch[1]);
+        maxLpa = parseFloat(salMatch[2]);
+      } else {
+        const single = text.match(IndianEntities.singleLPA);
+        if (single) {
+          minLpa = parseFloat(single[1]);
+          maxLpa = parseFloat((minLpa + 3.5).toFixed(1));
+        }
       }
 
-      // 5. Work Mode
-      let workMode = 'Hybrid';
-      if (/remote|work from home|anywhere/i.test(text)) workMode = 'Remote';
-      else if (/onsite|in-office/i.test(text)) workMode = 'Onsite';
+      // 4. Experience
+      let expStr = '2 - 5 Years';
+      const expM = text.match(IndianEntities.expPattern);
+      if (expM) {
+        expStr = expM[2] ? `${expM[1]} - ${expM[2]} Years` : `${expM[1]}+ Years`;
+      }
 
       return {
-        company: detectedCompany,
-        skills: Array.from(new Set(detectedSkills)),
-        seniority: seniority,
-        workMode: workMode,
-        minComp: minComp,
-        maxComp: maxComp,
-        salaryFormatted: formatCurrencyValue(minComp, maxComp, curr),
-        education: GlobalNER.educationTokens.filter(e => new RegExp(`\\b${e}\\b`, 'i').test(text))
+        company: comp,
+        skills: Array.from(new Set(extractedSkills)),
+        lpaMin: minLpa,
+        lpaMax: maxLpa,
+        salaryStr: `₹${minLpa} - ₹${maxLpa} LPA`,
+        experience: expStr,
+        education: /MBA/i.test(text) ? 'MBA (Completed 2024/2025)' : 'Graduate / Post-Graduate'
       };
     }
 
-    /* =========================================================
-       2. CANDIDATE STATE & PERSONAS
-       ========================================================= */
-    const CandidatePresets = {
-      swe: {
-        name: 'Alex Rivera',
-        title: 'Senior Full-Stack Engineer',
-        skills: ['React', 'TypeScript', 'Node.js', 'AWS', 'Docker', 'PostgreSQL', 'GraphQL'],
-        education: "B.Tech in Computer Science",
-        currency: 'USD',
-        minComp: 130000
-      },
-      finance: {
-        name: 'Digvijay Sharma',
-        title: 'Business Development Manager / AML Specialist',
-        skills: ['AML', 'KYC', 'Client Onboarding', 'Excel VBA', 'Document Verification', 'Risk Assessment'],
-        education: 'MBA (Completed 2025)',
-        currency: 'INR',
-        minComp: 14
-      },
-      ai: {
-        name: 'Elena Rostova',
-        title: 'AI / LLM Research Engineer',
-        skills: ['Python', 'PyTorch', 'LLMs', 'LangChain', 'Vector Databases', 'CUDA', 'Docker'],
-        education: 'M.Sc in Artificial Intelligence',
-        currency: 'USD',
-        minComp: 180000
-      },
-      pm: {
-        name: 'Marcus Vance',
-        title: 'Senior Product Manager',
-        skills: ['Product Strategy', 'Figma', 'Agile', 'Scrum', 'A/B Testing', 'Roadmapping'],
-        education: 'MBA / B.Sc',
-        currency: 'EUR',
-        minComp: 110000
+    function injectSampleIndianJD() {
+      document.getElementById('rawIndianJD').value = 
+`Organization: IndusInd Bank
+Location: Gurugram, Haryana (Cyber City)
+Position: Business Development Manager - Client Onboarding & AML
+Compensation: ₹12.0 - ₹17.5 LPA plus performance incentives
+Experience Required: 2 to 5 years in Banking Operations
+
+Core Responsibilities:
+- Oversee smooth onboarding for New-to-Bank (NTB) corporate and retail clients.
+- Verify documentation strictly per RBI KYC and AML compliance norms.
+- Utilize Advanced Excel VBA macros to track daily operational files and bifurcate portfolio data.
+- Coordinate with internal audit and compliance teams for seamless documentation clearance.
+- Qualification: MBA (completed 2025 preferred) or Post Graduate in Finance.`;
+    }
+
+    function parseRawIndianJD() {
+      const raw = document.getElementById('rawIndianJD').value.trim();
+      if (!raw) {
+        showToast('Please insert a job description first', 'error');
+        return;
       }
-    };
 
-    let ActiveCandidate = JSON.parse(localStorage.getItem('nexus_candidate')) || CandidatePresets.swe;
-    let JobPool = [];
-    let ActiveJob = null;
-    let Pipeline = JSON.parse(localStorage.getItem('nexus_pipeline')) || [];
+      const parsed = extractIndianEntities(raw);
+      const userSkills = ActiveUser.skills.map(s => s.toLowerCase());
+      const matched = parsed.skills.filter(s => userSkills.some(us => us.includes(s.toLowerCase()) || s.toLowerCase().includes(us)));
 
-    function saveCandidateState() {
-      localStorage.setItem('nexus_candidate', JSON.stringify(ActiveCandidate));
-      updateNavCandidateDisplay();
+      document.getElementById('nerResultBox').innerHTML = `
+        <div class="space-y-3 font-mono">
+          <div class="flex justify-between border-b border-white/10 pb-2">
+            <span class="text-slate-400">ORGANIZATION:</span>
+            <span class="text-white font-bold">${parsed.company}</span>
+          </div>
+          <div class="flex justify-between border-b border-white/10 pb-2">
+            <span class="text-slate-400">LPA COMPENSATION:</span>
+            <span class="text-brand-green font-bold">${parsed.salaryStr}</span>
+          </div>
+          <div class="flex justify-between border-b border-white/10 pb-2">
+            <span class="text-slate-400">EXPERIENCE:</span>
+            <span class="text-brand-orange font-bold">${parsed.experience}</span>
+          </div>
+          <div class="py-1">
+            <span class="text-slate-400 block mb-1.5">RECOGNIZED SKILL CLUSTER:</span>
+            <div class="flex flex-wrap gap-1">
+              ${parsed.skills.map(s => `<span class="px-2 py-0.5 rounded bg-orange-500/20 text-brand-orange border border-orange-500/30 text-[10px]">${s}</span>`).join('')}
+            </div>
+          </div>
+          <button onclick="addParsedJobToActiveFeed('${parsed.company}', '${parsed.salaryStr}', '${parsed.experience}')" class="w-full mt-3 py-2 rounded-xl bg-brand-orange hover:bg-orange-600 text-white font-bold text-xs transition-all">
+            <i class="fa-solid fa-plus mr-1"></i> Add Parsed Position to Feed
+          </button>
+        </div>
+      `;
+      showToast('Extracted entities successfully!');
     }
 
-    function updateNavCandidateDisplay() {
-      document.getElementById('candidateNavName').innerText = ActiveCandidate.name;
-      document.getElementById('candidateNavRole').innerText = ActiveCandidate.title;
-      
-      const initials = ActiveCandidate.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
-      document.getElementById('candidateAvatar').innerText = initials;
+    function addParsedJobToActiveFeed(company, salaryStr, expStr) {
+      const rawText = document.getElementById('rawIndianJD').value;
+      const newJob = {
+        id: `parsed_${Date.now()}`,
+        title: `Opportunity at ${company}`,
+        company: company,
+        location: document.getElementById('targetLocation').value,
+        portal: 'Naukri (Parsed)',
+        salaryStr: salaryStr,
+        lpaMin: parseFloat(salaryStr.match(/\d+(\.\d+)?/)[0]),
+        experience: expStr,
+        skills: ActiveUser.skills.slice(0, 4),
+        desc: rawText,
+        fitScore: 92,
+        matchedSkills: ActiveUser.skills.slice(0, 3),
+        missingSkills: ['Finacle']
+      };
 
-      // Update skill tags in filter bar
-      const badgeBox = document.getElementById('userSkillBadges');
-      badgeBox.innerHTML = ActiveCandidate.skills.map(s => 
-        `<span class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-brand-500/10 text-brand-400 border border-brand-500/25">${s}</span>`
-      ).join('');
-    }
-
-    function loadPersonaPreset(key) {
-      if (CandidatePresets[key]) {
-        ActiveCandidate = { ...CandidatePresets[key] };
-        saveCandidateState();
-        syncProfileModalInputs();
-        document.getElementById('currencySelect').value = ActiveCandidate.currency;
-        showToast(`Switched profile to ${ActiveCandidate.name} (${ActiveCandidate.title})`);
-        runGlobalDiscovery();
-        closeProfileModal();
-      }
+      CurrentJobs.unshift(newJob);
+      SelectedJob = newJob;
+      switchTab('feed');
+      renderFeedList();
+      showToast('Position injected into active search feed.');
     }
 
     /* =========================================================
-       3. DISCOVERY ENGINE & VECTOR MATCHING
+       4. DISCOVERY & SEARCH ENGINE
        ========================================================= */
-    function runGlobalDiscovery() {
-      const role = document.getElementById('targetRoleInput').value.trim() || ActiveCandidate.title;
-      const domain = document.getElementById('domainSelect').value;
-      const location = document.getElementById('locationSelect').value;
-      const seniority = document.getElementById('senioritySelect').value;
-      const currency = document.getElementById('currencySelect').value;
+    function executeJobDiscovery() {
+      const role = document.getElementById('targetRole').value.trim() || ActiveUser.title;
+      const loc = document.getElementById('targetLocation').value;
+      const exp = document.getElementById('targetExp').value;
+      const skills = document.getElementById('targetSkills').value.split(',').map(s=>s.trim().toLowerCase()).filter(Boolean);
 
-      const btn = document.getElementById('discoverBtn');
-      const btnText = document.getElementById('discoverBtnText');
+      const btnText = document.getElementById('scanBtnText');
       btnText.innerText = 'Scanning...';
-      btn.querySelector('i').classList.add('animate-spin');
 
       setTimeout(() => {
-        JobPool = generateSyntheticOpportunities(role, domain, location, seniority, currency);
-        calculateFitVectors();
-        sortJobFeed(document.getElementById('feedSortBy').value);
-        renderAnalytics();
+        CurrentJobs = [];
+        const portals = ['Naukri', 'LinkedIn', 'Indeed', 'Foundit', 'Instahyre'];
+        const comps = IndianEntities.companies;
 
-        btnText.innerText = 'Run Scan';
-        btn.querySelector('i').classList.remove('animate-spin');
-        showToast(`Discovered ${JobPool.length} verified listings matching vector.`);
-      }, 450);
+        for (let i = 0; i < 14; i++) {
+          const comp = comps[i % comps.length];
+          const portal = portals[i % portals.length];
+
+          let lpaBase = exp === 'fresher' ? 4.5 : exp === 'senior' ? 15.0 : 8.5;
+          let minLpa = (lpaBase + (i % 4)).toFixed(1);
+          let maxLpa = (parseFloat(minLpa) + 4.5).toFixed(1);
+
+          const jobSkills = [skills[0] || 'AML', skills[1] || 'KYC', 'Client Onboarding', 'Excel VBA', 'Compliance'].sort(() => 0.5 - Math.random()).slice(0, 4);
+
+          const jobObj = {
+            id: `job_${Date.now()}_${i}`,
+            title: `${['Senior', 'Lead', 'Executive', 'Analyst', 'Manager'][i % 5]} ${role}`,
+            company: comp,
+            location: i % 4 === 0 ? 'Pan India (Remote)' : loc,
+            portal: portal,
+            salaryStr: `₹${minLpa} - ₹${maxLpa} LPA`,
+            lpaMin: parseFloat(minLpa),
+            skills: jobSkills,
+            desc: `<strong>Company:</strong> ${comp}<br/><strong>Location:</strong> ${loc}<br/><br/>We are looking for an experienced ${role} to handle client operations. Key deliverables include:<br/>• Seamless onboarding for New-to-Bank (NTB) accounts.<br/>• Adherence to Indian regulatory policies (KYC/AML).<br/>• Structured reporting using Excel VBA and analytics tools.<br/>• Candidate with completed MBA (2025 batch) or equivalent qualification preferred.`
+          };
+
+          // Calculate match against current active user
+          let matches = 0;
+          jobSkills.forEach(js => {
+            if (skills.some(us => us.includes(js.toLowerCase()) || js.toLowerCase().includes(us))) matches++;
+          });
+          jobObj.fitScore = Math.min(98, Math.max(55, Math.round((matches / jobSkills.length) * 45 + 50)));
+          jobObj.matchedSkills = jobSkills.filter(js => skills.some(us => us.includes(js.toLowerCase())));
+          jobObj.missingSkills = jobSkills.filter(js => !skills.some(us => us.includes(js.toLowerCase())));
+
+          CurrentJobs.push(jobObj);
+        }
+
+        sortJobList(document.getElementById('sortCriterion').value);
+        btnText.innerText = 'Scan Network';
+        showToast(`Indexed ${CurrentJobs.length} active Indian openings.`);
+      }, 350);
     }
 
-    function generateSyntheticOpportunities(role, domain, location, seniority, currency) {
-      const companies = GlobalNER.companiesCatalog;
-      const pool = [];
-
-      for (let i = 0; i < 15; i++) {
-        const comp = companies[i % companies.length];
-        const isRemote = i % 2 === 0;
-        
-        let minSal = 90000, maxSal = 160000;
-        if (currency === 'INR') { minSal = 10; maxSal = 28; }
-        else if (currency === 'EUR') { minSal = 75000; maxSal = 135000; }
-        else if (currency === 'GBP') { minSal = 65000; maxSal = 120000; }
-
-        if (seniority === 'entry') { minSal *= 0.6; maxSal *= 0.65; }
-        if (seniority === 'staff') { minSal *= 1.8; maxSal *= 1.9; }
-
-        // Associated skills based on domain + active profile
-        let skills = [...ActiveCandidate.skills.slice(0, 3)];
-        if (domain === 'tech') skills.push('Docker', 'GraphQL', 'AWS');
-        else if (domain === 'ai') skills.push('PyTorch', 'CUDA', 'Python', 'LLMs');
-        else if (domain === 'finance') skills.push('AML', 'KYC', 'Excel VBA', 'Document Verification');
-        else if (domain === 'product') skills.push('Figma', 'Agile', 'Roadmapping');
-        skills = Array.from(new Set(skills)).sort(() => 0.5 - Math.random()).slice(0, 4);
-
-        const syntheticDesc = `We are seeking an exceptional ${role} to join our core team at ${comp}. In this position, you will drive operational workflows, design scalable solutions, and collaborate with cross-functional partners in ${location}. Required experience with: ${skills.join(', ')}. Strong problem-solving, clean code/compliance standards, and effective communication required.`;
-
-        pool.push({
-          id: `job_${Date.now()}_${i}`,
-          title: `${['Senior', 'Staff', 'Lead', 'Principal', 'Lead Executive'][i % 5]} ${role}`,
-          company: comp,
-          location: isRemote ? '🌐 Remote Worldwide' : location,
-          workMode: isRemote ? 'Remote' : 'Hybrid',
-          portal: ['LinkedIn', 'Indeed', 'Wellfound', 'Glassdoor', 'GoogleJobs'][i % 5],
-          skills: skills,
-          minComp: Math.round(minSal),
-          maxComp: Math.round(maxSal),
-          currency: currency,
-          salaryFormatted: formatCurrencyValue(minSal, maxSal, currency),
-          description: syntheticDesc,
-          postedAgo: `${(i % 5) + 1}d ago`
-        });
-      }
-      return pool;
-    }
-
-    function calculateFitVectors() {
-      const userVector = ActiveCandidate.skills.map(s => s.toLowerCase());
-      
-      JobPool.forEach(job => {
-        let matchCount = 0;
-        const matched = [];
-        const missing = [];
-
-        job.skills.forEach(js => {
-          const jsLower = js.toLowerCase();
-          if (userVector.some(uv => uv.includes(jsLower) || jsLower.includes(uv))) {
-            matchCount++;
-            matched.push(js);
-          } else {
-            missing.push(js);
-          }
-        });
-
-        const ratio = job.skills.length > 0 ? (matchCount / job.skills.length) : 0.5;
-        job.fitScore = Math.min(99, Math.max(50, Math.round(ratio * 55 + 40 + (Math.random() * 5))));
-        job.matchedSkills = matched;
-        job.missingSkills = missing;
-      });
-    }
-
-    function sortJobFeed(criterion) {
-      if (criterion === 'match') {
-        JobPool.sort((a, b) => b.fitScore - a.fitScore);
-      } else if (criterion === 'salary') {
-        JobPool.sort((a, b) => b.maxComp - a.maxComp);
+    function sortJobList(mode) {
+      if (mode === 'match') {
+        CurrentJobs.sort((a, b) => b.fitScore - a.fitScore);
       } else {
-        JobPool.sort((a, b) => parseInt(a.postedAgo) - parseInt(b.postedAgo));
+        CurrentJobs.sort((a, b) => b.lpaMin - a.lpaMin);
       }
-      renderJobFeed();
+      renderFeedList();
     }
 
-    function renderJobFeed() {
-      const container = document.getElementById('jobFeedContainer');
-      document.getElementById('opportunityCount').innerText = JobPool.length;
-      container.innerHTML = '';
+    function renderFeedList() {
+      const feed = document.getElementById('jobFeed');
+      document.getElementById('jobCount').innerText = CurrentJobs.length;
+      feed.innerHTML = '';
 
-      JobPool.forEach(job => {
-        const isSelected = ActiveJob?.id === job.id;
+      CurrentJobs.forEach(job => {
+        const isSelected = SelectedJob?.id === job.id;
         const card = document.createElement('div');
-        
-        const scoreBadgeColor = job.fitScore >= 85 ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' : 
-                                job.fitScore >= 70 ? 'text-brand-400 border-brand-500/30 bg-brand-500/10' : 
-                                'text-amber-400 border-amber-500/30 bg-amber-500/10';
-
-        card.className = `p-3.5 rounded-xl border cursor-pointer transition-all duration-200 ${
-          isSelected 
-            ? 'bg-slate-900/90 border-brand-500/70 shadow-glow-brand ring-1 ring-brand-500/30' 
-            : 'bg-slate-950/40 border-white/[0.06] hover:bg-slate-900/60 hover:border-white/20'
+        card.className = `p-3.5 rounded-xl border cursor-pointer transition-all ${
+          isSelected ? 'bg-orange-500/15 border-brand-orange shadow-lg' : 'bg-slate-900/50 border-white/5 hover:bg-slate-900/80'
         }`;
 
         card.onclick = () => {
-          ActiveJob = job;
-          renderJobFeed();
+          SelectedJob = job;
+          renderFeedList();
           renderInspector();
         };
 
         card.innerHTML = `
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0 flex-1">
-              <div class="flex items-center gap-1.5 mb-1">
-                <span class="text-[9px] font-mono uppercase px-1.5 py-0.2 rounded bg-white/5 text-slate-400 border border-white/10">${job.portal}</span>
-                <span class="text-[9px] font-mono text-slate-400">• ${job.postedAgo}</span>
-              </div>
-              <h4 class="text-xs font-bold text-white truncate leading-tight">${job.title}</h4>
-              <p class="text-[11px] text-slate-400 truncate mt-0.5"><i class="fa-regular fa-building text-[10px] mr-1"></i>${job.company} &bull; ${job.location}</p>
+          <div class="flex items-start justify-between gap-2">
+            <div class="min-w-0">
+              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-slate-400 border border-white/10 uppercase">${job.portal}</span>
+              <h4 class="font-bold text-white text-xs truncate mt-1">${job.title}</h4>
+              <p class="text-[10px] text-slate-400 mt-0.5 truncate">${job.company} &bull; ${job.location}</p>
             </div>
-            <div class="shrink-0 text-right">
-              <span class="px-2 py-0.5 rounded-lg text-xs font-mono font-bold border ${scoreBadgeColor}">${job.fitScore}%</span>
+            <div class="text-right shrink-0">
+              <span class="text-xs font-mono font-bold ${job.fitScore >= 80 ? 'text-brand-green' : 'text-brand-orange'}">${job.fitScore}% Match</span>
             </div>
           </div>
 
-          <div class="mt-2.5 flex flex-wrap gap-1">
-            ${job.skills.map(s => {
-              const hasSkill = job.matchedSkills.includes(s);
-              return `<span class="text-[9px] font-mono px-1.5 py-0.5 rounded ${hasSkill ? 'bg-brand-500/15 text-brand-300 border border-brand-500/30' : 'bg-white/5 text-slate-400 border border-white/5'}">${s}</span>`;
-            }).join('')}
+          <div class="mt-2 flex flex-wrap gap-1">
+            ${job.skills.map(s => `<span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white/5 border border-white/10 text-slate-300">${s}</span>`).join('')}
           </div>
 
-          <div class="mt-2.5 pt-2 border-t border-white/[0.06] flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-brand-emerald">${job.salaryFormatted}</span>
-            <span class="text-[10px] text-slate-400 font-mono"><i class="fa-solid fa-laptop-code mr-1"></i>${job.workMode}</span>
+          <div class="mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-[11px]">
+            <span class="text-brand-green font-mono font-bold">${job.salaryStr}</span>
+            <span class="text-slate-400 text-[10px] font-mono"><i class="fa-solid fa-bolt text-brand-orange mr-1"></i>Direct Portal</span>
           </div>
         `;
-        container.appendChild(card);
+        feed.appendChild(card);
       });
 
-      if (!ActiveJob && JobPool.length > 0) {
-        ActiveJob = JobPool[0];
+      if (!SelectedJob && CurrentJobs.length > 0) {
+        SelectedJob = CurrentJobs[0];
         renderInspector();
       }
     }
 
     function renderInspector() {
-      const container = document.getElementById('jobInspectorContainer');
-      if (!ActiveJob) return;
-      const job = ActiveJob;
+      const container = document.getElementById('jobInspector');
+      if (!SelectedJob) return;
+      const job = SelectedJob;
       const inPipeline = Pipeline.find(p => p.id === job.id);
 
       container.innerHTML = `
         <div class="space-y-4">
-          <!-- Header Bar -->
-          <div class="flex items-start justify-between gap-4 pb-4 border-b border-white/[0.08]">
+          <div class="flex items-start justify-between gap-4 pb-3 border-b border-white/[0.08]">
             <div>
-              <div class="flex items-center gap-2 mb-2">
-                <span class="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-brand-500/20 text-brand-400 border border-brand-500/30">${job.portal} Verified</span>
-                <span class="px-2 py-0.5 rounded-md text-[10px] font-mono text-slate-300 bg-white/5 border border-white/10">${job.workMode}</span>
-                <span class="text-xs text-slate-400 font-mono">• Posted ${job.postedAgo}</span>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-orange-500/20 text-brand-orange border border-orange-500/30">${job.portal} Verified</span>
+                <span class="text-xs font-mono text-brand-green font-bold">${job.fitScore}% Profile Fit</span>
               </div>
               <h2 class="text-xl font-bold text-white tracking-tight leading-snug">${job.title}</h2>
-              <p class="text-xs text-slate-300 mt-1 font-medium"><i class="fa-solid fa-building text-slate-500 mr-1.5"></i>${job.company} &bull; <i class="fa-solid fa-location-dot text-slate-500 mx-1.5"></i>${job.location}</p>
+              <p class="text-xs text-slate-300 mt-1"><i class="fa-solid fa-building text-slate-500 mr-1"></i>${job.company} &bull; <i class="fa-solid fa-location-dot text-slate-500 mx-1"></i>${job.location}</p>
             </div>
             
-            <button onclick="addToPipeline('${job.id}')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-md flex items-center gap-1.5 shrink-0 ${inPipeline ? 'bg-slate-800 text-slate-400' : 'bg-brand hover:brightness-110 text-white shadow-glow-brand'}" ${inPipeline ? 'disabled' : ''}>
+            <button onclick="addToPipeline('${job.id}')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-md flex items-center gap-1.5 shrink-0 ${inPipeline ? 'bg-slate-800 text-slate-500' : 'bg-brand-orange hover:bg-orange-600 text-white'}" ${inPipeline ? 'disabled' : ''}>
               <i class="fa-solid ${inPipeline ? 'fa-check' : 'fa-bookmark'}"></i>
-              <span>${inPipeline ? 'Tracked' : 'Save to Pipeline'}</span>
+              <span>${inPipeline ? 'Tracked' : 'Save'}</span>
             </button>
           </div>
 
-          <!-- Quantitative Diagnostics Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <div class="grid grid-cols-2 gap-3">
             <div class="p-3 rounded-xl bg-slate-950/70 border border-white/[0.08]">
-              <span class="text-[9px] font-mono uppercase text-slate-400 block mb-1">Target Base Comp</span>
-              <span class="text-sm font-bold text-brand-emerald font-mono">${job.salaryFormatted}</span>
+              <span class="text-[9px] font-mono uppercase text-slate-400 block mb-0.5">Estimated Compensation</span>
+              <span class="text-base font-bold text-brand-green font-mono">${job.salaryStr}</span>
             </div>
             <div class="p-3 rounded-xl bg-slate-950/70 border border-white/[0.08]">
-              <span class="text-[9px] font-mono uppercase text-slate-400 block mb-1">Vector Match Index</span>
-              <span class="text-sm font-bold text-brand-400 font-mono">${job.fitScore}% Fit Score</span>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-950/70 border border-white/[0.08]">
-              <span class="text-[9px] font-mono uppercase text-slate-400 block mb-1">Education Fit</span>
-              <span class="text-xs font-bold text-slate-200">${ActiveCandidate.education}</span>
+              <span class="text-[9px] font-mono uppercase text-slate-400 block mb-0.5">Candidate Education</span>
+              <span class="text-xs font-bold text-slate-200">${ActiveUser.education}</span>
             </div>
           </div>
 
-          <!-- Skill Matching Diagnostics -->
           <div class="p-3.5 rounded-xl bg-slate-950/50 border border-white/[0.08]">
-            <span class="text-[10px] font-mono uppercase text-slate-400 block mb-2 tracking-wider">Candidate Vector Diagnostics</span>
+            <span class="text-[10px] font-mono uppercase text-slate-400 block mb-2">NER Match Diagnostics</span>
             <div class="flex flex-wrap gap-1.5">
-              ${job.matchedSkills.map(s => `<span class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1"><i class="fa-solid fa-check text-[9px]"></i> Matched: ${s}</span>`).join('')}
-              ${job.missingSkills.map(s => `<span class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-rose-500/10 text-rose-400 border border-rose-500/30 flex items-center gap-1"><i class="fa-solid fa-xmark text-[9px]"></i> Gap: ${s}</span>`).join('')}
+              ${job.matchedSkills.map(s => `<span class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"><i class="fa-solid fa-check text-[9px] mr-1"></i>${s}</span>`).join('')}
+              ${job.missingSkills.map(s => `<span class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-amber-500/10 text-amber-400 border border-amber-500/30"><i class="fa-solid fa-minus text-[9px] mr-1"></i>${s}</span>`).join('')}
             </div>
           </div>
 
-          <!-- Description Section -->
           <div class="p-4 rounded-xl bg-slate-950/60 border border-white/[0.08] text-xs leading-relaxed text-slate-300">
-            <span class="text-[10px] font-mono uppercase text-slate-400 block mb-2 tracking-wider">Position Requirements &amp; Scope</span>
-            <p>${job.description}</p>
+            ${job.desc}
           </div>
 
-          <!-- Action Footer -->
-          <div class="pt-2 grid grid-cols-2 gap-3">
-            <button onclick="synthesizeColdPitch()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 border border-white/10 transition-all">
-              <i class="fa-solid fa-feather text-brand-400"></i> Synthesize Cold Outreach
+          <div class="grid grid-cols-2 gap-3 pt-2">
+            <button onclick="openOutreachPitch()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 border border-white/10">
+              <i class="fa-solid fa-envelope-open-text text-brand-orange"></i> Draft Email Pitch
             </button>
-            <button onclick="launchPortalDeepLink('${job.portal}', '${job.title}', '${job.company}')" class="w-full bg-brand hover:brightness-110 text-white font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-glow-brand transition-all">
-              <span>Apply via ${job.portal}</span>
+            <button onclick="launchPortalDeepLink('${job.portal}')" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-lg">
+              <span>Apply on ${job.portal}</span>
               <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
             </button>
           </div>
@@ -1084,187 +888,31 @@ Example:
     }
 
     /* =========================================================
-       4. RAW JD PARSER & REAL-TIME NER EXTRACTION
+       5. OUTREACH SYNTHESIZER
        ========================================================= */
-    function injectSampleJD() {
-      document.getElementById('customRawJD').value = 
-`Position: Senior Staff Distributed Systems Engineer
-Company: Stripe
-Workplace: Remote - United States / Europe
-Salary Benchmark: $210,000 - $265,000 USD + Equity
-Minimum Requirements:
-- 6+ years experience architecting fault-tolerant microservices.
-- Mastery in Go (Golang), Java, Kubernetes, and AWS infrastructure.
-- In-depth expertise in REST APIs, PostgreSQL, Redis, and high-concurrency systems.
-- Demonstrated leadership in cross-functional architecture and mentor initiatives.
-- B.Sc / M.Sc in Computer Science or equivalent qualification.`;
-    }
-
-    function executeRawParsing() {
-      const raw = document.getElementById('customRawJD').value.trim();
-      if (!raw) {
-        showToast('Please insert a job description first', 'error');
-        return;
-      }
-
-      const entities = parseTextEntities(raw);
-      const userVector = ActiveCandidate.skills.map(s => s.toLowerCase());
-      
-      const matched = entities.skills.filter(s => userVector.some(uv => uv.includes(s.toLowerCase())));
-      const missing = entities.skills.filter(s => !userVector.some(uv => uv.includes(s.toLowerCase())));
-      const score = entities.skills.length > 0 ? Math.round((matched.length / entities.skills.length) * 100) : 75;
-
-      const output = document.getElementById('nerExtractionView');
-      output.innerHTML = `
-        <div class="space-y-3 font-mono">
-          <div class="flex items-center justify-between pb-2 border-b border-white/10">
-            <span class="text-slate-400 uppercase text-[10px]">Recognized Attribute</span>
-            <span class="text-emerald-400 text-[10px]">Extracted Token</span>
-          </div>
-
-          <div class="flex justify-between items-center py-1">
-            <span class="text-slate-400">ORGANIZATION:</span>
-            <span class="text-white font-bold">${entities.company}</span>
-          </div>
-
-          <div class="flex justify-between items-center py-1">
-            <span class="text-slate-400">SENIORITY BRACKET:</span>
-            <span class="text-brand-400 font-bold">${entities.seniority}</span>
-          </div>
-
-          <div class="flex justify-between items-center py-1">
-            <span class="text-slate-400">WORKPLACE MODEL:</span>
-            <span class="text-amber-400 font-bold">${entities.workMode}</span>
-          </div>
-
-          <div class="py-1">
-            <span class="text-slate-400 block mb-1">RECOGNIZED SKILL CLUSTER:</span>
-            <div class="flex flex-wrap gap-1">
-              ${entities.skills.map(s => `<span class="px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 border border-brand-500/30 text-[10px]">${s}</span>`).join('')}
-            </div>
-          </div>
-
-          <div class="p-3 rounded-xl bg-slate-900 border border-white/10 mt-3">
-            <div class="flex justify-between items-center mb-2">
-              <span class="text-slate-300">Active Profile Alignment:</span>
-              <span class="font-bold ${score >= 70 ? 'text-emerald-400' : 'text-amber-400'}">${score}% Match</span>
-            </div>
-            <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
-              <div class="bg-gradient-to-r from-brand to-emerald-400 h-full" style="width: ${score}%"></div>
-            </div>
-          </div>
-
-          <button onclick="injectParsedJobToFeed('${entities.company}', '${entities.seniority}')" class="w-full mt-2 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-white/10 text-xs">
-            <i class="fa-solid fa-plus mr-1"></i> Add Extracted Role to Active Search Feed
-          </button>
-        </div>
-      `;
-
-      showToast('Named Entity Recognition successfully executed!');
-    }
-
-    function injectParsedJobToFeed(company, seniority) {
-      const parsedJob = {
-        id: `parsed_${Date.now()}`,
-        title: `${seniority} - Ingested Role`,
-        company: company,
-        location: '🌐 Global / Remote',
-        workMode: 'Remote',
-        portal: 'NER Ingest',
-        skills: ActiveCandidate.skills.slice(0, 4),
-        minComp: 120000,
-        maxComp: 175000,
-        currency: ActiveCandidate.currency,
-        salaryFormatted: formatCurrencyValue(120000, 175000, ActiveCandidate.currency),
-        description: document.getElementById('customRawJD').value,
-        postedAgo: 'Just now',
-        fitScore: 88,
-        matchedSkills: ActiveCandidate.skills.slice(0, 3),
-        missingSkills: ['System Design']
-      };
-
-      JobPool.unshift(parsedJob);
-      ActiveJob = parsedJob;
-      switchView('discover');
-      renderJobFeed();
-      showToast('Ingested position added to active marketplace!');
-    }
-
-    /* =========================================================
-       5. GLOBAL PORTAL CONNECTORS & BOOLEAN URL GENERATOR
-       ========================================================= */
-    const PortalGenerators = {
-      LinkedIn: (query, loc) => 
-        `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(query)}&location=${encodeURIComponent(loc)}&f_TPR=r604800`,
-      Indeed: (query, loc) => 
-        `https://www.indeed.com/jobs?q=${encodeURIComponent(query)}&l=${encodeURIComponent(loc)}`,
-      Wellfound: (query) => 
-        `https://wellfound.com/jobs?role=${encodeURIComponent(query)}`,
-      RemoteOK: (query) => 
-        `https://remoteok.com/remote-${encodeURIComponent(query.toLowerCase().replace(/\s+/g, '-'))}-jobs`,
-      Glassdoor: (query, loc) => 
-        `https://www.glassdoor.com/Job/jobs.htm?sc.keyword=${encodeURIComponent(query)}&locT=C&locKeyword=${encodeURIComponent(loc)}`,
-      GoogleJobs: (query, loc) => 
-        `https://www.google.com/search?ibp=htl;jobs&q=${encodeURIComponent(query + ' in ' + loc)}`
-    };
-
-    function launchSingleGlobalPortal(portalKey) {
-      const query = document.getElementById('targetRoleInput').value || ActiveCandidate.title;
-      const loc = document.getElementById('locationSelect').value;
-      if (PortalGenerators[portalKey]) {
-        window.open(PortalGenerators[portalKey](query, loc), '_blank');
-      }
-    }
-
-    function launchPortalDeepLink(portalKey, title, company) {
-      const loc = document.getElementById('locationSelect').value;
-      const query = `${title} ${company}`;
-      const url = PortalGenerators[portalKey] ? PortalGenerators[portalKey](query, loc) : PortalGenerators.LinkedIn(query, loc);
-      window.open(url, '_blank');
-    }
-
-    function launchAllPortalsSimultaneously() {
-      const query = document.getElementById('targetRoleInput').value || ActiveCandidate.title;
-      const loc = document.getElementById('locationSelect').value;
-      
-      Object.keys(PortalGenerators).forEach(portal => {
-        window.open(PortalGenerators[portal](query, loc), '_blank');
-      });
-      closePortalLauncherModal();
-      showToast('Batch launched 6 portal searches in new tabs.');
-    }
-
-    /* =========================================================
-       6. AI OUTREACH / COLD EMAIL SYNTHESIZER
-       ========================================================= */
-    function synthesizeColdPitch() {
-      if (!ActiveJob) return;
-      const job = ActiveJob;
-      const cand = ActiveCandidate;
-      const skillsHighlight = job.matchedSkills.join(', ') || cand.skills.slice(0, 3).join(', ');
-
+    function openOutreachPitch() {
+      if (!SelectedJob) return;
+      const job = SelectedJob;
       const draft = 
-`Subject: Application / Inquiring: ${job.title} - ${cand.name}
+`Subject: Application for ${job.title} - ${ActiveUser.name}
 
 Dear Hiring Team at ${job.company},
 
-I am writing to express my candidacy for the ${job.title} role currently open with your team. 
+I am writing to express my strong candidacy for the ${job.title} position in ${job.location}.
 
-With proven domain experience as a ${cand.title} and a strong core competency in ${skillsHighlight}, my profile aligns directly with the architectural and operational needs outlined in your posting.
+With a background as a ${ActiveUser.title} and proven experience in ${ActiveUser.skills.slice(0, 4).join(', ')}, I am confident in my ability to handle core operations and maintain regulatory compliance.
 
-Key Points of Alignment:
-• Demonstrated capability executing scalable work in: ${cand.skills.slice(0, 4).join(', ')}.
-• Rigorous problem-solving and cross-functional leadership matching ${job.company}'s requirements.
-• Academic / Professional Foundation: ${cand.education}.
+Key Qualifications:
+• Direct operational experience in ${job.matchedSkills.join(', ') || 'client onboarding and verification'}.
+• Educational Background: ${ActiveUser.education}.
+• Proficiency with data workflows and thematic categorization using Excel VBA.
 
-I have attached my comprehensive CV and portfolio for your consideration. I would welcome the opportunity to discuss how my skill vector can immediately contribute to your team's objectives.
+I have attached my complete CV for your review and look forward to discussing how my experience can support ${job.company}.
 
-Best regards,
-
-${cand.name}
-${cand.title}
-Portfolio / LinkedIn: [Profile Link]
-Direct: [Contact Number]`;
+Sincerely,
+${ActiveUser.name}
+Phone: [Contact Number]
+LinkedIn: [LinkedIn Profile URL]`;
 
       document.getElementById('aiOutreachDraft').innerText = draft;
       document.getElementById('aiOutreachModal').classList.remove('hidden');
@@ -1276,311 +924,137 @@ Direct: [Contact Number]`;
 
     function copyOutreachDraft() {
       navigator.clipboard.writeText(document.getElementById('aiOutreachDraft').innerText);
-      showToast('Outreach draft copied to clipboard!');
+      showToast('Email pitch copied to clipboard!');
       closeOutreachModal();
     }
 
     /* =========================================================
-       7. KANBAN PIPELINE (DRAG & DROP)
+       6. KANBAN TRACKER
        ========================================================= */
     function addToPipeline(id) {
       if (!Pipeline.find(p => p.id === id)) {
         Pipeline.push({
           id,
           status: 'saved',
-          title: ActiveJob.title,
-          company: ActiveJob.company,
-          salaryFormatted: ActiveJob.salaryFormatted,
-          portal: ActiveJob.portal
+          title: SelectedJob.title,
+          company: SelectedJob.company,
+          salaryStr: SelectedJob.salaryStr,
+          portal: SelectedJob.portal
         });
-        localStorage.setItem('nexus_pipeline', JSON.stringify(Pipeline));
-        showToast('Position saved to pipeline board.');
+        localStorage.setItem('ojp_pipeline', JSON.stringify(Pipeline));
+        showToast('Saved to pipeline board.');
         renderInspector();
         renderKanban();
       }
     }
 
-    function allowKanbanDrop(e) { e.preventDefault(); }
+    function allowDrop(e) { e.preventDefault(); }
 
-    function handleKanbanDrop(e, targetStatus) {
+    function handleDrop(e, status) {
       e.preventDefault();
       const id = e.dataTransfer.getData('text/plain');
       const item = Pipeline.find(p => p.id === id);
       if (item) {
-        item.status = targetStatus;
-        localStorage.setItem('nexus_pipeline', JSON.stringify(Pipeline));
+        item.status = status;
+        localStorage.setItem('ojp_pipeline', JSON.stringify(Pipeline));
         renderKanban();
       }
     }
 
-    function moveKanbanStage(id, newStatus) {
+    function moveKanban(id, status) {
       const item = Pipeline.find(p => p.id === id);
       if (item) {
-        item.status = newStatus;
-        localStorage.setItem('nexus_pipeline', JSON.stringify(Pipeline));
+        item.status = status;
+        localStorage.setItem('ojp_pipeline', JSON.stringify(Pipeline));
         renderKanban();
       }
     }
 
-    function removeKanbanItem(id) {
+    function removeKanban(id) {
       Pipeline = Pipeline.filter(p => p.id !== id);
-      localStorage.setItem('nexus_pipeline', JSON.stringify(Pipeline));
+      localStorage.setItem('ojp_pipeline', JSON.stringify(Pipeline));
       renderKanban();
     }
 
     function clearPipeline() {
-      if (confirm('Clear all tracked applications in pipeline?')) {
+      if (confirm('Clear application pipeline?')) {
         Pipeline = [];
-        localStorage.setItem('nexus_pipeline', JSON.stringify(Pipeline));
+        localStorage.setItem('ojp_pipeline', JSON.stringify(Pipeline));
         renderKanban();
-        showToast('Pipeline cleared.');
       }
     }
 
     function renderKanban() {
-      const columns = {
-        saved: document.getElementById('kanban-saved'),
-        applied: document.getElementById('kanban-applied'),
-        interview: document.getElementById('kanban-interview'),
-        offer: document.getElementById('kanban-offer')
+      const cols = {
+        saved: document.getElementById('col-saved'),
+        applied: document.getElementById('col-applied'),
+        interview: document.getElementById('col-interview')
       };
-      const counts = { saved: 0, applied: 0, interview: 0, offer: 0 };
-      Object.values(columns).forEach(col => col.innerHTML = '');
+      const counts = { saved: 0, applied: 0, interview: 0 };
+      Object.values(cols).forEach(c => c.innerHTML = '');
 
       Pipeline.forEach(item => {
-        if (!counts.hasOwnProperty(item.status)) item.status = 'saved';
         counts[item.status]++;
+        const div = document.createElement('div');
+        div.draggable = true;
+        div.ondragstart = (e) => e.dataTransfer.setData('text/plain', item.id);
+        div.className = "p-3 rounded-xl bg-slate-900 border border-white/[0.08] shadow text-xs space-y-2 relative cursor-grab";
 
-        const card = document.createElement('div');
-        card.draggable = true;
-        card.ondragstart = (e) => e.dataTransfer.setData('text/plain', item.id);
-        card.className = "p-3 rounded-xl bg-slate-900/90 border border-white/[0.08] shadow-md hover:border-white/20 cursor-grab active:cursor-grabbing text-xs space-y-2 relative transition-all";
-
-        let actionHtml = '';
+        let buttons = '';
         if (item.status === 'saved') {
-          actionHtml = `<button onclick="moveKanbanStage('${item.id}', 'applied')" class="w-full py-1 rounded-lg bg-brand-500/20 text-brand-300 font-mono text-[10px] hover:bg-brand-500/30">Advance: Applied &rarr;</button>`;
+          buttons = `<button onclick="moveKanban('${item.id}', 'applied')" class="w-full py-1 rounded bg-orange-500/20 text-brand-orange font-bold text-[10px]">Applied &rarr;</button>`;
         } else if (item.status === 'applied') {
-          actionHtml = `
-            <div class="flex gap-1">
-              <button onclick="moveKanbanStage('${item.id}', 'saved')" class="px-2 py-1 rounded bg-slate-800 text-slate-400 text-[10px]">&larr;</button>
-              <button onclick="moveKanbanStage('${item.id}', 'interview')" class="flex-1 py-1 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] hover:bg-amber-500/30">Interview &rarr;</button>
-            </div>`;
-        } else if (item.status === 'interview') {
-          actionHtml = `
-            <div class="flex gap-1">
-              <button onclick="moveKanbanStage('${item.id}', 'applied')" class="px-2 py-1 rounded bg-slate-800 text-slate-400 text-[10px]">&larr;</button>
-              <button onclick="moveKanbanStage('${item.id}', 'offer')" class="flex-1 py-1 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] hover:bg-emerald-500/30">Offer 🎉</button>
-            </div>`;
+          buttons = `<div class="flex gap-1"><button onclick="moveKanban('${item.id}', 'saved')" class="px-2 py-1 bg-slate-800 text-slate-400 rounded">&larr;</button><button onclick="moveKanban('${item.id}', 'interview')" class="flex-1 py-1 rounded bg-emerald-500/20 text-brand-green font-bold text-[10px]">Interview &rarr;</button></div>`;
         } else {
-          actionHtml = `<span class="block text-center text-emerald-400 text-[10px] font-mono font-bold">Offer Accepted / Final Stage</span>`;
+          buttons = `<button onclick="moveKanban('${item.id}', 'applied')" class="w-full py-1 rounded bg-slate-800 text-slate-400 text-[10px]">&larr; Back to Applied</button>`;
         }
 
-        card.innerHTML = `
-          <button onclick="removeKanbanItem('${item.id}')" class="absolute top-2 right-2 text-slate-500 hover:text-rose-400"><i class="fa-solid fa-xmark"></i></button>
-          <div class="pr-4">
-            <span class="text-[9px] font-mono uppercase text-slate-400">${item.portal || 'Verified'}</span>
-            <h5 class="font-bold text-white leading-tight mt-0.5">${item.title}</h5>
-            <p class="text-[10px] text-slate-400">${item.company}</p>
-          </div>
-          <div class="font-mono text-emerald-400 font-bold text-[10px]">${item.salaryFormatted || ''}</div>
-          ${actionHtml}
+        div.innerHTML = `
+          <button onclick="removeKanban('${item.id}')" class="absolute top-2 right-2 text-slate-500 hover:text-rose-400"><i class="fa-solid fa-xmark"></i></button>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-slate-400 border border-white/5 uppercase">${item.portal}</span>
+          <h4 class="font-bold text-white mt-1">${item.title}</h4>
+          <p class="text-[10px] text-slate-400">${item.company}</p>
+          <p class="text-[10px] text-brand-green font-mono">${item.salaryStr}</p>
+          ${buttons}
         `;
-        columns[item.status].appendChild(card);
+        cols[item.status].appendChild(div);
       });
 
       document.getElementById('count-saved').innerText = counts.saved;
       document.getElementById('count-applied').innerText = counts.applied;
       document.getElementById('count-interview').innerText = counts.interview;
-      document.getElementById('count-offer').innerText = counts.offer;
-    }
-
-    function exportKanbanData() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(Pipeline, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `nexus_career_pipeline_${Date.now()}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
     }
 
     /* =========================================================
-       8. MARKET PULSE & ANALYTICS
+       7. TABS & TOASTS
        ========================================================= */
-    function renderAnalytics() {
-      const freq = {};
-      JobPool.forEach(j => {
-        j.skills.forEach(s => freq[s] = (freq[s] || 0) + 1);
-      });
-
-      const sortedSkills = Object.entries(freq).sort((a,b) => b[1] - a[1]);
-      const barsContainer = document.getElementById('skillFrequencyBars');
-      barsContainer.innerHTML = '';
-
-      sortedSkills.slice(0, 6).forEach(([skill, count]) => {
-        const pct = Math.round((count / JobPool.length) * 100);
-        const div = document.createElement('div');
-        div.innerHTML = `
-          <div class="flex justify-between text-[11px] mb-1">
-            <span class="text-white">${skill}</span>
-            <span class="text-slate-400">${pct}% of listings</span>
-          </div>
-          <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
-            <div class="bg-brand h-full" style="width: ${pct}%"></div>
-          </div>
-        `;
-        barsContainer.appendChild(div);
-      });
-
-      if (sortedSkills.length > 0) {
-        document.getElementById('statTopSkills').innerText = sortedSkills.slice(0, 3).map(s=>s[0]).join(' • ');
-      }
-    }
-
-    /* =========================================================
-       9. UTILITIES, MODALS, & NAVIGATION
-       ========================================================= */
-    function formatCurrencyValue(min, max, curr) {
-      if (curr === 'INR') return `₹${min} - ₹${max} LPA`;
-      if (curr === 'EUR') return `€${min.toLocaleString()} - €${max.toLocaleString()}`;
-      if (curr === 'GBP') return `£${min.toLocaleString()} - £${max.toLocaleString()}`;
-      return `$${min.toLocaleString()} - $${max.toLocaleString()} ${curr}`;
-    }
-
-    function convertAllCurrencies(targetCurrency) {
-      ActiveCandidate.currency = targetCurrency;
-      saveCandidateState();
-      runGlobalDiscovery();
-    }
-
-    function applyIndustryPreset(domain) {
-      if (domain === 'finance') loadPersonaPreset('finance');
-      else if (domain === 'ai') loadPersonaPreset('ai');
-      else if (domain === 'product') loadPersonaPreset('pm');
-      else loadPersonaPreset('swe');
-    }
-
-    function switchView(viewId) {
+    function switchTab(tabId) {
       document.querySelectorAll('.view-panel').forEach(el => el.classList.add('hidden'));
-      document.getElementById(`view-${viewId}`).classList.remove('hidden');
+      document.getElementById(`view-${tabId}`).classList.remove('hidden');
 
-      // Update Nav Tabs
       document.querySelectorAll('.nav-tab').forEach(b => b.className = 'nav-tab px-5 py-1.5 rounded-full text-xs font-semibold text-slate-400 hover:text-white transition-all');
-      const activeBtn = document.getElementById(`tab-${viewId}`);
-      if (activeBtn) activeBtn.className = 'nav-tab px-5 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-950 shadow-md transition-all';
+      const activeNav = document.getElementById(`tab-${tabId}`);
+      if (activeNav) activeNav.className = 'nav-tab px-5 py-1.5 rounded-full text-xs font-semibold bg-white text-slate-950 shadow-md transition-all';
 
-      // Mobile
       document.querySelectorAll('.mob-btn').forEach(b => b.className = 'mob-btn flex flex-col items-center py-1 text-slate-400');
-      const activeMob = document.getElementById(`mob-${viewId}`);
-      if (activeMob) activeMob.className = 'mob-btn flex flex-col items-center py-1 text-brand-400';
+      const activeMob = document.getElementById(`mob-${tabId}`);
+      if (activeMob) activeMob.className = 'mob-btn flex flex-col items-center py-1 text-brand-orange';
 
-      if (viewId === 'kanban') renderKanban();
+      if (tabId === 'pipeline') renderKanban();
     }
-
-    function openProfileModal() {
-      syncProfileModalInputs();
-      document.getElementById('profileModal').classList.remove('hidden');
-    }
-    function closeProfileModal() { document.getElementById('profileModal').classList.add('hidden'); }
-
-    function syncProfileModalInputs() {
-      document.getElementById('profNameInput').value = ActiveCandidate.name;
-      document.getElementById('profTitleInput').value = ActiveCandidate.title;
-      document.getElementById('profSkillsInput').value = ActiveCandidate.skills.join(', ');
-      document.getElementById('profTargetCompInput').value = ActiveCandidate.minComp || 120000;
-      document.getElementById('profEducationInput').value = ActiveCandidate.education || "Master's Degree";
-    }
-
-    function saveProfileChanges() {
-      ActiveCandidate.name = document.getElementById('profNameInput').value.trim() || ActiveCandidate.name;
-      ActiveCandidate.title = document.getElementById('profTitleInput').value.trim() || ActiveCandidate.title;
-      ActiveCandidate.skills = document.getElementById('profSkillsInput').value.split(',').map(s=>s.trim()).filter(Boolean);
-      ActiveCandidate.education = document.getElementById('profEducationInput').value.trim() || ActiveCandidate.education;
-      
-      saveCandidateState();
-      closeProfileModal();
-      showToast('Candidate profile updated and vectors recomputed.');
-      runGlobalDiscovery();
-    }
-
-    function openPortalLauncherModal() { document.getElementById('portalLauncherModal').classList.remove('hidden'); }
-    function closePortalLauncherModal() { document.getElementById('portalLauncherModal').classList.add('hidden'); }
-
-    // Command Palette
-    function toggleCommandPalette() {
-      const el = document.getElementById('cmdPalette');
-      el.classList.toggle('hidden');
-      if (!el.classList.contains('hidden')) {
-        document.getElementById('cmdInput').focus();
-        handleCmdSearch('');
-      }
-    }
-    function handleCmdBackdropClick(e) { document.getElementById('cmdPalette').classList.add('hidden'); }
-
-    function handleCmdSearch(query) {
-      const q = query.toLowerCase();
-      const resultsContainer = document.getElementById('cmdResults');
-      const options = [
-        { label: 'Switch Role to AI Engineer', action: () => loadPersonaPreset('ai'), icon: 'fa-brain-circuit' },
-        { label: 'Switch Role to Full-Stack Engineer', action: () => loadPersonaPreset('swe'), icon: 'fa-code' },
-        { label: 'Switch Role to AML / Finance Specialist', action: () => loadPersonaPreset('finance'), icon: 'fa-shield-halved' },
-        { label: 'Open Universal Raw Parser', action: () => switchView('ner-parser'), icon: 'fa-wand-magic-sparkles' },
-        { label: 'View Pipeline Kanban Board', action: () => switchView('kanban'), icon: 'fa-layer-group' },
-        { label: 'Search LinkedIn Jobs Worldwide', action: () => launchSingleGlobalPortal('LinkedIn'), icon: 'fa-linkedin' }
-      ];
-
-      const filtered = options.filter(o => o.label.toLowerCase().includes(q));
-      resultsContainer.innerHTML = filtered.map(opt => `
-        <div onclick="executeCmd(${options.indexOf(opt)})" class="p-2 rounded-lg hover:bg-white/10 cursor-pointer flex items-center justify-between text-slate-200">
-          <span class="flex items-center gap-2"><i class="fa-solid ${opt.icon} text-brand-400 w-4"></i> ${opt.label}</span>
-          <span class="text-[10px] text-slate-500 font-mono">Jump</span>
-        </div>
-      `).join('');
-    }
-
-    function executeCmd(index) {
-      const options = [
-        () => loadPersonaPreset('ai'),
-        () => loadPersonaPreset('swe'),
-        () => loadPersonaPreset('finance'),
-        () => switchView('ner-parser'),
-        () => switchView('kanban'),
-        () => launchSingleGlobalPortal('LinkedIn')
-      ];
-      options[index]();
-      document.getElementById('cmdPalette').classList.add('hidden');
-    }
-
-    // Keyboard Shortcuts
-    window.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        toggleCommandPalette();
-      }
-      if (e.key === 'Escape') {
-        document.getElementById('cmdPalette').classList.add('hidden');
-        closeProfileModal();
-        closePortalLauncherModal();
-        closeOutreachModal();
-      }
-    });
 
     function showToast(msg, type = 'success') {
-      const container = document.getElementById('toastContainer');
+      const container = document.getElementById('toastArea');
       const toast = document.createElement('div');
-      toast.className = `glass-card px-4 py-3 rounded-xl border-l-4 ${type === 'success' ? 'border-l-brand-emerald' : 'border-l-rose-500'} bg-slate-900 text-xs font-semibold text-white shadow-2xl flex items-center gap-2 transition-all duration-300`;
-      toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-circle-exclamation text-rose-400'}"></i> ${msg}`;
+      toast.className = `glass-card px-4 py-3 rounded-xl border-l-4 ${type === 'success' ? 'border-l-brand-green' : 'border-l-rose-500'} bg-slate-900 text-xs font-semibold text-white shadow-2xl flex items-center gap-2`;
+      toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check text-brand-green' : 'fa-circle-exclamation text-rose-400'}"></i> ${msg}`;
       container.appendChild(toast);
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
+      setTimeout(() => toast.remove(), 2800);
     }
 
-    // Startup Initialization
     window.onload = () => {
-      updateNavCandidateDisplay();
-      runGlobalDiscovery();
+      syncUserNav();
+      executeJobDiscovery();
       renderKanban();
     };
   </script>
