@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -26,6 +26,14 @@
             accent: '#6366f1',
             darkbg: '#020617',
             panel: 'rgba(15, 23, 42, 0.8)'
+          },
+          animation: {
+            'slide-in': 'slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'pulse-soft': 'pulseSoft 3s infinite',
+          },
+          keyframes: {
+            slideIn: { '0%': { opacity: '0', transform: 'translateY(12px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            pulseSoft: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0.6' } }
           }
         }
       }
@@ -56,6 +64,7 @@
   <nav class="glass-panel sticky top-0 z-[50] border-b border-white/5 shadow-2xl">
     <div class="max-w-[92rem] mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
       
+      <!-- Brand -->
       <div class="flex items-center gap-3 cursor-pointer group" onclick="location.reload()">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary via-orange-500 to-secondary flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-105">
           <i class="fa-solid fa-brain-circuit text-white text-lg"></i>
@@ -66,7 +75,7 @@
             <span class="text-lg font-light tracking-wider text-white">JOB</span>
           </h1>
           <div class="flex items-center gap-1.5 mt-0.5">
-            <span class="text-[9px] font-mono uppercase tracking-widest text-primary font-bold">NER Engine v2.4</span>
+            <span class="text-[9px] font-mono uppercase tracking-widest text-primary font-bold">Unified NER &amp; Portal Hub</span>
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
           </div>
         </div>
@@ -81,11 +90,14 @@
         <button onclick="switchTab('tracker')" id="tab-tracker" class="nav-btn px-6 py-2 rounded-full text-xs font-bold text-slate-400 hover:text-white transition-all">Pipeline Tracker</button>
       </div>
 
-      <!-- User Profile Badge -->
+      <!-- Action & Profile Area -->
       <div class="flex items-center gap-3">
+        <button onclick="openApiModal()" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 border border-white/10 hover:border-primary/50 text-slate-300 flex items-center gap-1.5 transition-colors">
+          <i class="fa-solid fa-plug text-primary"></i> <span class="hidden sm:inline">Portal Bridges &amp; API</span>
+        </button>
         <div class="hidden sm:block text-right">
           <p class="text-xs font-bold text-white leading-tight">Digvijay Sharma</p>
-          <p class="text-[9px] text-secondary font-mono tracking-wide mt-0.5"><i class="fa-solid fa-shield-halved mr-1"></i>AML / KYC Profile</p>
+          <p class="text-[9px] text-secondary font-mono tracking-wide mt-0.5"><i class="fa-solid fa-shield-halved mr-1"></i>Verified Candidate</p>
         </div>
         <img src="https://ui-avatars.com/api/?name=Digvijay+Sharma&background=f97316&color=fff" class="w-9 h-9 rounded-full border-2 border-primary/40 shadow-md hover:border-white transition-colors" alt="Profile">
       </div>
@@ -107,13 +119,13 @@
 
   <main class="flex-grow max-w-[92rem] mx-auto w-full px-3 sm:px-6 lg:px-8 pt-4 pb-24 md:pb-6 relative">
     
-    <!-- VIEW: DISCOVER -->
+    <!-- ================= VIEW: DISCOVER ================= -->
     <div id="view-discover" class="view-section space-y-4">
       <div class="glass-panel rounded-2xl p-4 sm:p-5 shadow-2xl border-t-2 border-t-primary">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
           
           <div class="md:col-span-3">
-            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Role Architecture</label>
+            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 block">Role Target</label>
             <div class="relative">
               <i class="fa-solid fa-briefcase absolute left-3 top-3 text-slate-500 text-xs"></i>
               <input type="text" id="searchQuery" value="Business Development Manager" class="w-full bg-slate-900/80 border border-white/10 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:ring-1 focus:ring-primary outline-none">
@@ -142,13 +154,16 @@
           </div>
 
           <div class="md:col-span-3">
-            <label class="text-[10px] font-bold text-secondary uppercase tracking-widest mb-1.5 block">Active Profile Tags (Comma Separated)</label>
+            <label class="text-[10px] font-bold text-secondary uppercase tracking-widest mb-1.5 block">Active Profile Tags</label>
             <input type="text" id="userSkills" value="AML, KYC, Client Onboarding, Excel VBA, Documentation" class="w-full bg-slate-900/80 border border-secondary/40 rounded-xl px-3 py-2 text-xs text-secondary font-mono focus:ring-1 focus:ring-secondary outline-none">
           </div>
 
-          <div class="md:col-span-2">
-            <button onclick="runGlobalSearch()" id="scanBtn" class="w-full bg-gradient-to-r from-primary to-orange-500 hover:brightness-110 text-white font-bold py-2 rounded-xl text-xs transition-all shadow-lg flex justify-center items-center gap-2">
-              <i class="fa-solid fa-arrows-rotate"></i> <span id="scanBtnText">Scan Network</span>
+          <div class="md:col-span-2 flex gap-2">
+            <button onclick="runGlobalSearch()" id="scanBtn" class="flex-1 bg-gradient-to-r from-primary to-orange-500 hover:brightness-110 text-white font-bold py-2 rounded-xl text-xs transition-all shadow-lg flex justify-center items-center gap-1.5">
+              <i class="fa-solid fa-arrows-rotate"></i> <span id="scanBtnText">Scan Engine</span>
+            </button>
+            <button onclick="openAllPortalsDirectly()" title="Open filtered search in new tabs across all portals" class="bg-slate-800 hover:bg-slate-700 text-white px-3 py-2 rounded-xl text-xs border border-white/10 transition-colors">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </button>
           </div>
         </div>
@@ -184,7 +199,7 @@
       </div>
     </div>
 
-    <!-- VIEW: LIVE INGESTION / SMART PARSER -->
+    <!-- ================= VIEW: LIVE INGESTION / SMART PARSER ================= -->
     <div id="view-ingest" class="view-section hidden space-y-4">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
@@ -193,9 +208,9 @@
           <div class="flex justify-between items-center mb-3">
             <div>
               <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                <i class="fa-solid fa-code-compare text-accent"></i> Automatic JD Parser & Ingestor
+                <i class="fa-solid fa-code-compare text-accent"></i> Automatic JD Parser &amp; Ingestor
               </h2>
-              <p class="text-xs text-slate-400">Paste any raw job posting text or email forward to extract metadata.</p>
+              <p class="text-xs text-slate-400">Paste unformatted job postings from LinkedIn, Naukri, or emails.</p>
             </div>
             <button onclick="loadSampleJD()" class="text-[10px] text-accent bg-accent/10 border border-accent/20 px-2.5 py-1 rounded-md hover:bg-accent/20">Load Sample JD</button>
           </div>
@@ -203,7 +218,7 @@
           <textarea id="rawJDInput" rows="12" placeholder="Paste unformatted job description here... (e.g. 'We are hiring a Senior AML Analyst at NatWest Group Gurugram. Salary 12-16 LPA. Requires 3+ years experience in KYC, New-to-Bank onboarding, and Advanced Excel VBA...')" class="w-full bg-slate-950/70 border border-white/10 rounded-xl p-3 text-xs font-mono text-slate-200 outline-none focus:border-accent custom-scroll resize-none flex-1 mb-3"></textarea>
 
           <button onclick="processRawIngestion()" class="w-full bg-accent hover:bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-lg flex justify-center items-center gap-2">
-            <i class="fa-solid fa-bolt"></i> Run Entity Extraction & Add to Pipeline
+            <i class="fa-solid fa-bolt"></i> Run Entity Extraction &amp; Add to Feed
           </button>
         </div>
 
@@ -224,12 +239,12 @@
       </div>
     </div>
 
-    <!-- VIEW: TRACKER KANBAN -->
+    <!-- ================= VIEW: TRACKER KANBAN ================= -->
     <div id="view-tracker" class="view-section hidden h-[calc(100vh-140px)] flex flex-col">
       <div class="mb-3 flex justify-between items-center">
         <div>
           <h2 class="text-xl font-black text-white tracking-tight">Active Recruitment Pipeline</h2>
-          <p class="text-xs text-slate-400">Drag or shift applications across stage milestones.</p>
+          <p class="text-xs text-slate-400">Drag or shift applications across recruitment milestones.</p>
         </div>
         <button onclick="clearTracker()" class="text-[10px] text-red-400 hover:text-red-300 border border-red-500/20 px-3 py-1.5 rounded-lg transition-colors">Clear Pipeline</button>
       </div>
@@ -277,7 +292,7 @@
     </div>
   </div>
 
-  <!-- AI Modal -->
+  <!-- MODAL: AI Outreach Generator -->
   <div id="aiModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
     <div class="glass-panel bg-slate-900 w-full max-w-2xl rounded-2xl border border-primary/30 shadow-2xl flex flex-col overflow-hidden max-h-[85vh]">
       <div class="p-4 border-b border-white/5 flex justify-between items-center bg-slate-800/40">
@@ -296,11 +311,80 @@
     </div>
   </div>
 
+  <!-- MODAL: Portal Sync & API Ingestion -->
+  <div id="apiModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[110] hidden flex items-center justify-center p-4">
+    <div class="glass-panel bg-slate-900 w-full max-w-xl rounded-2xl border border-white/10 shadow-2xl p-5">
+      <div class="flex justify-between items-center pb-3 border-b border-white/10">
+        <h3 class="text-xs font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-satellite-dish text-primary"></i> Live Portal Sync &amp; API Bridges
+        </h3>
+        <button onclick="closeApiModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="mt-4 space-y-4">
+        <div>
+          <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-1">Direct Scraper Webhook / JSON Endpoint</label>
+          <div class="flex gap-2">
+            <input type="text" id="endpointUrl" placeholder="https://api.yourbackend.com/jobs or Apify webhook URL" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none focus:border-primary">
+            <button onclick="syncExternalEndpoint()" class="bg-primary hover:bg-orange-500 px-4 py-2 rounded-xl text-xs font-bold text-white transition-all shrink-0">
+              Fetch JSON
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-500 mt-1">Accepts array of objects: <code>[{ title, company, description, location, salary }]</code>.</p>
+        </div>
+
+        <div class="pt-3 border-t border-white/10">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Direct Search Integration</label>
+            <button onclick="openAllPortalsDirectly()" class="text-[10px] text-primary hover:underline font-bold">Open All in Tabs</button>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <div onclick="openSinglePortal('LinkedIn')" class="p-2.5 rounded-xl bg-slate-950/60 border border-white/5 hover:border-blue-500/40 cursor-pointer transition-all flex items-center gap-2">
+              <i class="fa-brands fa-linkedin text-blue-500 text-lg"></i>
+              <div>
+                <p class="text-xs font-bold text-white">LinkedIn</p>
+                <span class="text-[9px] text-emerald-400 font-mono">Deep-Filtered</span>
+              </div>
+            </div>
+            <div onclick="openSinglePortal('Naukri')" class="p-2.5 rounded-xl bg-slate-950/60 border border-white/5 hover:border-blue-400/40 cursor-pointer transition-all flex items-center gap-2">
+              <i class="fa-solid fa-briefcase text-blue-400 text-lg"></i>
+              <div>
+                <p class="text-xs font-bold text-white">Naukri.com</p>
+                <span class="text-[9px] text-emerald-400 font-mono">Synced Query</span>
+              </div>
+            </div>
+            <div onclick="openSinglePortal('Indeed')" class="p-2.5 rounded-xl bg-slate-950/60 border border-white/5 hover:border-emerald-500/40 cursor-pointer transition-all flex items-center gap-2">
+              <i class="fa-solid fa-building-columns text-emerald-400 text-lg"></i>
+              <div>
+                <p class="text-xs font-bold text-white">Indeed India</p>
+                <span class="text-[9px] text-emerald-400 font-mono">Direct Search</span>
+              </div>
+            </div>
+            <div onclick="openSinglePortal('Foundit')" class="p-2.5 rounded-xl bg-slate-950/60 border border-white/5 hover:border-purple-500/40 cursor-pointer transition-all flex items-center gap-2">
+              <i class="fa-solid fa-cube text-purple-400 text-lg"></i>
+              <div>
+                <p class="text-xs font-bold text-white">Foundit</p>
+                <span class="text-[9px] text-emerald-400 font-mono">Filtered</span>
+              </div>
+            </div>
+            <div onclick="openSinglePortal('GoogleJobs')" class="p-2.5 rounded-xl bg-slate-950/60 border border-white/5 hover:border-red-500/40 cursor-pointer transition-all flex items-center gap-2">
+              <i class="fa-solid fa-google text-red-400 text-lg"></i>
+              <div>
+                <p class="text-xs font-bold text-white">Google Jobs</p>
+                <span class="text-[9px] text-emerald-400 font-mono">Aggregator</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div id="toaster" class="fixed bottom-6 right-6 z-[120] flex flex-col gap-2 pointer-events-none"></div>
 
   <script>
-    /* ================= NER ENGINE LOGIC ================= */
+    /* ================= ADAPTIVE NER ENGINE ================= */
     const EntityPatterns = {
       skills: [
         'AML', 'Anti-Money Laundering', 'KYC', 'Know Your Customer', 'Client Onboarding', 
@@ -322,14 +406,12 @@
     function extractNamedEntities(rawText) {
       const text = rawText || '';
       
-      // Skills extraction
       const extractedSkills = [];
       EntityPatterns.skills.forEach(skill => {
         const regex = new RegExp(`\\b${skill}\\b`, 'i');
         if (regex.test(text)) extractedSkills.push(skill);
       });
 
-      // Company extraction
       let detectedCompany = 'Leading Financial Institution';
       for (const comp of EntityPatterns.companies) {
         if (new RegExp(`\\b${comp}\\b`, 'i').test(text)) {
@@ -338,7 +420,6 @@
         }
       }
 
-      // Salary extraction
       let lpaLow = 7.0, lpaHigh = 12.0;
       const salRange = text.match(EntityPatterns.salary);
       if (salRange) {
@@ -352,7 +433,6 @@
         }
       }
 
-      // Experience extraction
       let expRange = '2-5 Years';
       const expMatch = text.match(EntityPatterns.experience);
       if (expMatch) {
@@ -362,7 +442,6 @@
         if (minExpMatch) expRange = `${minExpMatch[1]}+ Years`;
       }
 
-      // Education extraction
       const detectedEdu = EntityPatterns.education.filter(edu => new RegExp(`\\b${edu}\\b`, 'i').test(text));
 
       return {
@@ -375,16 +454,57 @@
       };
     }
 
-    /* ================= APPLICATION STATE ================= */
+    /* ================= PORTAL BRIDGES ================= */
+    const PortalBridges = {
+      LinkedIn: (query, loc, exp) => {
+        const expMap = { fresher: '1', mid: '2,3', senior: '4' };
+        const expParam = expMap[exp] ? `&f_E=${expMap[exp]}` : '';
+        return `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(query)}&location=${encodeURIComponent(loc)}&f_TPR=r604800${expParam}`;
+      },
+      Naukri: (query, loc) => {
+        const formattedQuery = encodeURIComponent(query.toLowerCase().replace(/\s+/g, '-'));
+        const formattedLoc = encodeURIComponent(loc.toLowerCase().replace(/,.*/, '').trim());
+        return `https://www.naukri.com/${formattedQuery}-jobs-in-${formattedLoc}?k=${encodeURIComponent(query)}&l=${formattedLoc}`;
+      },
+      Foundit: (query, loc) => {
+        return `https://www.foundit.in/srp/results?query=${encodeURIComponent(query)}&locations=${encodeURIComponent(loc)}`;
+      },
+      Indeed: (query, loc) => {
+        return `https://in.indeed.com/jobs?q=${encodeURIComponent(query)}&l=${encodeURIComponent(loc)}`;
+      },
+      GoogleJobs: (query, loc) => {
+        return `https://www.google.com/search?ibp=htl;jobs&q=${encodeURIComponent(query + ' in ' + loc)}`;
+      }
+    };
+
+    function openSinglePortal(portalKey) {
+      const q = document.getElementById('searchQuery').value.trim() || 'Business Development Manager';
+      const loc = document.getElementById('searchLocation').value;
+      const exp = document.getElementById('searchExp').value;
+      if (PortalBridges[portalKey]) {
+        window.open(PortalBridges[portalKey](q, loc, exp), '_blank');
+      }
+    }
+
+    function openAllPortalsDirectly() {
+      const q = document.getElementById('searchQuery').value.trim() || 'Business Development Manager';
+      const loc = document.getElementById('searchLocation').value;
+      const exp = document.getElementById('searchExp').value;
+
+      ['LinkedIn', 'Naukri', 'Indeed', 'Foundit', 'GoogleJobs'].forEach(portal => {
+        window.open(PortalBridges[portal](q, loc, exp), '_blank');
+      });
+      showToast('Opened active search across major portals in new tabs.');
+    }
+
+    /* ================= STATE & INITIALIZATION ================= */
     let AppState = {
       jobs: [],
       activeJob: null,
       userSkills: ['aml', 'kyc', 'client onboarding', 'excel vba', 'documentation'],
-      tracker: JSON.parse(localStorage.getItem('ojp_elite_tracker')) || [],
-      draggedJobId: null
+      tracker: JSON.parse(localStorage.getItem('ojp_elite_tracker')) || []
     };
 
-    /* ================= INITIALIZATION & SEARCH ================= */
     function runGlobalSearch() {
       const q = document.getElementById('searchQuery').value.trim() || 'Business Development Manager';
       const loc = document.getElementById('searchLocation').value;
@@ -396,7 +516,7 @@
         .filter(Boolean);
 
       const feed = document.getElementById('jobFeed');
-      feed.innerHTML = `<div class="p-8 text-center text-slate-500 font-mono text-xs"><i class="fa-solid fa-spinner animate-spin text-primary text-xl mb-2"></i><p>Running NER Query Engine...</p></div>`;
+      feed.innerHTML = `<div class="p-8 text-center text-slate-500 font-mono text-xs"><i class="fa-solid fa-spinner animate-spin text-primary text-xl mb-2"></i><p>Executing NER Query Engine...</p></div>`;
 
       setTimeout(() => {
         AppState.jobs = [];
@@ -412,7 +532,6 @@
           const title = `${baseTitles[i % baseTitles.length]}`;
           
           let minLpa = exp === 'fresher' ? 4.5 : exp === 'senior' ? 14 : 7.5;
-          let maxLpa = minLpa + 4.5;
 
           const jdBody = `We at ${comp} are seeking a qualified professional for our ${loc} operations. Candidates will lead Client Onboarding, ensure adherence to RBI and AML/KYC policies, evaluate NTB relationships, and manage financial reporting utilizing Advanced Excel VBA. Educational background: MBA completed. Minimum ${exp === 'senior' ? '5+' : '2+'} years experience in banking documentation and compliance.`;
 
@@ -428,7 +547,7 @@
             extracted: entities,
             lpa: entities.lpa || minLpa,
             salaryStr: entities.salaryStr,
-            url: `https://www.google.com/search?q=${encodeURIComponent(title + ' ' + comp + ' ' + loc)}`
+            url: PortalBridges.LinkedIn(title, loc, exp)
           };
 
           computeJobMatchScore(jobObj);
@@ -437,7 +556,7 @@
 
         applySorting();
         showToast(`Indexed ${AppState.jobs.length} roles matching entity attributes.`);
-      }, 500);
+      }, 400);
     }
 
     function computeJobMatchScore(job) {
@@ -474,7 +593,7 @@
       AppState.jobs.forEach(job => {
         const isSelected = AppState.activeJob?.id === job.id;
         const div = document.createElement('div');
-        div.className = `p-3 rounded-xl border cursor-pointer transition-all ${
+        div.className = `p-3 rounded-xl border cursor-pointer transition-all animate-slide-in ${
           isSelected 
             ? 'bg-primary/15 border-primary shadow-lg' 
             : 'bg-slate-900/40 border-white/5 hover:bg-slate-900/80'
@@ -602,7 +721,6 @@ Key Responsibilities:
 
       const extracted = extractNamedEntities(raw);
       
-      // Render entities directly in the side panel
       const resContainer = document.getElementById('nerExtractionResult');
       resContainer.innerHTML = `
         <div class="space-y-3">
@@ -610,29 +728,24 @@ Key Responsibilities:
             <span class="text-slate-400 uppercase text-[10px]">Detected Entity</span>
             <span class="text-secondary text-[10px]">Confidence: 96%</span>
           </div>
-
           <div>
             <span class="text-slate-500 text-[10px] block">ORGANIZATION</span>
             <span class="text-white font-bold">${extracted.company}</span>
           </div>
-
           <div>
             <span class="text-slate-500 text-[10px] block">COMPENSATION (INR)</span>
             <span class="text-emerald-400 font-bold">${extracted.salaryStr}</span>
           </div>
-
           <div>
             <span class="text-slate-500 text-[10px] block">EXPERIENCE BRACKET</span>
             <span class="text-amber-400 font-bold">${extracted.experience}</span>
           </div>
-
           <div>
             <span class="text-slate-500 text-[10px] block">SKILLS CLUSTER DETECTED</span>
             <div class="flex flex-wrap gap-1 mt-1">
               ${extracted.skills.map(s => `<span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded text-[10px]">${s}</span>`).join('')}
             </div>
           </div>
-
           <div>
             <span class="text-slate-500 text-[10px] block">QUALIFICATION</span>
             <span class="text-slate-300">${extracted.education.join(', ')}</span>
@@ -640,7 +753,6 @@ Key Responsibilities:
         </div>
       `;
 
-      // Formulate job and inject into AppState
       const newJob = {
         id: `parsed_${Date.now()}`,
         title: `Opportunity at ${extracted.company}`,
@@ -651,7 +763,7 @@ Key Responsibilities:
         extracted: extracted,
         lpa: extracted.lpa,
         salaryStr: extracted.salaryStr,
-        url: `https://www.google.com/search?q=${encodeURIComponent(extracted.company + ' careers')}`
+        url: PortalBridges.LinkedIn(extracted.company, 'Gurugram', 'mid')
       };
 
       computeJobMatchScore(newJob);
@@ -674,7 +786,7 @@ Key Responsibilities:
 
 Dear Hiring Team at ${job.company},
 
-I am writing to express my candidacy for the ${job.title} role. With an MBA background and specialized focus in ${skillsStr}, my professional tenure directly corresponds with your operational requirements.
+I am writing to express my candidacy for the ${job.title} position. With an MBA background and specialized focus in ${skillsStr}, my professional tenure directly corresponds with your operational requirements.
 
 Key Highlights of Alignment:
 • Rigorous execution of New-to-Bank (NTB) client onboarding, document verification, and KYC/AML compliance.
@@ -801,6 +913,66 @@ LinkedIn: [LinkedIn Profile URL]`;
       document.getElementById('count-interview').innerText = counts.interview;
     }
 
+    /* ================= EXTERNAL WEBHOOK & API SYNC ================= */
+    async function syncExternalEndpoint() {
+      const url = document.getElementById('endpointUrl').value.trim();
+      if (!url) {
+        showToast('Please specify a valid REST/Webhook URL', 'error');
+        return;
+      }
+
+      showToast('Connecting to external API endpoint...');
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        
+        const items = Array.isArray(data) ? data : data.jobs || data.results || [];
+        if (items.length === 0) {
+          showToast('Endpoint returned 0 items.', 'error');
+          return;
+        }
+
+        let count = 0;
+        items.forEach(rawItem => {
+          const fullText = `${rawItem.title || ''} ${rawItem.company || ''} ${rawItem.description || rawItem.desc || ''}`;
+          const entities = extractNamedEntities(fullText);
+
+          const parsedJob = {
+            id: `api_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+            title: rawItem.title || 'Untitled Role',
+            company: rawItem.company || entities.company,
+            location: rawItem.location || 'Gurugram / Hybrid',
+            portal: rawItem.portal || 'Live API',
+            desc: rawItem.description || rawItem.desc || 'No description provided.',
+            extracted: entities,
+            lpa: entities.lpa,
+            salaryStr: rawItem.salary || entities.salaryStr,
+            url: rawItem.url || rawItem.link || '#'
+          };
+
+          computeJobMatchScore(parsedJob);
+          AppState.jobs.unshift(parsedJob);
+          count++;
+        });
+
+        closeApiModal();
+        applySorting();
+        showToast(`Parsed & synced ${count} live jobs via NER!`);
+      } catch (err) {
+        console.error(err);
+        showToast(`Sync Failed: Check endpoint or CORS`, 'error');
+      }
+    }
+
+    function openApiModal() {
+      document.getElementById('apiModal').classList.remove('hidden');
+    }
+
+    function closeApiModal() {
+      document.getElementById('apiModal').classList.add('hidden');
+    }
+
     /* ================= TAB CONTROLS & UTILITIES ================= */
     function switchTab(tabId) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
@@ -830,7 +1002,6 @@ LinkedIn: [LinkedIn Profile URL]`;
       setTimeout(() => toast.remove(), 2800);
     }
 
-    // Startup
     window.onload = () => {
       runGlobalSearch();
       renderKanban();
